@@ -1,4 +1,4 @@
-import { Bell, Menu, User } from "lucide-react";
+import { Bell, Menu, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -9,13 +9,39 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LogoGrupo } from "@/components/LogoGrupo";
+import { useAuth } from "@/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import { Badge } from "@/components/ui/badge";
 
 interface HeaderProps {
   onMenuClick?: () => void;
-  userName?: string;
 }
 
-export function Header({ onMenuClick, userName = "Usuário" }: HeaderProps) {
+const roleLabels = {
+  master: 'Master',
+  admin: 'Admin',
+  gestor: 'Gestor',
+  colaborador: 'Colaborador',
+};
+
+const roleColors = {
+  master: 'bg-accent text-accent-foreground',
+  admin: 'bg-primary text-primary-foreground',
+  gestor: 'bg-success text-success-foreground',
+  colaborador: 'bg-secondary text-secondary-foreground',
+};
+
+export function Header({ onMenuClick }: HeaderProps) {
+  const { profile, roles, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/login');
+  };
+
+  const primaryRole = roles[0] || 'colaborador';
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
       <div className="flex h-16 items-center justify-between px-4 md:px-6">
@@ -48,18 +74,34 @@ export function Header({ onMenuClick, userName = "Usuário" }: HeaderProps) {
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
                   <User className="h-4 w-4" />
                 </div>
-                <span className="hidden md:inline-block font-medium">
-                  {userName}
-                </span>
+                <div className="hidden md:flex flex-col items-start">
+                  <span className="font-medium text-sm">
+                    {profile?.nome || 'Usuário'}
+                  </span>
+                  <Badge variant="outline" className={`text-[10px] px-1.5 py-0 ${roleColors[primaryRole as keyof typeof roleColors]}`}>
+                    {roleLabels[primaryRole as keyof typeof roleLabels]}
+                  </Badge>
+                </div>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
-              <DropdownMenuLabel>Minha Conta</DropdownMenuLabel>
+              <DropdownMenuLabel>
+                <div className="flex flex-col">
+                  <span>{profile?.nome}</span>
+                  <span className="text-xs text-muted-foreground font-normal">
+                    {profile?.email}
+                  </span>
+                </div>
+              </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Perfil</DropdownMenuItem>
+              <DropdownMenuItem>Meu Perfil</DropdownMenuItem>
               <DropdownMenuItem>Configurações</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="text-destructive">
+              <DropdownMenuItem 
+                className="text-destructive focus:text-destructive"
+                onClick={handleSignOut}
+              >
+                <LogOut className="h-4 w-4 mr-2" />
                 Sair
               </DropdownMenuItem>
             </DropdownMenuContent>

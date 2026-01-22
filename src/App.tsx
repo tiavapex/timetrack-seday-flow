@@ -10,6 +10,7 @@ import Login from "@/pages/Login";
 import Dashboard from "@/pages/Dashboard";
 import Registros from "@/pages/Registros";
 import NovoRegistro from "@/pages/NovoRegistro";
+import Colaboradores from "@/pages/Colaboradores";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,7 +33,7 @@ const App = () => (
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/registros" element={<Registros />} />
               <Route path="/registros/novo" element={<NovoRegistro />} />
-              <Route path="/colaboradores" element={<Dashboard />} />
+              <Route path="/colaboradores" element={<Colaboradores />} />
               <Route path="/relatorios" element={<Dashboard />} />
               <Route path="/configuracoes" element={<Dashboard />} />
             </Route>

@@ -33,9 +33,15 @@ serve(async (req) => {
     const userExists = existingUsers?.users?.some((u) => u.email === email);
 
     if (userExists) {
-      // User exists, just assign master role
+      // User exists, update password and assign master role
       const user = existingUsers?.users?.find((u) => u.email === email);
       if (user) {
+        // Update password
+        await supabaseAdmin.auth.admin.updateUserById(user.id, {
+          password: password,
+          email_confirm: true,
+        });
+
         // Delete existing roles and assign master
         await supabaseAdmin.from("user_roles").delete().eq("user_id", user.id);
         await supabaseAdmin.from("user_roles").insert({ user_id: user.id, role: "master" });
@@ -47,7 +53,7 @@ serve(async (req) => {
           .eq("user_id", user.id);
 
         return new Response(
-          JSON.stringify({ success: true, message: "Master role assigned to existing user" }),
+          JSON.stringify({ success: true, message: "Master user updated with new password" }),
           { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
         );
       }

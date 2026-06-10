@@ -47,10 +47,14 @@ interface UserProfile {
   empresa: string | null;
   setor: string | null;
   matricula: string | null;
+  cliente: string | null;
   ativo: boolean;
   created_at: string;
   roles: string[];
 }
+
+const CLIENTES = ["Usiminas", "Vale", "MRS", "Matriz"];
+
 
 const roleLabels: Record<string, string> = {
   master: "Master",
@@ -91,8 +95,10 @@ export default function Colaboradores() {
     empresa: "",
     setor: "",
     matricula: "",
+    cliente: "",
     role: "colaborador",
   });
+
 
   const [newPassword, setNewPassword] = useState("");
 
@@ -193,8 +199,10 @@ export default function Colaboradores() {
           empresa: formData.empresa,
           setor: formData.setor,
           matricula: formData.matricula,
+          cliente: formData.cliente,
           role: formData.role,
         },
+
       });
 
       if (response.error || !response.data?.success) {
@@ -330,6 +338,7 @@ export default function Colaboradores() {
       empresa: "",
       setor: "",
       matricula: "",
+      cliente: "",
       role: "colaborador",
     });
     setSelectedUser(null);
@@ -344,10 +353,12 @@ export default function Colaboradores() {
       empresa: user.empresa || "",
       setor: user.setor || "",
       matricula: user.matricula || "",
+      cliente: user.cliente || "",
       role: user.roles[0] || "colaborador",
     });
     setShowEditDialog(true);
   };
+
 
   if (!isAdmin) {
     return (
@@ -437,6 +448,7 @@ export default function Colaboradores() {
                     <TableHead>Nome</TableHead>
                     <TableHead>E-mail</TableHead>
                     <TableHead>Empresa</TableHead>
+                    <TableHead>Cliente</TableHead>
                     <TableHead>Setor</TableHead>
                     <TableHead>Matrícula</TableHead>
                     <TableHead>Papel</TableHead>
@@ -450,8 +462,10 @@ export default function Colaboradores() {
                       <TableCell className="font-medium">{user.nome}</TableCell>
                       <TableCell>{user.email}</TableCell>
                       <TableCell>{user.empresa || "-"}</TableCell>
+                      <TableCell>{user.cliente || "-"}</TableCell>
                       <TableCell>{user.setor || "-"}</TableCell>
                       <TableCell>{user.matricula || "-"}</TableCell>
+
                       <TableCell>
                         <Badge
                           className={roleColors[user.roles[0] || "colaborador"]}
@@ -616,6 +630,23 @@ export default function Colaboradores() {
                 </Select>
               </div>
             </div>
+            <div className="space-y-2">
+              <Label htmlFor="cliente">Cliente</Label>
+              <Select
+                value={formData.cliente}
+                onValueChange={(v) => setFormData({ ...formData, cliente: v })}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecione o cliente" />
+                </SelectTrigger>
+                <SelectContent>
+                  {CLIENTES.map((c) => (
+                    <SelectItem key={c} value={c}>{c}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => { setShowCreateDialog(false); resetForm(); }}>
@@ -703,6 +734,23 @@ export default function Colaboradores() {
                 </Select>
               </div>
             </div>
+            <div className="space-y-2">
+              <Label htmlFor="edit-cliente">Cliente</Label>
+              <Select
+                value={formData.cliente}
+                onValueChange={(v) => setFormData({ ...formData, cliente: v })}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecione o cliente" />
+                </SelectTrigger>
+                <SelectContent>
+                  {CLIENTES.map((c) => (
+                    <SelectItem key={c} value={c}>{c}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => { setShowEditDialog(false); resetForm(); }}>

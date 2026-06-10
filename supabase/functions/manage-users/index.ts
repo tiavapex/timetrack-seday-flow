@@ -85,7 +85,7 @@ serve(async (req) => {
       }
 
       case "create": {
-        const { email, password, nome, empresa, setor, matricula, role } = params;
+        const { email, password, nome, empresa, setor, matricula, cliente, role } = params;
 
         if (!email || !password || !nome) {
           return new Response(
@@ -117,8 +117,9 @@ serve(async (req) => {
           // Update profile with additional data
           await supabaseAdmin
             .from("profiles")
-            .update({ nome, empresa, setor, matricula })
+            .update({ nome, empresa, setor, matricula, cliente })
             .eq("user_id", newUser.user.id);
+
 
           // Set role if specified
           if (role && role !== "colaborador") {
@@ -143,7 +144,7 @@ serve(async (req) => {
       }
 
       case "update": {
-        const { user_id, nome, empresa, setor, matricula, ativo, role } = params;
+        const { user_id, nome, empresa, setor, matricula, cliente, ativo, role } = params;
 
         if (!user_id) {
           return new Response(
@@ -158,7 +159,9 @@ serve(async (req) => {
         if (empresa !== undefined) updateData.empresa = empresa;
         if (setor !== undefined) updateData.setor = setor;
         if (matricula !== undefined) updateData.matricula = matricula;
+        if (cliente !== undefined) updateData.cliente = cliente;
         if (ativo !== undefined) updateData.ativo = ativo;
+
 
         if (Object.keys(updateData).length > 0) {
           const { error: updateError } = await supabaseAdmin

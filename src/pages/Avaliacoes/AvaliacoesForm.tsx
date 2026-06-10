@@ -12,6 +12,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Loader2, Save, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import { COMPETENCIAS, NOTAS } from "@/lib/competencias";
+import { AREAS, SETORES, SECOES, calcularDataTermino } from "@/lib/organizacao";
 
 export default function AvaliacoesForm() {
   const navigate = useNavigate();
@@ -28,6 +29,9 @@ export default function AvaliacoesForm() {
     matricula: "",
     data_admissao: "",
     data_termino: "",
+    area: "",
+    setor_codigo: "",
+    secao: "",
     observacoes: "",
     medida: "",
     mobilizacao: "", // "sim" | "nao"
@@ -41,7 +45,7 @@ export default function AvaliacoesForm() {
     (async () => {
       const { data } = await (supabase as any)
         .from("profiles")
-        .select("id, nome, cargo, setor, matricula")
+        .select("id, nome, cargo, setor, matricula, data_admissao")
         .eq("ativo", true)
         .order("nome");
       setColaboradores(data || []);
@@ -50,15 +54,28 @@ export default function AvaliacoesForm() {
 
   const onPickColab = (id: string) => {
     const c = colaboradores.find((x) => x.id === id);
+    setForm((f) => {
+      const data_admissao = (c as any)?.data_admissao || "";
+      return {
+        ...f,
+        colaborador_id: id,
+        nome: c?.nome || "",
+        cargo: c?.cargo || "",
+        setor: c?.setor || "",
+        matricula: c?.matricula || "",
+        data_admissao,
+        data_termino: calcularDataTermino(data_admissao, f.periodo),
+      };
+    });
+  };
+
+  // Recalcula data_termino quando muda período ou admissão
+  useEffect(() => {
     setForm((f) => ({
       ...f,
-      colaborador_id: id,
-      nome: c?.nome || "",
-      cargo: c?.cargo || "",
-      setor: c?.setor || "",
-      matricula: c?.matricula || "",
+      data_termino: calcularDataTermino(f.data_admissao, f.periodo),
     }));
-  };
+  }, [form.data_admissao, form.periodo]);
 
   if (!isGestor) {
     return <p className="text-sm text-muted-foreground">Apenas gestores podem criar avaliações.</p>;
@@ -93,6 +110,9 @@ export default function AvaliacoesForm() {
       matricula: form.matricula || null,
       data_admissao: form.data_admissao || null,
       data_termino: form.data_termino || null,
+      area: form.area || null,
+      setor_codigo: form.setor_codigo || null,
+      secao: form.secao || null,
       observacoes: form.observacoes.trim(),
       medida: form.medida,
       mobilizacao: form.mobilizacao === "sim",
@@ -183,8 +203,43 @@ export default function AvaliacoesForm() {
                 </div>
               </RadioGroup>
             </div>
-            <div><Label>Data de admissão</Label><Input type="date" value={form.data_admissao} onChange={(e) => setForm({ ...form, data_admissao: e.target.value })} /></div>
-            <div><Label>Data de término</Label><Input type="date" value={form.data_termino} onChange={(e) => setForm({ ...form, data_termino: e.target.value })} /></div>
+            <div>
+              <Label>Data de admissão</Label>
+              <Input type="date" value={form.data_admissao} onChange={(e) => setForm({ ...form, data_admissao: e.target.value })} />
+              <p className="text-xs text-muted-foreground mt-1">Vem do cadastro do colaborador.</p>
+            </div>
+            <div>
+              <Label>Data de término</Label>
+              <Input type="date" value={form.data_termino} readOnly className="bg-muted/50" />
+              <p className="text-xs text-muted-foreground mt-1">Calculada: admissão + {form.periodo} dias.</p>
+            </div>
+            <div>
+              <Label>Área</Label>
+              <Select value={form.area} onValueChange={(v) => setForm({ ...form, area: v })}>
+                <SelectTrigger><SelectValue placeholder="Selecione..." /></SelectTrigger>
+                <SelectContent>
+                  {AREAS.map((a) => <SelectItem key={a} value={a}>{a}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label>Setor</Label>
+              <Select value={form.setor_codigo} onValueChange={(v) => setForm({ ...form, setor_codigo: v })}>
+                <SelectTrigger><SelectValue placeholder="Selecione..." /></SelectTrigger>
+                <SelectContent>
+                  {SETORES.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label>Seção</Label>
+              <Select value={form.secao} onValueChange={(v) => setForm({ ...form, secao: v })}>
+                <SelectTrigger><SelectValue placeholder="Selecione..." /></SelectTrigger>
+                <SelectContent>
+                  {SECOES.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            </div>
             {form.mobilizacao === "sim" && (
               <div>
                 <Label>Data de mobilização *</Label>

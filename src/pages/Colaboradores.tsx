@@ -95,8 +95,10 @@ export default function Colaboradores() {
     empresa: "",
     setor: "",
     matricula: "",
+    cliente: "",
     role: "colaborador",
   });
+
 
   const [newPassword, setNewPassword] = useState("");
 

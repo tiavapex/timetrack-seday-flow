@@ -176,7 +176,20 @@ export default function FeriasForm() {
         <CardContent className="grid gap-4 md:grid-cols-2">
           <div>
             <Label>Data de Início *</Label>
-            <Input type="date" value={form.data_inicio} onChange={(e) => set("data_inicio", e.target.value)} />
+            <Input
+              type="date"
+              min={(() => {
+                const h = new Date();
+                const addMonths = h.getDate() > 10 ? 2 : 1;
+                const min = new Date(h.getFullYear(), h.getMonth() + addMonths, 1);
+                return min.toISOString().slice(0, 10);
+              })()}
+              value={form.data_inicio}
+              onChange={(e) => set("data_inicio", e.target.value)}
+            />
+            <p className="text-xs text-muted-foreground mt-1">
+              Solicitação somente até o dia 10 do mês anterior ao gozo.
+            </p>
           </div>
           <div>
             <Label>Descanso - quantidade de dias *</Label>

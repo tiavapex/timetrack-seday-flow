@@ -47,10 +47,14 @@ interface UserProfile {
   empresa: string | null;
   setor: string | null;
   matricula: string | null;
+  cliente: string | null;
   ativo: boolean;
   created_at: string;
   roles: string[];
 }
+
+const CLIENTES = ["Usiminas", "Vale", "MRS", "Matriz"];
+
 
 const roleLabels: Record<string, string> = {
   master: "Master",

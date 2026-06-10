@@ -85,7 +85,7 @@ serve(async (req) => {
       }
 
       case "create": {
-        const { email, password, nome, empresa, setor, matricula, role } = params;
+        const { email, password, nome, empresa, setor, matricula, cliente, role } = params;
 
         if (!email || !password || !nome) {
           return new Response(
@@ -117,8 +117,9 @@ serve(async (req) => {
           // Update profile with additional data
           await supabaseAdmin
             .from("profiles")
-            .update({ nome, empresa, setor, matricula })
+            .update({ nome, empresa, setor, matricula, cliente })
             .eq("user_id", newUser.user.id);
+
 
           // Set role if specified
           if (role && role !== "colaborador") {

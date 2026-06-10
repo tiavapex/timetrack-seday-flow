@@ -10,6 +10,7 @@ import {
   Briefcase,
   ClipboardSignature,
   Palmtree,
+  UserPlus,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -24,6 +25,7 @@ const navItems = [
   { to: "/colaboradores", label: "Colaboradores", icon: Users },
   { to: "/ase", label: "ASE", icon: ClipboardSignature },
   { to: "/ferias", label: "Férias", icon: Palmtree },
+  { to: "/vagas", label: "Abertura de Vagas", icon: UserPlus },
   { to: "/departamento-pessoal", label: "Depto. Pessoal", icon: Briefcase },
   { to: "/relatorios", label: "Relatórios", icon: FileText },
   { to: "/configuracoes", label: "Configurações", icon: Settings },

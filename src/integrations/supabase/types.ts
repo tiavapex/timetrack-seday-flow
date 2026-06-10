@@ -358,6 +358,331 @@ export type Database = {
         }
         Relationships: []
       }
+      vaga_candidatos: {
+        Row: {
+          created_at: string
+          criado_por: string
+          data_efetivacao: string | null
+          data_encaminhamento_exame: string | null
+          data_entrevista: string | null
+          data_envio_documentos: string | null
+          data_solicitacao_documentos: string | null
+          id: string
+          nome: string
+          observacao: string | null
+          status: string | null
+          substituicao_de: string | null
+          updated_at: string
+          vaga_id: string
+        }
+        Insert: {
+          created_at?: string
+          criado_por: string
+          data_efetivacao?: string | null
+          data_encaminhamento_exame?: string | null
+          data_entrevista?: string | null
+          data_envio_documentos?: string | null
+          data_solicitacao_documentos?: string | null
+          id?: string
+          nome: string
+          observacao?: string | null
+          status?: string | null
+          substituicao_de?: string | null
+          updated_at?: string
+          vaga_id: string
+        }
+        Update: {
+          created_at?: string
+          criado_por?: string
+          data_efetivacao?: string | null
+          data_encaminhamento_exame?: string | null
+          data_entrevista?: string | null
+          data_envio_documentos?: string | null
+          data_solicitacao_documentos?: string | null
+          id?: string
+          nome?: string
+          observacao?: string | null
+          status?: string | null
+          substituicao_de?: string | null
+          updated_at?: string
+          vaga_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vaga_candidatos_vaga_id_fkey"
+            columns: ["vaga_id"]
+            isOneToOne: false
+            referencedRelation: "vagas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vaga_curriculos: {
+        Row: {
+          candidato_nome: string
+          created_at: string
+          criado_por: string
+          data_entrevista: string | null
+          enviado_gestor_em: string
+          id: string
+          observacao: string | null
+          retorno_gestor_em: string | null
+          retorno_gestor_texto: string | null
+          updated_at: string
+          vaga_id: string
+        }
+        Insert: {
+          candidato_nome: string
+          created_at?: string
+          criado_por: string
+          data_entrevista?: string | null
+          enviado_gestor_em?: string
+          id?: string
+          observacao?: string | null
+          retorno_gestor_em?: string | null
+          retorno_gestor_texto?: string | null
+          updated_at?: string
+          vaga_id: string
+        }
+        Update: {
+          candidato_nome?: string
+          created_at?: string
+          criado_por?: string
+          data_entrevista?: string | null
+          enviado_gestor_em?: string
+          id?: string
+          observacao?: string | null
+          retorno_gestor_em?: string | null
+          retorno_gestor_texto?: string | null
+          updated_at?: string
+          vaga_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vaga_curriculos_vaga_id_fkey"
+            columns: ["vaga_id"]
+            isOneToOne: false
+            referencedRelation: "vagas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vagas: {
+        Row: {
+          alinhada_descricao_funcao: boolean | null
+          alt_banco_talentos: boolean | null
+          alt_na: boolean | null
+          alt_promocao: boolean | null
+          alt_realocacao: boolean | null
+          alt_terceirizacao: boolean | null
+          aprov_diretor_presidente: string | null
+          aprov_diretoria: string | null
+          aprov_gestor_processo: string | null
+          aprov_gestor_rh: string | null
+          area_departamento: string
+          area_setor: string | null
+          atividades_realizadas: string | null
+          beneficios: string | null
+          cargo_solicitado: string
+          cargo_substituido: string | null
+          centro_custo: string | null
+          cnh: string | null
+          comunicacao_areas: string | null
+          created_at: string
+          criado_por: string
+          cursos_ferramentas: string | null
+          data_abertura: string | null
+          data_admissao: string | null
+          data_aprovacao: string | null
+          data_comunicacao: string | null
+          data_fechamento: string | null
+          data_solicitacao: string
+          disp_mudanca: string | null
+          disp_viagens: string | null
+          escala_trabalho: string | null
+          escolaridade: string | null
+          experiencia_necessaria: string | null
+          faixa_salarial: string | null
+          fonte_recrutamento: string | null
+          formacao: string | null
+          id: string
+          idiomas: string | null
+          impacto_nao_preenchida: string | null
+          informatica: string | null
+          justificativa_sem_alternativa: string | null
+          local_trabalho: string | null
+          motivo_necessidade: string | null
+          motivo_substituicao: string | null
+          numero: number
+          numero_vagas: number
+          observacoes_particularidades: string | null
+          observacoes_rh: string | null
+          prazo_atendimento: string | null
+          recursos_financeiro: string | null
+          recursos_infraestrutura: string | null
+          recursos_logistica: string | null
+          recursos_sst: string | null
+          recursos_ti: string | null
+          regime_contratacao: string | null
+          registro_profissional: string | null
+          reporta_se_a: string | null
+          residir_regiao: string | null
+          responsavel_recrutamento: string | null
+          soft_skills: string | null
+          solicitante_cargo: string | null
+          solicitante_contato: string | null
+          solicitante_nome: string
+          status: string
+          tempo_experiencia: string | null
+          tipo_vaga: string
+          unidade: string
+          updated_at: string
+          vaga_sigilosa: boolean
+        }
+        Insert: {
+          alinhada_descricao_funcao?: boolean | null
+          alt_banco_talentos?: boolean | null
+          alt_na?: boolean | null
+          alt_promocao?: boolean | null
+          alt_realocacao?: boolean | null
+          alt_terceirizacao?: boolean | null
+          aprov_diretor_presidente?: string | null
+          aprov_diretoria?: string | null
+          aprov_gestor_processo?: string | null
+          aprov_gestor_rh?: string | null
+          area_departamento: string
+          area_setor?: string | null
+          atividades_realizadas?: string | null
+          beneficios?: string | null
+          cargo_solicitado: string
+          cargo_substituido?: string | null
+          centro_custo?: string | null
+          cnh?: string | null
+          comunicacao_areas?: string | null
+          created_at?: string
+          criado_por: string
+          cursos_ferramentas?: string | null
+          data_abertura?: string | null
+          data_admissao?: string | null
+          data_aprovacao?: string | null
+          data_comunicacao?: string | null
+          data_fechamento?: string | null
+          data_solicitacao?: string
+          disp_mudanca?: string | null
+          disp_viagens?: string | null
+          escala_trabalho?: string | null
+          escolaridade?: string | null
+          experiencia_necessaria?: string | null
+          faixa_salarial?: string | null
+          fonte_recrutamento?: string | null
+          formacao?: string | null
+          id?: string
+          idiomas?: string | null
+          impacto_nao_preenchida?: string | null
+          informatica?: string | null
+          justificativa_sem_alternativa?: string | null
+          local_trabalho?: string | null
+          motivo_necessidade?: string | null
+          motivo_substituicao?: string | null
+          numero?: number
+          numero_vagas?: number
+          observacoes_particularidades?: string | null
+          observacoes_rh?: string | null
+          prazo_atendimento?: string | null
+          recursos_financeiro?: string | null
+          recursos_infraestrutura?: string | null
+          recursos_logistica?: string | null
+          recursos_sst?: string | null
+          recursos_ti?: string | null
+          regime_contratacao?: string | null
+          registro_profissional?: string | null
+          reporta_se_a?: string | null
+          residir_regiao?: string | null
+          responsavel_recrutamento?: string | null
+          soft_skills?: string | null
+          solicitante_cargo?: string | null
+          solicitante_contato?: string | null
+          solicitante_nome: string
+          status?: string
+          tempo_experiencia?: string | null
+          tipo_vaga: string
+          unidade: string
+          updated_at?: string
+          vaga_sigilosa?: boolean
+        }
+        Update: {
+          alinhada_descricao_funcao?: boolean | null
+          alt_banco_talentos?: boolean | null
+          alt_na?: boolean | null
+          alt_promocao?: boolean | null
+          alt_realocacao?: boolean | null
+          alt_terceirizacao?: boolean | null
+          aprov_diretor_presidente?: string | null
+          aprov_diretoria?: string | null
+          aprov_gestor_processo?: string | null
+          aprov_gestor_rh?: string | null
+          area_departamento?: string
+          area_setor?: string | null
+          atividades_realizadas?: string | null
+          beneficios?: string | null
+          cargo_solicitado?: string
+          cargo_substituido?: string | null
+          centro_custo?: string | null
+          cnh?: string | null
+          comunicacao_areas?: string | null
+          created_at?: string
+          criado_por?: string
+          cursos_ferramentas?: string | null
+          data_abertura?: string | null
+          data_admissao?: string | null
+          data_aprovacao?: string | null
+          data_comunicacao?: string | null
+          data_fechamento?: string | null
+          data_solicitacao?: string
+          disp_mudanca?: string | null
+          disp_viagens?: string | null
+          escala_trabalho?: string | null
+          escolaridade?: string | null
+          experiencia_necessaria?: string | null
+          faixa_salarial?: string | null
+          fonte_recrutamento?: string | null
+          formacao?: string | null
+          id?: string
+          idiomas?: string | null
+          impacto_nao_preenchida?: string | null
+          informatica?: string | null
+          justificativa_sem_alternativa?: string | null
+          local_trabalho?: string | null
+          motivo_necessidade?: string | null
+          motivo_substituicao?: string | null
+          numero?: number
+          numero_vagas?: number
+          observacoes_particularidades?: string | null
+          observacoes_rh?: string | null
+          prazo_atendimento?: string | null
+          recursos_financeiro?: string | null
+          recursos_infraestrutura?: string | null
+          recursos_logistica?: string | null
+          recursos_sst?: string | null
+          recursos_ti?: string | null
+          regime_contratacao?: string | null
+          registro_profissional?: string | null
+          reporta_se_a?: string | null
+          residir_regiao?: string | null
+          responsavel_recrutamento?: string | null
+          soft_skills?: string | null
+          solicitante_cargo?: string | null
+          solicitante_contato?: string | null
+          solicitante_nome?: string
+          status?: string
+          tempo_experiencia?: string | null
+          tipo_vaga?: string
+          unidade?: string
+          updated_at?: string
+          vaga_sigilosa?: boolean
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

@@ -72,6 +72,18 @@ export default function FeriasForm() {
       toast.error("Preencha os campos obrigatórios");
       return;
     }
+    // Regra: solicitação até o dia 10 do mês anterior ao período de gozo
+    const [yy, mm, dd] = form.data_inicio.split("-").map(Number);
+    const inicioGozo = new Date(yy, mm - 1, dd);
+    const deadline = new Date(inicioGozo.getFullYear(), inicioGozo.getMonth() - 1, 10, 23, 59, 59);
+    const hoje = new Date();
+    if (hoje > deadline) {
+      const dl = deadline.toLocaleDateString("pt-BR");
+      toast.error(
+        `Solicitação fora do prazo. O pedido deve ser feito até o dia 10 do mês anterior ao gozo (limite: ${dl}).`
+      );
+      return;
+    }
     setSaving(true);
     const payload = {
       ...form,

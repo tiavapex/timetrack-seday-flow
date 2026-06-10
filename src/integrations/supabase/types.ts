@@ -176,6 +176,7 @@ export type Database = {
       }
       avaliacoes_competencias: {
         Row: {
+          area: string | null
           avaliador_id: string
           cargo: string | null
           colaborador_id: string
@@ -191,11 +192,14 @@ export type Database = {
           nome: string
           observacoes: string
           periodo: string
+          secao: string | null
           setor: string | null
+          setor_codigo: string | null
           status: string
           updated_at: string
         }
         Insert: {
+          area?: string | null
           avaliador_id: string
           cargo?: string | null
           colaborador_id: string
@@ -211,11 +215,14 @@ export type Database = {
           nome: string
           observacoes: string
           periodo: string
+          secao?: string | null
           setor?: string | null
+          setor_codigo?: string | null
           status?: string
           updated_at?: string
         }
         Update: {
+          area?: string | null
           avaliador_id?: string
           cargo?: string | null
           colaborador_id?: string
@@ -231,7 +238,9 @@ export type Database = {
           nome?: string
           observacoes?: string
           periodo?: string
+          secao?: string | null
           setor?: string | null
+          setor_codigo?: string | null
           status?: string
           updated_at?: string
         }

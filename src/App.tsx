@@ -21,6 +21,9 @@ import FeriasDetalhe from "@/pages/Ferias/FeriasDetalhe";
 import VagasList from "@/pages/Vagas/VagasList";
 import VagasForm from "@/pages/Vagas/VagasForm";
 import VagasDetalhe from "@/pages/Vagas/VagasDetalhe";
+import AvaliacoesList from "@/pages/Avaliacoes/AvaliacoesList";
+import AvaliacoesForm from "@/pages/Avaliacoes/AvaliacoesForm";
+import AvaliacoesDetalhe from "@/pages/Avaliacoes/AvaliacoesDetalhe";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -54,6 +57,9 @@ const App = () => (
               <Route path="/vagas" element={<VagasList />} />
               <Route path="/vagas/nova" element={<VagasForm />} />
               <Route path="/vagas/:id" element={<VagasDetalhe />} />
+              <Route path="/avaliacoes" element={<AvaliacoesList />} />
+              <Route path="/avaliacoes/nova" element={<AvaliacoesForm />} />
+              <Route path="/avaliacoes/:id" element={<AvaliacoesDetalhe />} />
               <Route path="/relatorios" element={<Dashboard />} />
               <Route path="/configuracoes" element={<Dashboard />} />
             </Route>

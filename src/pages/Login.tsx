@@ -94,7 +94,7 @@ export default function Login() {
 
         <Card className="shadow-elevated border-0">
           <CardHeader className="pb-4 flex items-center justify-center">
-            <LogoGrupo className="scale-75" />
+            <LogoGrupo imgClassName="h-28 w-auto" />
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">

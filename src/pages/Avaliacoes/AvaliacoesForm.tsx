@@ -12,6 +12,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Loader2, Save, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import { COMPETENCIAS, NOTAS } from "@/lib/competencias";
+import { AREAS, SETORES, SECOES, calcularDataTermino } from "@/lib/organizacao";
 
 export default function AvaliacoesForm() {
   const navigate = useNavigate();
@@ -28,6 +29,9 @@ export default function AvaliacoesForm() {
     matricula: "",
     data_admissao: "",
     data_termino: "",
+    area: "",
+    setor_codigo: "",
+    secao: "",
     observacoes: "",
     medida: "",
     mobilizacao: "", // "sim" | "nao"
@@ -50,15 +54,28 @@ export default function AvaliacoesForm() {
 
   const onPickColab = (id: string) => {
     const c = colaboradores.find((x) => x.id === id);
+    setForm((f) => {
+      const data_admissao = (c as any)?.data_admissao || "";
+      return {
+        ...f,
+        colaborador_id: id,
+        nome: c?.nome || "",
+        cargo: c?.cargo || "",
+        setor: c?.setor || "",
+        matricula: c?.matricula || "",
+        data_admissao,
+        data_termino: calcularDataTermino(data_admissao, f.periodo),
+      };
+    });
+  };
+
+  // Recalcula data_termino quando muda período ou admissão
+  useEffect(() => {
     setForm((f) => ({
       ...f,
-      colaborador_id: id,
-      nome: c?.nome || "",
-      cargo: c?.cargo || "",
-      setor: c?.setor || "",
-      matricula: c?.matricula || "",
+      data_termino: calcularDataTermino(f.data_admissao, f.periodo),
     }));
-  };
+  }, [form.data_admissao, form.periodo]);
 
   if (!isGestor) {
     return <p className="text-sm text-muted-foreground">Apenas gestores podem criar avaliações.</p>;

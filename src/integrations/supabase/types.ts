@@ -31,6 +31,7 @@ export type Database = {
           observacoes: string | null
           setor: string
           status: string
+          tipo: string
           total_minutos: number
           updated_at: string
           user_id: string
@@ -51,6 +52,7 @@ export type Database = {
           observacoes?: string | null
           setor: string
           status?: string
+          tipo?: string
           total_minutos: number
           updated_at?: string
           user_id: string
@@ -71,6 +73,7 @@ export type Database = {
           observacoes?: string | null
           setor?: string
           status?: string
+          tipo?: string
           total_minutos?: number
           updated_at?: string
           user_id?: string

@@ -144,6 +144,22 @@ export default function NovoRegistro() {
             </div>
 
             <div className="space-y-2">
+              <Label htmlFor="tipo">Tipo de Hora Extra</Label>
+              <Select required defaultValue="produtiva">
+                <SelectTrigger id="tipo">
+                  <SelectValue placeholder="Selecione o tipo" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="produtiva">Produtiva</SelectItem>
+                  <SelectItem value="improdutiva">Improdutiva</SelectItem>
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-muted-foreground">
+                Produtiva: trabalho efetivo. Improdutiva: tempo à disposição, espera ou sobreaviso.
+              </p>
+            </div>
+
+            <div className="space-y-2">
               <Label htmlFor="motivo">Motivo da Hora Extra</Label>
               <Textarea
                 id="motivo"

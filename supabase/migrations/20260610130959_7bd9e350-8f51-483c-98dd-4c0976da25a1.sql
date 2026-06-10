@@ -1,0 +1,1 @@
+ALTER TABLE public.horas_extras ADD COLUMN IF NOT EXISTS tipo text NOT NULL DEFAULT 'produtiva' CHECK (tipo IN ('produtiva','improdutiva'));

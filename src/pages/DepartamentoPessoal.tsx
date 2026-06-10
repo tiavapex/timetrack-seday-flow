@@ -192,38 +192,78 @@ export default function DepartamentoPessoal() {
                   </TableCell>
                 )}
                 <TableCell className="text-right">
-                  {lancadasTab ? (
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      disabled={updatingId === r.id}
-                      onClick={() => marcarLancado(r.id, false)}
-                    >
-                      {updatingId === r.id ? (
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                      ) : (
-                        <>
-                          <Undo2 className="mr-1 h-4 w-4" />
-                          Desfazer
-                        </>
-                      )}
-                    </Button>
-                  ) : (
-                    <Button
-                      size="sm"
-                      disabled={updatingId === r.id}
-                      onClick={() => marcarLancado(r.id, true)}
-                    >
-                      {updatingId === r.id ? (
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                      ) : (
-                        <>
-                          <CheckCircle2 className="mr-1 h-4 w-4" />
-                          Marcar lançada
-                        </>
-                      )}
-                    </Button>
-                  )}
+                  <div className="flex justify-end gap-2">
+                    {lancadasTab ? (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        disabled={updatingId === r.id}
+                        onClick={() => marcarLancado(r.id, false)}
+                      >
+                        {updatingId === r.id ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          <>
+                            <Undo2 className="mr-1 h-4 w-4" />
+                            Desfazer
+                          </>
+                        )}
+                      </Button>
+                    ) : (
+                      <Button
+                        size="sm"
+                        disabled={updatingId === r.id}
+                        onClick={() => marcarLancado(r.id, true)}
+                      >
+                        {updatingId === r.id ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          <>
+                            <CheckCircle2 className="mr-1 h-4 w-4" />
+                            Marcar lançada
+                          </>
+                        )}
+                      </Button>
+                    )}
+
+                    {isGestor && (
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button
+                            size="sm"
+                            variant="destructive"
+                            disabled={updatingId === r.id}
+                          >
+                            <XCircle className="mr-1 h-4 w-4" />
+                            Revogar
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Revogar aprovação?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Esta ação irá retornar o registro de{" "}
+                              <strong>{r.colaborador_nome}</strong> ({formatDate(r.data)}) para o status{" "}
+                              <strong>pendente</strong>
+                              {r.lancado_erp && (
+                                <> e também irá desfazer o lançamento no ERP</>
+                              )}
+                              . O aprovador precisará reavaliar o registro.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={() => revogarAprovacao(r.id)}
+                              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                            >
+                              Sim, revogar
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    )}
+                  </div>
                 </TableCell>
               </TableRow>
             ))}

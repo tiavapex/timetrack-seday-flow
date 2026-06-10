@@ -13,7 +13,18 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Loader2, CheckCircle2, Clock, FileSpreadsheet, Undo2 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Loader2, CheckCircle2, Clock, FileSpreadsheet, Undo2, XCircle } from "lucide-react";
 import { toast } from "sonner";
 
 interface HoraExtra {
@@ -44,7 +55,7 @@ function formatDate(d: string) {
 }
 
 export default function DepartamentoPessoal() {
-  const { user, isAdmin } = useAuth();
+  const { user, isAdmin, isGestor } = useAuth();
   const [registros, setRegistros] = useState<HoraExtra[]>([]);
   const [loading, setLoading] = useState(true);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
@@ -84,6 +95,29 @@ export default function DepartamentoPessoal() {
       toast.error("Erro: " + error.message);
     } else {
       toast.success(lancar ? "Marcado como lançado no ERP" : "Lançamento desfeito");
+      fetchRegistros();
+    }
+    setUpdatingId(null);
+  };
+
+  const revogarAprovacao = async (id: string) => {
+    setUpdatingId(id);
+    const { error } = await (supabase as any)
+      .from("horas_extras")
+      .update({
+        status: "pendente",
+        aprovado_por: null,
+        aprovado_em: null,
+        lancado_erp: false,
+        lancado_em: null,
+        lancado_por: null,
+      })
+      .eq("id", id);
+
+    if (error) {
+      toast.error("Erro ao revogar: " + error.message);
+    } else {
+      toast.success("Aprovação revogada. O registro voltou para pendente.");
       fetchRegistros();
     }
     setUpdatingId(null);
@@ -158,38 +192,78 @@ export default function DepartamentoPessoal() {
                   </TableCell>
                 )}
                 <TableCell className="text-right">
-                  {lancadasTab ? (
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      disabled={updatingId === r.id}
-                      onClick={() => marcarLancado(r.id, false)}
-                    >
-                      {updatingId === r.id ? (
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                      ) : (
-                        <>
-                          <Undo2 className="mr-1 h-4 w-4" />
-                          Desfazer
-                        </>
-                      )}
-                    </Button>
-                  ) : (
-                    <Button
-                      size="sm"
-                      disabled={updatingId === r.id}
-                      onClick={() => marcarLancado(r.id, true)}
-                    >
-                      {updatingId === r.id ? (
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                      ) : (
-                        <>
-                          <CheckCircle2 className="mr-1 h-4 w-4" />
-                          Marcar lançada
-                        </>
-                      )}
-                    </Button>
-                  )}
+                  <div className="flex justify-end gap-2">
+                    {lancadasTab ? (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        disabled={updatingId === r.id}
+                        onClick={() => marcarLancado(r.id, false)}
+                      >
+                        {updatingId === r.id ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          <>
+                            <Undo2 className="mr-1 h-4 w-4" />
+                            Desfazer
+                          </>
+                        )}
+                      </Button>
+                    ) : (
+                      <Button
+                        size="sm"
+                        disabled={updatingId === r.id}
+                        onClick={() => marcarLancado(r.id, true)}
+                      >
+                        {updatingId === r.id ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          <>
+                            <CheckCircle2 className="mr-1 h-4 w-4" />
+                            Marcar lançada
+                          </>
+                        )}
+                      </Button>
+                    )}
+
+                    {isGestor && (
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button
+                            size="sm"
+                            variant="destructive"
+                            disabled={updatingId === r.id}
+                          >
+                            <XCircle className="mr-1 h-4 w-4" />
+                            Revogar
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Revogar aprovação?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Esta ação irá retornar o registro de{" "}
+                              <strong>{r.colaborador_nome}</strong> ({formatDate(r.data)}) para o status{" "}
+                              <strong>pendente</strong>
+                              {r.lancado_erp && (
+                                <> e também irá desfazer o lançamento no ERP</>
+                              )}
+                              . O aprovador precisará reavaliar o registro.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={() => revogarAprovacao(r.id)}
+                              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                            >
+                              Sim, revogar
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    )}
+                  </div>
                 </TableCell>
               </TableRow>
             ))}

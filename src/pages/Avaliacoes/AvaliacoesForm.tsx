@@ -45,7 +45,7 @@ export default function AvaliacoesForm() {
     (async () => {
       const { data } = await (supabase as any)
         .from("profiles")
-        .select("id, nome, cargo, setor, matricula")
+        .select("id, nome, cargo, setor, matricula, data_admissao")
         .eq("ativo", true)
         .order("nome");
       setColaboradores(data || []);

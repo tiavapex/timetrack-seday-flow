@@ -144,7 +144,7 @@ serve(async (req) => {
       }
 
       case "update": {
-        const { user_id, nome, empresa, setor, matricula, ativo, role } = params;
+        const { user_id, nome, empresa, setor, matricula, cliente, ativo, role } = params;
 
         if (!user_id) {
           return new Response(
@@ -159,7 +159,9 @@ serve(async (req) => {
         if (empresa !== undefined) updateData.empresa = empresa;
         if (setor !== undefined) updateData.setor = setor;
         if (matricula !== undefined) updateData.matricula = matricula;
+        if (cliente !== undefined) updateData.cliente = cliente;
         if (ativo !== undefined) updateData.ativo = ativo;
+
 
         if (Object.keys(updateData).length > 0) {
           const { error: updateError } = await supabaseAdmin

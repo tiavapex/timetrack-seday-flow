@@ -110,6 +110,9 @@ export default function AvaliacoesForm() {
       matricula: form.matricula || null,
       data_admissao: form.data_admissao || null,
       data_termino: form.data_termino || null,
+      area: form.area || null,
+      setor_codigo: form.setor_codigo || null,
+      secao: form.secao || null,
       observacoes: form.observacoes.trim(),
       medida: form.medida,
       mobilizacao: form.mobilizacao === "sim",
@@ -200,8 +203,43 @@ export default function AvaliacoesForm() {
                 </div>
               </RadioGroup>
             </div>
-            <div><Label>Data de admissão</Label><Input type="date" value={form.data_admissao} onChange={(e) => setForm({ ...form, data_admissao: e.target.value })} /></div>
-            <div><Label>Data de término</Label><Input type="date" value={form.data_termino} onChange={(e) => setForm({ ...form, data_termino: e.target.value })} /></div>
+            <div>
+              <Label>Data de admissão</Label>
+              <Input type="date" value={form.data_admissao} onChange={(e) => setForm({ ...form, data_admissao: e.target.value })} />
+              <p className="text-xs text-muted-foreground mt-1">Vem do cadastro do colaborador.</p>
+            </div>
+            <div>
+              <Label>Data de término</Label>
+              <Input type="date" value={form.data_termino} readOnly className="bg-muted/50" />
+              <p className="text-xs text-muted-foreground mt-1">Calculada: admissão + {form.periodo} dias.</p>
+            </div>
+            <div>
+              <Label>Área</Label>
+              <Select value={form.area} onValueChange={(v) => setForm({ ...form, area: v })}>
+                <SelectTrigger><SelectValue placeholder="Selecione..." /></SelectTrigger>
+                <SelectContent>
+                  {AREAS.map((a) => <SelectItem key={a} value={a}>{a}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label>Setor</Label>
+              <Select value={form.setor_codigo} onValueChange={(v) => setForm({ ...form, setor_codigo: v })}>
+                <SelectTrigger><SelectValue placeholder="Selecione..." /></SelectTrigger>
+                <SelectContent>
+                  {SETORES.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label>Seção</Label>
+              <Select value={form.secao} onValueChange={(v) => setForm({ ...form, secao: v })}>
+                <SelectTrigger><SelectValue placeholder="Selecione..." /></SelectTrigger>
+                <SelectContent>
+                  {SECOES.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            </div>
             {form.mobilizacao === "sim" && (
               <div>
                 <Label>Data de mobilização *</Label>

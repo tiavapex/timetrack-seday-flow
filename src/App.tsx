@@ -15,6 +15,9 @@ import DepartamentoPessoal from "@/pages/DepartamentoPessoal";
 import ASEList from "@/pages/ASE/ASEList";
 import ASEForm from "@/pages/ASE/ASEForm";
 import ASEDetalhe from "@/pages/ASE/ASEDetalhe";
+import FeriasList from "@/pages/Ferias/FeriasList";
+import FeriasForm from "@/pages/Ferias/FeriasForm";
+import FeriasDetalhe from "@/pages/Ferias/FeriasDetalhe";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -42,6 +45,9 @@ const App = () => (
               <Route path="/ase" element={<ASEList />} />
               <Route path="/ase/nova" element={<ASEForm />} />
               <Route path="/ase/:id" element={<ASEDetalhe />} />
+              <Route path="/ferias" element={<FeriasList />} />
+              <Route path="/ferias/nova" element={<FeriasForm />} />
+              <Route path="/ferias/:id" element={<FeriasDetalhe />} />
               <Route path="/relatorios" element={<Dashboard />} />
               <Route path="/configuracoes" element={<Dashboard />} />
             </Route>

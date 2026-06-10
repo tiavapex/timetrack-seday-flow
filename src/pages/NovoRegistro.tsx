@@ -183,39 +183,51 @@ export default function NovoRegistro() {
                 </Select>
               </div>
             ) : (
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-2">
-                  <Label htmlFor="cliente">Cliente Solicitante</Label>
-                  <Select required>
-                    <SelectTrigger id="cliente">
-                      <SelectValue placeholder="Selecione o cliente" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="avapex">Avapex Transportes</SelectItem>
-                      <SelectItem value="seday">Seday Equipamentos</SelectItem>
-                      <SelectItem value="innomach">Innomach</SelectItem>
-                      <SelectItem value="externo">Cliente Externo</SelectItem>
-                    </SelectContent>
-                  </Select>
+              <div className="space-y-4">
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="space-y-2">
+                    <Label htmlFor="cliente">Cliente Solicitante</Label>
+                    <Select required>
+                      <SelectTrigger id="cliente">
+                        <SelectValue placeholder="Selecione o cliente" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Usiminas">Usiminas</SelectItem>
+                        <SelectItem value="Vale">Vale</SelectItem>
+                        <SelectItem value="MRS">MRS</SelectItem>
+                        <SelectItem value="Matriz">Matriz</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="setorSolicitante">Setor Solicitante</Label>
+                    <Select required value={motivo} onValueChange={setMotivo}>
+                      <SelectTrigger id="setorSolicitante">
+                        <SelectValue placeholder="Selecione o setor" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Operações">Operações</SelectItem>
+                        <SelectItem value="Administrativo">Administrativo</SelectItem>
+                        <SelectItem value="Produção">Produção</SelectItem>
+                        <SelectItem value="Logística">Logística</SelectItem>
+                        <SelectItem value="Manutenção">Manutenção</SelectItem>
+                        <SelectItem value="TI">TI</SelectItem>
+                        <SelectItem value="Comercial">Comercial</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="setorSolicitante">Setor Solicitante</Label>
-                  <Select required value={motivo} onValueChange={setMotivo}>
-                    <SelectTrigger id="setorSolicitante">
-                      <SelectValue placeholder="Selecione o setor" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Operações">Operações</SelectItem>
-                      <SelectItem value="Administrativo">Administrativo</SelectItem>
-                      <SelectItem value="Produção">Produção</SelectItem>
-                      <SelectItem value="Logística">Logística</SelectItem>
-                      <SelectItem value="Manutenção">Manutenção</SelectItem>
-                      <SelectItem value="TI">TI</SelectItem>
-                      <SelectItem value="Comercial">Comercial</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <Label htmlFor="solicitante">Nome do Solicitante</Label>
+                  <Input
+                    id="solicitante"
+                    type="text"
+                    placeholder="Nome da pessoa que solicitou a hora extra"
+                    required
+                  />
                 </div>
               </div>
+
             )}
 
 

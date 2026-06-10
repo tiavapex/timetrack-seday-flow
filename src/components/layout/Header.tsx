@@ -44,7 +44,7 @@ export function Header({ onMenuClick }: HeaderProps) {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
-      <div className="flex h-16 items-center justify-between px-4 md:px-6">
+      <div className="flex h-24 items-center justify-between px-4 md:px-6">
         <div className="flex items-center gap-4">
           <Button
             variant="ghost"
@@ -55,7 +55,7 @@ export function Header({ onMenuClick }: HeaderProps) {
             <Menu className="h-5 w-5" />
           </Button>
           <div className="hidden sm:block">
-            <LogoGrupo />
+            <LogoGrupo imgClassName="h-20 w-auto" />
           </div>
           <span className="font-semibold text-primary sm:hidden">
             Horas Extras

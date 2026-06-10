@@ -157,7 +157,7 @@ export type Database = {
       is_gestor_or_higher: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
-      app_role: "master" | "admin" | "gestor" | "colaborador"
+      app_role: "master" | "admin" | "gestor" | "colaborador" | "dp"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -285,7 +285,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["master", "admin", "gestor", "colaborador"],
+      app_role: ["master", "admin", "gestor", "colaborador", "dp"],
     },
   },
 } as const

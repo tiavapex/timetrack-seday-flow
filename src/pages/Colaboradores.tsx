@@ -199,8 +199,10 @@ export default function Colaboradores() {
           empresa: formData.empresa,
           setor: formData.setor,
           matricula: formData.matricula,
+          cliente: formData.cliente,
           role: formData.role,
         },
+
       });
 
       if (response.error || !response.data?.success) {

@@ -45,6 +45,9 @@ const App = () => (
               <Route path="/ase" element={<ASEList />} />
               <Route path="/ase/nova" element={<ASEForm />} />
               <Route path="/ase/:id" element={<ASEDetalhe />} />
+              <Route path="/ferias" element={<FeriasList />} />
+              <Route path="/ferias/nova" element={<FeriasForm />} />
+              <Route path="/ferias/:id" element={<FeriasDetalhe />} />
               <Route path="/relatorios" element={<Dashboard />} />
               <Route path="/configuracoes" element={<Dashboard />} />
             </Route>

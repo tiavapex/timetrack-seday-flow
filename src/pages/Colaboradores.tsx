@@ -336,6 +336,7 @@ export default function Colaboradores() {
       empresa: "",
       setor: "",
       matricula: "",
+      cliente: "",
       role: "colaborador",
     });
     setSelectedUser(null);
@@ -350,10 +351,12 @@ export default function Colaboradores() {
       empresa: user.empresa || "",
       setor: user.setor || "",
       matricula: user.matricula || "",
+      cliente: user.cliente || "",
       role: user.roles[0] || "colaborador",
     });
     setShowEditDialog(true);
   };
+
 
   if (!isAdmin) {
     return (

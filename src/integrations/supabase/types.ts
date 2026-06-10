@@ -136,6 +136,90 @@ export type Database = {
         }
         Relationships: []
       }
+      ferias_solicitacoes: {
+        Row: {
+          abono_data_inicio: string | null
+          abono_dias: number | null
+          aprovado_em: string | null
+          aprovado_por: string | null
+          cargo: string | null
+          centro_custo: string
+          colaborador_nome: string
+          created_at: string
+          criado_por: string
+          data_emissao: string
+          data_inicio: string
+          dias_descanso: number
+          empresa: string | null
+          id: string
+          lancado_em: string | null
+          lancado_erp: boolean
+          lancado_por: string | null
+          matricula: string | null
+          observacao: string | null
+          periodo_aquisitivo_fim: string
+          periodo_aquisitivo_inicio: string
+          reprovado_motivo: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          abono_data_inicio?: string | null
+          abono_dias?: number | null
+          aprovado_em?: string | null
+          aprovado_por?: string | null
+          cargo?: string | null
+          centro_custo: string
+          colaborador_nome: string
+          created_at?: string
+          criado_por: string
+          data_emissao?: string
+          data_inicio: string
+          dias_descanso: number
+          empresa?: string | null
+          id?: string
+          lancado_em?: string | null
+          lancado_erp?: boolean
+          lancado_por?: string | null
+          matricula?: string | null
+          observacao?: string | null
+          periodo_aquisitivo_fim: string
+          periodo_aquisitivo_inicio: string
+          reprovado_motivo?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          abono_data_inicio?: string | null
+          abono_dias?: number | null
+          aprovado_em?: string | null
+          aprovado_por?: string | null
+          cargo?: string | null
+          centro_custo?: string
+          colaborador_nome?: string
+          created_at?: string
+          criado_por?: string
+          data_emissao?: string
+          data_inicio?: string
+          dias_descanso?: number
+          empresa?: string | null
+          id?: string
+          lancado_em?: string | null
+          lancado_erp?: boolean
+          lancado_por?: string | null
+          matricula?: string | null
+          observacao?: string | null
+          periodo_aquisitivo_fim?: string
+          periodo_aquisitivo_inicio?: string
+          reprovado_motivo?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       horas_extras: {
         Row: {
           aprovado_em: string | null
@@ -280,6 +364,11 @@ export type Database = {
     }
     Functions: {
       assign_master_role: { Args: { user_email: string }; Returns: undefined }
+      can_approve_ferias: {
+        Args: { _approver: string; _solicitante: string }
+        Returns: boolean
+      }
+      get_user_max_level: { Args: { _user_id: string }; Returns: number }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

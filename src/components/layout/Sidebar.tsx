@@ -23,6 +23,7 @@ const navItems = [
   { to: "/registros", label: "Horas Extras", icon: Clock },
   { to: "/colaboradores", label: "Colaboradores", icon: Users },
   { to: "/ase", label: "ASE", icon: ClipboardSignature },
+  { to: "/ferias", label: "Férias", icon: Palmtree },
   { to: "/departamento-pessoal", label: "Depto. Pessoal", icon: Briefcase },
   { to: "/relatorios", label: "Relatórios", icon: FileText },
   { to: "/configuracoes", label: "Configurações", icon: Settings },

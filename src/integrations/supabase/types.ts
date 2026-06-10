@@ -136,6 +136,115 @@ export type Database = {
         }
         Relationships: []
       }
+      avaliacao_competencias_itens: {
+        Row: {
+          avaliacao_id: string
+          competencia: string
+          created_at: string
+          descricao: string | null
+          id: string
+          nota: string
+          ordem: number
+        }
+        Insert: {
+          avaliacao_id: string
+          competencia: string
+          created_at?: string
+          descricao?: string | null
+          id?: string
+          nota: string
+          ordem: number
+        }
+        Update: {
+          avaliacao_id?: string
+          competencia?: string
+          created_at?: string
+          descricao?: string | null
+          id?: string
+          nota?: string
+          ordem?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "avaliacao_competencias_itens_avaliacao_id_fkey"
+            columns: ["avaliacao_id"]
+            isOneToOne: false
+            referencedRelation: "avaliacoes_competencias"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      avaliacoes_competencias: {
+        Row: {
+          avaliador_id: string
+          cargo: string | null
+          colaborador_id: string
+          created_at: string
+          data_admissao: string | null
+          data_mobilizacao: string | null
+          data_termino: string | null
+          id: string
+          matricula: string | null
+          medida: string
+          mobilizacao: boolean
+          motivo_nao_mobilizacao: string | null
+          nome: string
+          observacoes: string
+          periodo: string
+          setor: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          avaliador_id: string
+          cargo?: string | null
+          colaborador_id: string
+          created_at?: string
+          data_admissao?: string | null
+          data_mobilizacao?: string | null
+          data_termino?: string | null
+          id?: string
+          matricula?: string | null
+          medida: string
+          mobilizacao: boolean
+          motivo_nao_mobilizacao?: string | null
+          nome: string
+          observacoes: string
+          periodo: string
+          setor?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          avaliador_id?: string
+          cargo?: string | null
+          colaborador_id?: string
+          created_at?: string
+          data_admissao?: string | null
+          data_mobilizacao?: string | null
+          data_termino?: string | null
+          id?: string
+          matricula?: string | null
+          medida?: string
+          mobilizacao?: boolean
+          motivo_nao_mobilizacao?: string | null
+          nome?: string
+          observacoes?: string
+          periodo?: string
+          setor?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "avaliacoes_competencias_colaborador_id_fkey"
+            columns: ["colaborador_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       ferias_solicitacoes: {
         Row: {
           abono_data_inicio: string | null

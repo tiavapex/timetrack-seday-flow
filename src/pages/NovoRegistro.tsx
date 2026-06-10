@@ -19,6 +19,9 @@ export default function NovoRegistro() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [tipo, setTipo] = useState<"produtiva" | "improdutiva">("produtiva");
+  const [motivo, setMotivo] = useState("");
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -145,7 +148,14 @@ export default function NovoRegistro() {
 
             <div className="space-y-2">
               <Label htmlFor="tipo">Tipo de Hora Extra</Label>
-              <Select required defaultValue="produtiva">
+              <Select
+                required
+                value={tipo}
+                onValueChange={(v) => {
+                  setTipo(v as "produtiva" | "improdutiva");
+                  setMotivo("");
+                }}
+              >
                 <SelectTrigger id="tipo">
                   <SelectValue placeholder="Selecione o tipo" />
                 </SelectTrigger>
@@ -159,15 +169,55 @@ export default function NovoRegistro() {
               </p>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="motivo">Motivo da Hora Extra</Label>
-              <Textarea
-                id="motivo"
-                placeholder="Descreva o motivo da hora extra..."
-                rows={3}
-                required
-              />
-            </div>
+            {tipo === "improdutiva" ? (
+              <div className="space-y-2">
+                <Label htmlFor="motivoImprodutiva">Motivo da HE Improdutiva</Label>
+                <Select required value={motivo} onValueChange={setMotivo}>
+                  <SelectTrigger id="motivoImprodutiva">
+                    <SelectValue placeholder="Selecione o motivo" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Ausência de colaborador">Ausência de colaborador</SelectItem>
+                    <SelectItem value="Atestado">Atestado</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            ) : (
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <Label htmlFor="cliente">Cliente Solicitante</Label>
+                  <Select required>
+                    <SelectTrigger id="cliente">
+                      <SelectValue placeholder="Selecione o cliente" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="avapex">Avapex Transportes</SelectItem>
+                      <SelectItem value="seday">Seday Equipamentos</SelectItem>
+                      <SelectItem value="innomach">Innomach</SelectItem>
+                      <SelectItem value="externo">Cliente Externo</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="setorSolicitante">Setor Solicitante</Label>
+                  <Select required value={motivo} onValueChange={setMotivo}>
+                    <SelectTrigger id="setorSolicitante">
+                      <SelectValue placeholder="Selecione o setor" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Operações">Operações</SelectItem>
+                      <SelectItem value="Administrativo">Administrativo</SelectItem>
+                      <SelectItem value="Produção">Produção</SelectItem>
+                      <SelectItem value="Logística">Logística</SelectItem>
+                      <SelectItem value="Manutenção">Manutenção</SelectItem>
+                      <SelectItem value="TI">TI</SelectItem>
+                      <SelectItem value="Comercial">Comercial</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            )}
+
 
             <div className="space-y-2">
               <Label htmlFor="observacoes">Observações (opcional)</Label>

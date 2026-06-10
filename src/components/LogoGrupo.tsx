@@ -5,7 +5,7 @@ interface LogoGrupoProps {
   imgClassName?: string;
 }
 
-export function LogoGrupo({ className = "", imgClassName = "h-12 w-auto" }: LogoGrupoProps) {
+export function LogoGrupo({ className = "", imgClassName = "h-20 w-auto" }: LogoGrupoProps) {
   return (
     <div className={`flex items-center ${className}`}>
       <img

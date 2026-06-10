@@ -55,9 +55,6 @@ function formatDate(d: string) {
 }
 
 export default function DepartamentoPessoal() {
-  const { user, isAdmin } = useAuth();
-  const [registros, setRegistros] = useState<HoraExtra[]>([]);
-export default function DepartamentoPessoal() {
   const { user, isAdmin, isGestor } = useAuth();
   const [registros, setRegistros] = useState<HoraExtra[]>([]);
   const [loading, setLoading] = useState(true);

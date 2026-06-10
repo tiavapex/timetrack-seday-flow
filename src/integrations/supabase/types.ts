@@ -14,6 +14,128 @@ export type Database = {
   }
   public: {
     Tables: {
+      ase_colaboradores: {
+        Row: {
+          alimentacao: boolean
+          ase_id: string
+          cargo: string | null
+          created_at: string
+          escala_sim: boolean
+          id: string
+          matricula: string | null
+          nome: string
+          numero: number | null
+          user_id: string | null
+          vt: boolean
+        }
+        Insert: {
+          alimentacao?: boolean
+          ase_id: string
+          cargo?: string | null
+          created_at?: string
+          escala_sim?: boolean
+          id?: string
+          matricula?: string | null
+          nome: string
+          numero?: number | null
+          user_id?: string | null
+          vt?: boolean
+        }
+        Update: {
+          alimentacao?: boolean
+          ase_id?: string
+          cargo?: string | null
+          created_at?: string
+          escala_sim?: boolean
+          id?: string
+          matricula?: string | null
+          nome?: string
+          numero?: number | null
+          user_id?: string | null
+          vt?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ase_colaboradores_ase_id_fkey"
+            columns: ["ase_id"]
+            isOneToOne: false
+            referencedRelation: "ases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ases: {
+        Row: {
+          aprovado_em: string | null
+          aprovado_por: string | null
+          atividades: string
+          centro_custo: string
+          cliente: string
+          created_at: string
+          criado_por: string
+          horario_fim: string
+          horario_inicio: string
+          id: string
+          lancado_em: string | null
+          lancado_por: string | null
+          lider_gestor: string | null
+          observacao: string | null
+          periodo_data: string
+          reprovado_motivo: string | null
+          responsavel: string
+          setor: string
+          setor_outro: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          aprovado_em?: string | null
+          aprovado_por?: string | null
+          atividades: string
+          centro_custo: string
+          cliente: string
+          created_at?: string
+          criado_por: string
+          horario_fim: string
+          horario_inicio: string
+          id?: string
+          lancado_em?: string | null
+          lancado_por?: string | null
+          lider_gestor?: string | null
+          observacao?: string | null
+          periodo_data: string
+          reprovado_motivo?: string | null
+          responsavel: string
+          setor: string
+          setor_outro?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          aprovado_em?: string | null
+          aprovado_por?: string | null
+          atividades?: string
+          centro_custo?: string
+          cliente?: string
+          created_at?: string
+          criado_por?: string
+          horario_fim?: string
+          horario_inicio?: string
+          id?: string
+          lancado_em?: string | null
+          lancado_por?: string | null
+          lider_gestor?: string | null
+          observacao?: string | null
+          periodo_data?: string
+          reprovado_motivo?: string | null
+          responsavel?: string
+          setor?: string
+          setor_outro?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       horas_extras: {
         Row: {
           aprovado_em: string | null

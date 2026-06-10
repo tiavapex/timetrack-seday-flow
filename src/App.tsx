@@ -12,6 +12,9 @@ import Registros from "@/pages/Registros";
 import NovoRegistro from "@/pages/NovoRegistro";
 import Colaboradores from "@/pages/Colaboradores";
 import DepartamentoPessoal from "@/pages/DepartamentoPessoal";
+import ASEList from "@/pages/ASE/ASEList";
+import ASEForm from "@/pages/ASE/ASEForm";
+import ASEDetalhe from "@/pages/ASE/ASEDetalhe";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,6 +39,9 @@ const App = () => (
               <Route path="/registros/novo" element={<NovoRegistro />} />
               <Route path="/colaboradores" element={<Colaboradores />} />
               <Route path="/departamento-pessoal" element={<DepartamentoPessoal />} />
+              <Route path="/ase" element={<ASEList />} />
+              <Route path="/ase/nova" element={<ASEForm />} />
+              <Route path="/ase/:id" element={<ASEDetalhe />} />
               <Route path="/relatorios" element={<Dashboard />} />
               <Route path="/configuracoes" element={<Dashboard />} />
             </Route>

@@ -7,6 +7,7 @@ import {
   FileText,
   Settings,
   X,
+  Briefcase,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -19,6 +20,7 @@ const navItems = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/registros", label: "Horas Extras", icon: Clock },
   { to: "/colaboradores", label: "Colaboradores", icon: Users },
+  { to: "/departamento-pessoal", label: "Depto. Pessoal", icon: Briefcase },
   { to: "/relatorios", label: "Relatórios", icon: FileText },
   { to: "/configuracoes", label: "Configurações", icon: Settings },
 ];

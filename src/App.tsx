@@ -11,6 +11,7 @@ import Dashboard from "@/pages/Dashboard";
 import Registros from "@/pages/Registros";
 import NovoRegistro from "@/pages/NovoRegistro";
 import Colaboradores from "@/pages/Colaboradores";
+import DepartamentoPessoal from "@/pages/DepartamentoPessoal";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const App = () => (
               <Route path="/registros" element={<Registros />} />
               <Route path="/registros/novo" element={<NovoRegistro />} />
               <Route path="/colaboradores" element={<Colaboradores />} />
+              <Route path="/departamento-pessoal" element={<DepartamentoPessoal />} />
               <Route path="/relatorios" element={<Dashboard />} />
               <Route path="/configuracoes" element={<Dashboard />} />
             </Route>

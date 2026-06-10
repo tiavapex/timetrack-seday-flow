@@ -26,6 +26,9 @@ export type Database = {
           hora_inicio: string
           id: string
           intervalo_minutos: number | null
+          lancado_em: string | null
+          lancado_erp: boolean
+          lancado_por: string | null
           matricula: string | null
           motivo: string
           observacoes: string | null
@@ -47,6 +50,9 @@ export type Database = {
           hora_inicio: string
           id?: string
           intervalo_minutos?: number | null
+          lancado_em?: string | null
+          lancado_erp?: boolean
+          lancado_por?: string | null
           matricula?: string | null
           motivo: string
           observacoes?: string | null
@@ -68,6 +74,9 @@ export type Database = {
           hora_inicio?: string
           id?: string
           intervalo_minutos?: number | null
+          lancado_em?: string | null
+          lancado_erp?: boolean
+          lancado_por?: string | null
           matricula?: string | null
           motivo?: string
           observacoes?: string | null
@@ -154,10 +163,11 @@ export type Database = {
         Returns: boolean
       }
       is_admin_or_higher: { Args: { _user_id: string }; Returns: boolean }
+      is_dp_or_higher: { Args: { _user_id: string }; Returns: boolean }
       is_gestor_or_higher: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
-      app_role: "master" | "admin" | "gestor" | "colaborador"
+      app_role: "master" | "admin" | "gestor" | "colaborador" | "dp"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -285,7 +295,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["master", "admin", "gestor", "colaborador"],
+      app_role: ["master", "admin", "gestor", "colaborador", "dp"],
     },
   },
 } as const

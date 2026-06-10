@@ -166,9 +166,48 @@ export default function AvaliacoesForm() {
             <div><Label>Cargo</Label><Input value={form.cargo} onChange={(e) => setForm({ ...form, cargo: e.target.value })} /></div>
             <div><Label>Setor / Centro de custo</Label><Input value={form.setor} onChange={(e) => setForm({ ...form, setor: e.target.value })} /></div>
             <div><Label>Matrícula</Label><Input value={form.matricula} onChange={(e) => setForm({ ...form, matricula: e.target.value })} /></div>
-            <div />
+            <div>
+              <Label>Mobilização *</Label>
+              <RadioGroup
+                className="flex gap-6 mt-2 h-10 items-center"
+                value={form.mobilizacao}
+                onValueChange={(v) => setForm({ ...form, mobilizacao: v })}
+              >
+                <div className="flex items-center gap-2">
+                  <RadioGroupItem value="sim" id="mob-sim-top" />
+                  <Label htmlFor="mob-sim-top">Sim</Label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <RadioGroupItem value="nao" id="mob-nao-top" />
+                  <Label htmlFor="mob-nao-top">Não</Label>
+                </div>
+              </RadioGroup>
+            </div>
             <div><Label>Data de admissão</Label><Input type="date" value={form.data_admissao} onChange={(e) => setForm({ ...form, data_admissao: e.target.value })} /></div>
             <div><Label>Data de término</Label><Input type="date" value={form.data_termino} onChange={(e) => setForm({ ...form, data_termino: e.target.value })} /></div>
+            {form.mobilizacao === "sim" && (
+              <div>
+                <Label>Data de mobilização *</Label>
+                <Input
+                  type="date"
+                  required
+                  value={form.data_mobilizacao}
+                  onChange={(e) => setForm({ ...form, data_mobilizacao: e.target.value })}
+                />
+              </div>
+            )}
+            {form.mobilizacao === "nao" && (
+              <div className="md:col-span-2">
+                <Label>Motivo da não mobilização *</Label>
+                <Textarea
+                  required
+                  rows={3}
+                  value={form.motivo_nao_mobilizacao}
+                  onChange={(e) => setForm({ ...form, motivo_nao_mobilizacao: e.target.value })}
+                  placeholder="Explique o motivo..."
+                />
+              </div>
+            )}
           </CardContent>
         </Card>
 
@@ -221,53 +260,6 @@ export default function AvaliacoesForm() {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader><CardTitle>Mobilização</CardTitle></CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <Label>O colaborador foi mobilizado? *</Label>
-              <RadioGroup
-                className="flex gap-6 mt-2"
-                value={form.mobilizacao}
-                onValueChange={(v) => setForm({ ...form, mobilizacao: v })}
-              >
-                <div className="flex items-center gap-2">
-                  <RadioGroupItem value="sim" id="mob-sim" />
-                  <Label htmlFor="mob-sim">Sim</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <RadioGroupItem value="nao" id="mob-nao" />
-                  <Label htmlFor="mob-nao">Não</Label>
-                </div>
-              </RadioGroup>
-            </div>
-
-            {form.mobilizacao === "sim" && (
-              <div className="max-w-xs">
-                <Label>Data de mobilização *</Label>
-                <Input
-                  type="date"
-                  required
-                  value={form.data_mobilizacao}
-                  onChange={(e) => setForm({ ...form, data_mobilizacao: e.target.value })}
-                />
-              </div>
-            )}
-
-            {form.mobilizacao === "nao" && (
-              <div>
-                <Label>Motivo da não mobilização *</Label>
-                <Textarea
-                  required
-                  rows={3}
-                  value={form.motivo_nao_mobilizacao}
-                  onChange={(e) => setForm({ ...form, motivo_nao_mobilizacao: e.target.value })}
-                  placeholder="Explique o motivo..."
-                />
-              </div>
-            )}
-          </CardContent>
-        </Card>
 
         <div className="flex justify-end gap-2">
           <Button type="button" variant="outline" onClick={() => navigate("/avaliacoes")}>Cancelar</Button>

@@ -19,6 +19,9 @@ export default function NovoRegistro() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [tipo, setTipo] = useState<"produtiva" | "improdutiva">("produtiva");
+  const [motivo, setMotivo] = useState("");
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

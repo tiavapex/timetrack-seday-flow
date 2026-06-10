@@ -100,6 +100,29 @@ export default function DepartamentoPessoal() {
     setUpdatingId(null);
   };
 
+  const revogarAprovacao = async (id: string) => {
+    setUpdatingId(id);
+    const { error } = await (supabase as any)
+      .from("horas_extras")
+      .update({
+        status: "pendente",
+        aprovado_por: null,
+        aprovado_em: null,
+        lancado_erp: false,
+        lancado_em: null,
+        lancado_por: null,
+      })
+      .eq("id", id);
+
+    if (error) {
+      toast.error("Erro ao revogar: " + error.message);
+    } else {
+      toast.success("Aprovação revogada. O registro voltou para pendente.");
+      fetchRegistros();
+    }
+    setUpdatingId(null);
+  };
+
   const naoLancadas = registros.filter((r) => !r.lancado_erp);
   const lancadas = registros.filter((r) => r.lancado_erp);
 

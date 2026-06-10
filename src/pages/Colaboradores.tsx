@@ -448,6 +448,7 @@ export default function Colaboradores() {
                     <TableHead>Nome</TableHead>
                     <TableHead>E-mail</TableHead>
                     <TableHead>Empresa</TableHead>
+                    <TableHead>Cliente</TableHead>
                     <TableHead>Setor</TableHead>
                     <TableHead>Matrícula</TableHead>
                     <TableHead>Papel</TableHead>
@@ -461,8 +462,10 @@ export default function Colaboradores() {
                       <TableCell className="font-medium">{user.nome}</TableCell>
                       <TableCell>{user.email}</TableCell>
                       <TableCell>{user.empresa || "-"}</TableCell>
+                      <TableCell>{user.cliente || "-"}</TableCell>
                       <TableCell>{user.setor || "-"}</TableCell>
                       <TableCell>{user.matricula || "-"}</TableCell>
+
                       <TableCell>
                         <Badge
                           className={roleColors[user.roles[0] || "colaborador"]}

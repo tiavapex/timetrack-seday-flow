@@ -11,6 +11,7 @@ import Dashboard from "@/pages/Dashboard";
 import Registros from "@/pages/Registros";
 import NovoRegistro from "@/pages/NovoRegistro";
 import Colaboradores from "@/pages/Colaboradores";
+import DepartamentoPessoal from "@/pages/DepartamentoPessoal";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();

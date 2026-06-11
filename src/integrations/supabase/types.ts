@@ -415,43 +415,70 @@ export type Database = {
       }
       profiles: {
         Row: {
+          area: string | null
           ativo: boolean | null
+          cargo: string | null
           cliente: string | null
           created_at: string
+          data_admissao: string | null
+          depto: string | null
           email: string
           empresa: string | null
+          funcao_completa: string | null
           id: string
           matricula: string | null
           nome: string
+          secao_codigo: string | null
+          secao_desc: string | null
           setor: string | null
+          setor_codigo: string | null
+          setor_desc: string | null
           updated_at: string
-          user_id: string
+          user_id: string | null
         }
         Insert: {
+          area?: string | null
           ativo?: boolean | null
+          cargo?: string | null
           cliente?: string | null
           created_at?: string
+          data_admissao?: string | null
+          depto?: string | null
           email: string
           empresa?: string | null
+          funcao_completa?: string | null
           id?: string
           matricula?: string | null
           nome: string
+          secao_codigo?: string | null
+          secao_desc?: string | null
           setor?: string | null
+          setor_codigo?: string | null
+          setor_desc?: string | null
           updated_at?: string
-          user_id: string
+          user_id?: string | null
         }
         Update: {
+          area?: string | null
           ativo?: boolean | null
+          cargo?: string | null
           cliente?: string | null
           created_at?: string
+          data_admissao?: string | null
+          depto?: string | null
           email?: string
           empresa?: string | null
+          funcao_completa?: string | null
           id?: string
           matricula?: string | null
           nome?: string
+          secao_codigo?: string | null
+          secao_desc?: string | null
           setor?: string | null
+          setor_codigo?: string | null
+          setor_desc?: string | null
           updated_at?: string
-          user_id?: string
+          user_id?: string | null
         }
         Relationships: []
       }

@@ -11,6 +11,7 @@ import Dashboard from "@/pages/Dashboard";
 import Registros from "@/pages/Registros";
 import NovoRegistro from "@/pages/NovoRegistro";
 import Colaboradores from "@/pages/Colaboradores";
+import ImportarColaboradores from "@/pages/Colaboradores/ImportarColaboradores";
 import DepartamentoPessoal from "@/pages/DepartamentoPessoal";
 import ASEList from "@/pages/ASE/ASEList";
 import ASEForm from "@/pages/ASE/ASEForm";

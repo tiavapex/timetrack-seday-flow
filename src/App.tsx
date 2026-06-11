@@ -11,6 +11,7 @@ import Dashboard from "@/pages/Dashboard";
 import Registros from "@/pages/Registros";
 import NovoRegistro from "@/pages/NovoRegistro";
 import Colaboradores from "@/pages/Colaboradores";
+import ImportarColaboradores from "@/pages/Colaboradores/ImportarColaboradores";
 import DepartamentoPessoal from "@/pages/DepartamentoPessoal";
 import ASEList from "@/pages/ASE/ASEList";
 import ASEForm from "@/pages/ASE/ASEForm";
@@ -47,6 +48,7 @@ const App = () => (
               <Route path="/registros" element={<Registros />} />
               <Route path="/registros/novo" element={<NovoRegistro />} />
               <Route path="/colaboradores" element={<Colaboradores />} />
+              <Route path="/colaboradores/importar" element={<ImportarColaboradores />} />
               <Route path="/departamento-pessoal" element={<DepartamentoPessoal />} />
               <Route path="/ase" element={<ASEList />} />
               <Route path="/ase/nova" element={<ASEForm />} />

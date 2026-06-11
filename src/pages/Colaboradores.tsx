@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Plus, Search, MoreHorizontal, UserPlus, Pencil, Trash2, Key, Users as UsersIcon, Shield } from "lucide-react";
+import { Plus, Search, MoreHorizontal, UserPlus, Pencil, Trash2, Key, Users as UsersIcon, Shield, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -383,10 +383,18 @@ export default function Colaboradores() {
             Gerencie os usuários e permissões do sistema
           </p>
         </div>
-        <Button onClick={() => setShowCreateDialog(true)} className="gap-2">
-          <UserPlus className="h-4 w-4" />
-          Novo Usuário
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" asChild className="gap-2">
+            <a href="/colaboradores/importar">
+              <Upload className="h-4 w-4" />
+              Importar do BD
+            </a>
+          </Button>
+          <Button onClick={() => setShowCreateDialog(true)} className="gap-2">
+            <UserPlus className="h-4 w-4" />
+            Novo Usuário
+          </Button>
+        </div>
       </div>
 
       <Card className="shadow-card">

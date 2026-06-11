@@ -48,6 +48,7 @@ const App = () => (
               <Route path="/registros" element={<Registros />} />
               <Route path="/registros/novo" element={<NovoRegistro />} />
               <Route path="/colaboradores" element={<Colaboradores />} />
+              <Route path="/colaboradores/importar" element={<ImportarColaboradores />} />
               <Route path="/departamento-pessoal" element={<DepartamentoPessoal />} />
               <Route path="/ase" element={<ASEList />} />
               <Route path="/ase/nova" element={<ASEForm />} />

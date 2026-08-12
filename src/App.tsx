@@ -25,6 +25,12 @@ import VagasDetalhe from "@/pages/Vagas/VagasDetalhe";
 import AvaliacoesList from "@/pages/Avaliacoes/AvaliacoesList";
 import AvaliacoesForm from "@/pages/Avaliacoes/AvaliacoesForm";
 import AvaliacoesDetalhe from "@/pages/Avaliacoes/AvaliacoesDetalhe";
+import PPOList from "@/pages/PPO/PPOList";
+import PPOForm from "@/pages/PPO/PPOForm";
+import PPODetalhe from "@/pages/PPO/PPODetalhe";
+import QPList from "@/pages/QP/QPList";
+import QPForm from "@/pages/QP/QPForm";
+import QPDetalhe from "@/pages/QP/QPDetalhe";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -62,6 +68,12 @@ const App = () => (
               <Route path="/avaliacoes" element={<AvaliacoesList />} />
               <Route path="/avaliacoes/nova" element={<AvaliacoesForm />} />
               <Route path="/avaliacoes/:id" element={<AvaliacoesDetalhe />} />
+              <Route path="/ppo" element={<PPOList />} />
+              <Route path="/ppo/nova" element={<PPOForm />} />
+              <Route path="/ppo/:id" element={<PPODetalhe />} />
+              <Route path="/qp" element={<QPList />} />
+              <Route path="/qp/nova" element={<QPForm />} />
+              <Route path="/qp/:id" element={<QPDetalhe />} />
               <Route path="/relatorios" element={<Dashboard />} />
               <Route path="/configuracoes" element={<Dashboard />} />
             </Route>

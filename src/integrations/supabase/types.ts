@@ -413,6 +413,95 @@ export type Database = {
         }
         Relationships: []
       }
+      ppo_avaliacoes: {
+        Row: {
+          created_at: string
+          criado_por: string
+          empresa: string | null
+          id: string
+          observacao: string | null
+          periodo_fim: string
+          periodo_inicio: string
+          pilar: string
+          status: string
+          tipo: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          criado_por: string
+          empresa?: string | null
+          id?: string
+          observacao?: string | null
+          periodo_fim: string
+          periodo_inicio: string
+          pilar: string
+          status?: string
+          tipo: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          criado_por?: string
+          empresa?: string | null
+          id?: string
+          observacao?: string | null
+          periodo_fim?: string
+          periodo_inicio?: string
+          pilar?: string
+          status?: string
+          tipo?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      ppo_itens: {
+        Row: {
+          created_at: string
+          criterios: Json
+          funcao: string | null
+          id: string
+          matricula: string | null
+          nome: string
+          observacao: string | null
+          ordem: number
+          ppo_id: string
+          total: number | null
+        }
+        Insert: {
+          created_at?: string
+          criterios?: Json
+          funcao?: string | null
+          id?: string
+          matricula?: string | null
+          nome: string
+          observacao?: string | null
+          ordem?: number
+          ppo_id: string
+          total?: number | null
+        }
+        Update: {
+          created_at?: string
+          criterios?: Json
+          funcao?: string | null
+          id?: string
+          matricula?: string | null
+          nome?: string
+          observacao?: string | null
+          ordem?: number
+          ppo_id?: string
+          total?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ppo_itens_ppo_id_fkey"
+            columns: ["ppo_id"]
+            isOneToOne: false
+            referencedRelation: "ppo_avaliacoes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           area: string | null
@@ -479,6 +568,201 @@ export type Database = {
           setor_desc?: string | null
           updated_at?: string
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      qp_solicitacoes: {
+        Row: {
+          aprov_administrativo: string | null
+          aprov_administrativo_data: string | null
+          aprov_diretoria: string | null
+          aprov_diretoria_data: string | null
+          aprov_encarregado: string | null
+          aprov_encarregado_data: string | null
+          aprov_responsavel: string | null
+          aprov_responsavel_data: string | null
+          area: string | null
+          ben_ad_funcao: boolean
+          ben_ad_funcao_valor: string | null
+          ben_obs: string | null
+          ben_outro: string | null
+          ben_plano_odonto: boolean
+          ben_plano_saude: boolean
+          ben_plano_saude_fob: string | null
+          ben_ppo: boolean
+          ben_ppo_valor: string | null
+          ben_va_vr: string | null
+          ben_va_vr_ativo: boolean
+          ben_va_vr_valor: string | null
+          ben_vt: boolean
+          ben_vt_valor: string | null
+          cargo: string | null
+          created_at: string
+          criado_por: string
+          data_admissao: string | null
+          data_entrega: string | null
+          data_evento: string
+          data_exame_admissional: string | null
+          data_necessidade_admissao: string | null
+          empresa: string
+          id: string
+          indicado_por: string | null
+          matricula: string | null
+          motivo: string
+          nome: string
+          observacoes: string | null
+          rec_aprovado: boolean
+          rec_curriculo: boolean
+          rec_cursos: boolean
+          rec_outros: boolean
+          rec_reprovado: boolean
+          rec_treinamento: boolean
+          salario: string | null
+          status: string
+          tempo_experiencia: string | null
+          tp_abono: boolean
+          tp_acerto_ponto: boolean
+          tp_admissao: boolean
+          tp_advertencia: boolean
+          tp_compensacao: boolean
+          tp_demissao: boolean
+          tp_folga: boolean
+          tp_reembolso: boolean
+          tp_troca: boolean
+          unif_botina: string | null
+          unif_calca: string | null
+          unif_camisa: string | null
+          unif_capa_chuva: string | null
+          unif_jaqueta: string | null
+          updated_at: string
+        }
+        Insert: {
+          aprov_administrativo?: string | null
+          aprov_administrativo_data?: string | null
+          aprov_diretoria?: string | null
+          aprov_diretoria_data?: string | null
+          aprov_encarregado?: string | null
+          aprov_encarregado_data?: string | null
+          aprov_responsavel?: string | null
+          aprov_responsavel_data?: string | null
+          area?: string | null
+          ben_ad_funcao?: boolean
+          ben_ad_funcao_valor?: string | null
+          ben_obs?: string | null
+          ben_outro?: string | null
+          ben_plano_odonto?: boolean
+          ben_plano_saude?: boolean
+          ben_plano_saude_fob?: string | null
+          ben_ppo?: boolean
+          ben_ppo_valor?: string | null
+          ben_va_vr?: string | null
+          ben_va_vr_ativo?: boolean
+          ben_va_vr_valor?: string | null
+          ben_vt?: boolean
+          ben_vt_valor?: string | null
+          cargo?: string | null
+          created_at?: string
+          criado_por: string
+          data_admissao?: string | null
+          data_entrega?: string | null
+          data_evento?: string
+          data_exame_admissional?: string | null
+          data_necessidade_admissao?: string | null
+          empresa?: string
+          id?: string
+          indicado_por?: string | null
+          matricula?: string | null
+          motivo: string
+          nome: string
+          observacoes?: string | null
+          rec_aprovado?: boolean
+          rec_curriculo?: boolean
+          rec_cursos?: boolean
+          rec_outros?: boolean
+          rec_reprovado?: boolean
+          rec_treinamento?: boolean
+          salario?: string | null
+          status?: string
+          tempo_experiencia?: string | null
+          tp_abono?: boolean
+          tp_acerto_ponto?: boolean
+          tp_admissao?: boolean
+          tp_advertencia?: boolean
+          tp_compensacao?: boolean
+          tp_demissao?: boolean
+          tp_folga?: boolean
+          tp_reembolso?: boolean
+          tp_troca?: boolean
+          unif_botina?: string | null
+          unif_calca?: string | null
+          unif_camisa?: string | null
+          unif_capa_chuva?: string | null
+          unif_jaqueta?: string | null
+          updated_at?: string
+        }
+        Update: {
+          aprov_administrativo?: string | null
+          aprov_administrativo_data?: string | null
+          aprov_diretoria?: string | null
+          aprov_diretoria_data?: string | null
+          aprov_encarregado?: string | null
+          aprov_encarregado_data?: string | null
+          aprov_responsavel?: string | null
+          aprov_responsavel_data?: string | null
+          area?: string | null
+          ben_ad_funcao?: boolean
+          ben_ad_funcao_valor?: string | null
+          ben_obs?: string | null
+          ben_outro?: string | null
+          ben_plano_odonto?: boolean
+          ben_plano_saude?: boolean
+          ben_plano_saude_fob?: string | null
+          ben_ppo?: boolean
+          ben_ppo_valor?: string | null
+          ben_va_vr?: string | null
+          ben_va_vr_ativo?: boolean
+          ben_va_vr_valor?: string | null
+          ben_vt?: boolean
+          ben_vt_valor?: string | null
+          cargo?: string | null
+          created_at?: string
+          criado_por?: string
+          data_admissao?: string | null
+          data_entrega?: string | null
+          data_evento?: string
+          data_exame_admissional?: string | null
+          data_necessidade_admissao?: string | null
+          empresa?: string
+          id?: string
+          indicado_por?: string | null
+          matricula?: string | null
+          motivo?: string
+          nome?: string
+          observacoes?: string | null
+          rec_aprovado?: boolean
+          rec_curriculo?: boolean
+          rec_cursos?: boolean
+          rec_outros?: boolean
+          rec_reprovado?: boolean
+          rec_treinamento?: boolean
+          salario?: string | null
+          status?: string
+          tempo_experiencia?: string | null
+          tp_abono?: boolean
+          tp_acerto_ponto?: boolean
+          tp_admissao?: boolean
+          tp_advertencia?: boolean
+          tp_compensacao?: boolean
+          tp_demissao?: boolean
+          tp_folga?: boolean
+          tp_reembolso?: boolean
+          tp_troca?: boolean
+          unif_botina?: string | null
+          unif_calca?: string | null
+          unif_camisa?: string | null
+          unif_capa_chuva?: string | null
+          unif_jaqueta?: string | null
+          updated_at?: string
         }
         Relationships: []
       }

@@ -142,6 +142,12 @@ export default function NovoRegistro() {
         </div>
       </div>
 
+      {lancamentoBloqueado && (
+        <div className="rounded-md border border-destructive/40 bg-destructive/5 p-4 text-sm text-destructive">
+          Lançamento bloqueado: a partir do dia 23 de cada mês não é possível registrar horas extras.
+        </div>
+      )}
+
       <form onSubmit={handleSubmit} className="space-y-6">
         <Card className="shadow-card">
           <CardHeader>
@@ -188,7 +194,18 @@ export default function NovoRegistro() {
 
               <div className="space-y-2">
                 <Label htmlFor="data">Data</Label>
-                <Input type="date" id="data" required value={data} onChange={(e) => setData(e.target.value)} />
+                <Input
+                  type="date"
+                  id="data"
+                  required
+                  min={minData}
+                  max={maxData}
+                  value={data}
+                  onChange={(e) => setData(e.target.value)}
+                />
+                <p className="text-xs text-muted-foreground">
+                  Permitido lançar somente até 2 dias retroativos.
+                </p>
               </div>
             </div>
 

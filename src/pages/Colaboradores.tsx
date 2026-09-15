@@ -456,8 +456,9 @@ export default function Colaboradores() {
                   <SelectItem value="todos">Todos</SelectItem>
                   <SelectItem value="master">Master</SelectItem>
                   <SelectItem value="admin">Admin</SelectItem>
-                  <SelectItem value="gestor">Gestor</SelectItem>
-                  <SelectItem value="colaborador">Colaborador</SelectItem>
+                  {ROLE_OPTIONS.map((r) => (
+                    <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -650,8 +651,9 @@ export default function Colaboradores() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="colaborador">Colaborador</SelectItem>
-                    <SelectItem value="gestor">Gestor</SelectItem>
+                    {ROLE_OPTIONS.map((r) => (
+                      <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>
+                    ))}
                     {isMaster && <SelectItem value="admin">Admin</SelectItem>}
                     {isMaster && <SelectItem value="master">Master</SelectItem>}
                   </SelectContent>
@@ -754,8 +756,9 @@ export default function Colaboradores() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="colaborador">Colaborador</SelectItem>
-                    <SelectItem value="gestor">Gestor</SelectItem>
+                    {ROLE_OPTIONS.map((r) => (
+                      <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>
+                    ))}
                     {isMaster && <SelectItem value="admin">Admin</SelectItem>}
                     {isMaster && <SelectItem value="master">Master</SelectItem>}
                   </SelectContent>

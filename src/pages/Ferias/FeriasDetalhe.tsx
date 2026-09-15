@@ -52,11 +52,10 @@ export default function FeriasDetalhe() {
     }
     setData(row);
 
-    // Check approval permissions via RPC
+    // Aprovação exclusiva do gerente/gestor (e acima)
     if (user && row.user_id !== user.id) {
-      const { data: ok } = await (supabase as any).rpc("can_approve_ferias", {
-        _approver: user.id,
-        _solicitante: row.user_id,
+      const { data: ok } = await (supabase as any).rpc("is_gestor_or_higher", {
+        _user_id: user.id,
       });
       setCanApprove(!!ok);
     } else {

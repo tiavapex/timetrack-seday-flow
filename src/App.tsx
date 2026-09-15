@@ -13,18 +13,12 @@ import NovoRegistro from "@/pages/NovoRegistro";
 import Colaboradores from "@/pages/Colaboradores";
 import ImportarColaboradores from "@/pages/Colaboradores/ImportarColaboradores";
 import DepartamentoPessoal from "@/pages/DepartamentoPessoal";
-import ASEList from "@/pages/ASE/ASEList";
-import ASEForm from "@/pages/ASE/ASEForm";
-import ASEDetalhe from "@/pages/ASE/ASEDetalhe";
 import FeriasList from "@/pages/Ferias/FeriasList";
 import FeriasForm from "@/pages/Ferias/FeriasForm";
 import FeriasDetalhe from "@/pages/Ferias/FeriasDetalhe";
 import VagasList from "@/pages/Vagas/VagasList";
 import VagasForm from "@/pages/Vagas/VagasForm";
 import VagasDetalhe from "@/pages/Vagas/VagasDetalhe";
-import AvaliacoesList from "@/pages/Avaliacoes/AvaliacoesList";
-import AvaliacoesForm from "@/pages/Avaliacoes/AvaliacoesForm";
-import AvaliacoesDetalhe from "@/pages/Avaliacoes/AvaliacoesDetalhe";
 import PPOList from "@/pages/PPO/PPOList";
 import PPOForm from "@/pages/PPO/PPOForm";
 import PPODetalhe from "@/pages/PPO/PPODetalhe";
@@ -56,18 +50,12 @@ const App = () => (
               <Route path="/colaboradores" element={<Colaboradores />} />
               <Route path="/colaboradores/importar" element={<ImportarColaboradores />} />
               <Route path="/departamento-pessoal" element={<DepartamentoPessoal />} />
-              <Route path="/ase" element={<ASEList />} />
-              <Route path="/ase/nova" element={<ASEForm />} />
-              <Route path="/ase/:id" element={<ASEDetalhe />} />
               <Route path="/ferias" element={<FeriasList />} />
               <Route path="/ferias/nova" element={<FeriasForm />} />
               <Route path="/ferias/:id" element={<FeriasDetalhe />} />
               <Route path="/vagas" element={<VagasList />} />
               <Route path="/vagas/nova" element={<VagasForm />} />
               <Route path="/vagas/:id" element={<VagasDetalhe />} />
-              <Route path="/avaliacoes" element={<AvaliacoesList />} />
-              <Route path="/avaliacoes/nova" element={<AvaliacoesForm />} />
-              <Route path="/avaliacoes/:id" element={<AvaliacoesDetalhe />} />
               <Route path="/ppo" element={<PPOList />} />
               <Route path="/ppo/nova" element={<PPOForm />} />
               <Route path="/ppo/:id" element={<PPODetalhe />} />

@@ -36,6 +36,17 @@ export default function NovoRegistro() {
   const [solicitante, setSolicitante] = useState("");
   const [observacoes, setObservacoes] = useState("");
 
+  // Regras de prazo: só é possível lançar a HE de hoje até 2 dias atrás,
+  // e a partir do dia 23 de cada mês o lançamento fica bloqueado.
+  const hoje = new Date();
+  const toISO = (d: Date) => {
+    const x = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
+    return x.toISOString().slice(0, 10);
+  };
+  const maxData = toISO(hoje);
+  const minData = toISO(new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate() - 2));
+  const lancamentoBloqueado = hoje.getDate() >= 23;
+
   const calcularTotalMinutos = () => {
     if (!horaInicio || !horaFim) return 0;
     const [h1, m1] = horaInicio.split(":").map(Number);
@@ -50,6 +61,27 @@ export default function NovoRegistro() {
     e.preventDefault();
     if (!user) {
       toast({ title: "Não autenticado", description: "Faça login novamente.", variant: "destructive" });
+      return;
+    }
+
+    if (lancamentoBloqueado) {
+      toast({
+        title: "Lançamento bloqueado",
+        description: "A partir do dia 23 de cada mês não é possível lançar horas extras.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (data < minData || data > maxData) {
+      toast({
+        title: "Data fora do prazo",
+        description: `A data deve estar entre ${minData.split("-").reverse().join("/")} e ${maxData
+          .split("-")
+          .reverse()
+          .join("/")} (até 2 dias retroativos).`,
+        variant: "destructive",
+      });
       return;
     }
 
@@ -110,6 +142,12 @@ export default function NovoRegistro() {
         </div>
       </div>
 
+      {lancamentoBloqueado && (
+        <div className="rounded-md border border-destructive/40 bg-destructive/5 p-4 text-sm text-destructive">
+          Lançamento bloqueado: a partir do dia 23 de cada mês não é possível registrar horas extras.
+        </div>
+      )}
+
       <form onSubmit={handleSubmit} className="space-y-6">
         <Card className="shadow-card">
           <CardHeader>
@@ -156,7 +194,18 @@ export default function NovoRegistro() {
 
               <div className="space-y-2">
                 <Label htmlFor="data">Data</Label>
-                <Input type="date" id="data" required value={data} onChange={(e) => setData(e.target.value)} />
+                <Input
+                  type="date"
+                  id="data"
+                  required
+                  min={minData}
+                  max={maxData}
+                  value={data}
+                  onChange={(e) => setData(e.target.value)}
+                />
+                <p className="text-xs text-muted-foreground">
+                  Permitido lançar somente até 2 dias retroativos.
+                </p>
               </div>
             </div>
 
@@ -262,7 +311,7 @@ export default function NovoRegistro() {
 
         <div className="flex justify-end gap-3">
           <Button type="button" variant="outline" onClick={() => navigate("/registros")}>Cancelar</Button>
-          <Button type="submit" disabled={isSubmitting} className="gap-2">
+          <Button type="submit" disabled={isSubmitting || lancamentoBloqueado} className="gap-2">
             <Save className="h-4 w-4" />
             {isSubmitting ? "Salvando..." : "Salvar Registro"}
           </Button>

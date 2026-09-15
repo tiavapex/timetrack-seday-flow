@@ -42,6 +42,7 @@ interface HoraExtra {
   status: string;
   lancado_erp: boolean;
   lancado_em: string | null;
+  created_at: string;
 }
 
 function formatMinutos(min: number) {
@@ -154,6 +155,7 @@ export default function DepartamentoPessoal() {
               <TableHead>Empresa</TableHead>
               <TableHead>Setor</TableHead>
               <TableHead>Data</TableHead>
+              <TableHead>Incluído em</TableHead>
               <TableHead>Horário</TableHead>
               <TableHead>Total</TableHead>
               <TableHead>Tipo</TableHead>
@@ -170,6 +172,9 @@ export default function DepartamentoPessoal() {
                 <TableCell>{r.empresa}</TableCell>
                 <TableCell>{r.setor}</TableCell>
                 <TableCell>{formatDate(r.data)}</TableCell>
+                <TableCell className="text-xs text-muted-foreground">
+                  {r.created_at ? new Date(r.created_at).toLocaleString("pt-BR") : "—"}
+                </TableCell>
                 <TableCell>
                   {r.hora_inicio.slice(0, 5)} - {r.hora_fim.slice(0, 5)}
                 </TableCell>

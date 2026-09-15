@@ -311,7 +311,7 @@ export default function NovoRegistro() {
 
         <div className="flex justify-end gap-3">
           <Button type="button" variant="outline" onClick={() => navigate("/registros")}>Cancelar</Button>
-          <Button type="submit" disabled={isSubmitting} className="gap-2">
+          <Button type="submit" disabled={isSubmitting || lancamentoBloqueado} className="gap-2">
             <Save className="h-4 w-4" />
             {isSubmitting ? "Salvando..." : "Salvar Registro"}
           </Button>

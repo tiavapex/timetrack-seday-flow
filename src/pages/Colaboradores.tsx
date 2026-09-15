@@ -59,7 +59,12 @@ const CLIENTES = ["Usiminas", "Vale", "MRS", "Matriz"];
 const roleLabels: Record<string, string> = {
   master: "Master",
   admin: "Admin",
-  gestor: "Gestor",
+  gestor: "Gerente / Gestor",
+  coordenador: "Coordenador",
+  supervisor: "Supervisor",
+  encarregado: "Encarregado",
+  lider: "Líder",
+  dp: "Departamento Pessoal",
   colaborador: "Colaborador",
 };
 
@@ -67,8 +72,23 @@ const roleColors: Record<string, string> = {
   master: "bg-accent text-accent-foreground",
   admin: "bg-primary text-primary-foreground",
   gestor: "bg-success text-success-foreground",
+  coordenador: "bg-primary/80 text-primary-foreground",
+  supervisor: "bg-primary/70 text-primary-foreground",
+  encarregado: "bg-muted text-muted-foreground",
+  lider: "bg-muted text-muted-foreground",
+  dp: "bg-accent/70 text-accent-foreground",
   colaborador: "bg-secondary text-secondary-foreground",
 };
+
+const ROLE_OPTIONS = [
+  { value: "colaborador", label: "Colaborador" },
+  { value: "lider", label: "Líder" },
+  { value: "encarregado", label: "Encarregado" },
+  { value: "supervisor", label: "Supervisor" },
+  { value: "coordenador", label: "Coordenador" },
+  { value: "dp", label: "Departamento Pessoal" },
+  { value: "gestor", label: "Gerente / Gestor" },
+];
 
 export default function Colaboradores() {
   const { toast } = useToast();

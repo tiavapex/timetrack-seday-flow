@@ -149,7 +149,7 @@ export function exportVagaToPDF(v: VagaPDFData) {
   autoTable(doc, {
     startY: y,
     theme: "grid",
-    head: [[{ content: "PERFIL DO CANDIDATO", colSpan: 4, styles: { halign: "center", fillColor: [30, 64, 175] } }]],
+    head: [[{ content: "PERFIL DA VAGA", colSpan: 4, styles: { halign: "center", fillColor: [30, 64, 175] } }]],
     styles: { fontSize: 9, cellPadding: 1.5 },
     body: [
       [
@@ -187,7 +187,6 @@ export function exportVagaToPDF(v: VagaPDFData) {
         chk("Realocação interna", v.alt_realocacao),
         chk("Promoção interna", v.alt_promocao),
         chk("Banco de talentos", v.alt_banco_talentos),
-        chk("Terceirização", v.alt_terceirizacao),
         chk("N/A", v.alt_na),
       ],
       [{ content: "Justificativa:\n" + (v.justificativa_sem_alternativa || ""), colSpan: 5, styles: { halign: "left" } }],
@@ -224,7 +223,6 @@ export function exportVagaToPDF(v: VagaPDFData) {
       [{ content: "Logística:", styles: { fontStyle: "bold" } }, v.recursos_logistica || ""],
       [{ content: "Infraestrutura:", styles: { fontStyle: "bold" } }, v.recursos_infraestrutura || ""],
       [{ content: "SST:", styles: { fontStyle: "bold" } }, v.recursos_sst || ""],
-      [{ content: "Financeiro:", styles: { fontStyle: "bold" } }, v.recursos_financeiro || ""],
     ],
   });
 

@@ -8,10 +8,8 @@ import {
   Settings,
   X,
   Briefcase,
-  ClipboardSignature,
   Palmtree,
   UserPlus,
-  ClipboardCheck,
   ClipboardList,
   ClipboardPen,
 } from "lucide-react";

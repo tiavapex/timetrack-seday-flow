@@ -36,6 +36,17 @@ export default function NovoRegistro() {
   const [solicitante, setSolicitante] = useState("");
   const [observacoes, setObservacoes] = useState("");
 
+  // Regras de prazo: só é possível lançar a HE de hoje até 2 dias atrás,
+  // e a partir do dia 23 de cada mês o lançamento fica bloqueado.
+  const hoje = new Date();
+  const toISO = (d: Date) => {
+    const x = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
+    return x.toISOString().slice(0, 10);
+  };
+  const maxData = toISO(hoje);
+  const minData = toISO(new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate() - 2));
+  const lancamentoBloqueado = hoje.getDate() >= 23;
+
   const calcularTotalMinutos = () => {
     if (!horaInicio || !horaFim) return 0;
     const [h1, m1] = horaInicio.split(":").map(Number);
@@ -50,6 +61,27 @@ export default function NovoRegistro() {
     e.preventDefault();
     if (!user) {
       toast({ title: "Não autenticado", description: "Faça login novamente.", variant: "destructive" });
+      return;
+    }
+
+    if (lancamentoBloqueado) {
+      toast({
+        title: "Lançamento bloqueado",
+        description: "A partir do dia 23 de cada mês não é possível lançar horas extras.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (data < minData || data > maxData) {
+      toast({
+        title: "Data fora do prazo",
+        description: `A data deve estar entre ${minData.split("-").reverse().join("/")} e ${maxData
+          .split("-")
+          .reverse()
+          .join("/")} (até 2 dias retroativos).`,
+        variant: "destructive",
+      });
       return;
     }
 

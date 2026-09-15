@@ -73,7 +73,6 @@ export default function VagasForm() {
     alt_realocacao: false,
     alt_promocao: false,
     alt_banco_talentos: false,
-    alt_terceirizacao: false,
     alt_na: false,
     justificativa_sem_alternativa: "",
     experiencia_necessaria: "",
@@ -84,7 +83,6 @@ export default function VagasForm() {
     recursos_logistica: "",
     recursos_infraestrutura: "",
     recursos_sst: "",
-    recursos_financeiro: "",
   });
 
   const set = (k: string, v: any) => setF((p: any) => ({ ...p, [k]: v }));
@@ -197,7 +195,7 @@ export default function VagasForm() {
       </Card>
 
       <Card>
-        <CardHeader><CardTitle>Perfil do Candidato</CardTitle></CardHeader>
+        <CardHeader><CardTitle>Perfil da Vaga</CardTitle></CardHeader>
         <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Field label="Escolaridade">
             <Select value={f.escolaridade} onValueChange={(v) => set("escolaridade", v)}>
@@ -228,7 +226,7 @@ export default function VagasForm() {
               ["alt_realocacao", "Realocação interna"],
               ["alt_promocao", "Promoção interna"],
               ["alt_banco_talentos", "Banco de talentos"],
-              ["alt_terceirizacao", "Terceirização"],
+              
               ["alt_na", "N/A"],
             ].map(([k, l]) => (
               <label key={k} className="flex items-center gap-2 text-sm">
@@ -260,9 +258,7 @@ export default function VagasForm() {
           <Field label="Logística (carro, outros)"><Textarea value={f.recursos_logistica} onChange={(e) => set("recursos_logistica", e.target.value)} /></Field>
           <Field label="Infraestrutura (mesa, cadeira, material)"><Textarea value={f.recursos_infraestrutura} onChange={(e) => set("recursos_infraestrutura", e.target.value)} /></Field>
           <Field label="SST (uniforme, EPI)"><Textarea value={f.recursos_sst} onChange={(e) => set("recursos_sst", e.target.value)} /></Field>
-          <div className="md:col-span-2">
-            <Field label="Financeiro"><Textarea value={f.recursos_financeiro} onChange={(e) => set("recursos_financeiro", e.target.value)} /></Field>
-          </div>
+
         </CardContent>
       </Card>
 

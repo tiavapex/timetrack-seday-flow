@@ -2,7 +2,21 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 
-type UserRole = 'master' | 'admin' | 'gestor' | 'colaborador';
+type UserRole =
+  | 'master'
+  | 'admin'
+  | 'gestor'
+  | 'colaborador'
+  | 'dp'
+  | 'lider'
+  | 'supervisor'
+  | 'coordenador'
+  | 'encarregado'
+  | 'rh'
+  | 'sesmt'
+  | 'sgi'
+  | 'juridico'
+  | 'diretoria';
 
 interface Profile {
   id: string;
@@ -24,6 +38,13 @@ interface AuthContextType {
   isMaster: boolean;
   isAdmin: boolean;
   isGestor: boolean;
+  isRh: boolean;
+  isSesmt: boolean;
+  isSgi: boolean;
+  isDiretoria: boolean;
+  isLideranca: boolean;
+  isAuditor: boolean;
+  podeAdminPPO: boolean;
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
   signUp: (email: string, password: string, nome: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;

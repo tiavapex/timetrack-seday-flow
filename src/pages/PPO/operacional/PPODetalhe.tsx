@@ -28,7 +28,7 @@ export default function PPODetalhe() {
 
   const load = async () => {
     const { data, error } = await (supabase as any)
-      .from("ppo_avaliacoes")
+      .from("ppo_operacional_avaliacoes")
       .select("*")
       .eq("id", id)
       .maybeSingle();
@@ -38,7 +38,7 @@ export default function PPODetalhe() {
       return;
     }
     const { data: its } = await (supabase as any)
-      .from("ppo_itens")
+      .from("ppo_operacional_itens")
       .select("*")
       .eq("ppo_id", id)
       .order("ordem");
@@ -53,7 +53,7 @@ export default function PPODetalhe() {
 
   const alterarStatus = async (status: string) => {
     const { error } = await (supabase as any)
-      .from("ppo_avaliacoes")
+      .from("ppo_operacional_avaliacoes")
       .update({ status })
       .eq("id", id);
     if (error) return toast.error("Erro: " + error.message);
@@ -91,7 +91,7 @@ export default function PPODetalhe() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" onClick={() => navigate("/ppo")}>
+          <Button variant="ghost" size="icon" onClick={() => navigate("/ppo/operacional")}>
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <div>

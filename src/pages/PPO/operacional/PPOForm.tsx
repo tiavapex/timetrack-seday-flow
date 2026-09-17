@@ -119,7 +119,7 @@ export default function PPOForm() {
 
     setSaving(true);
     const { data, error } = await (supabase as any)
-      .from("ppo_avaliacoes")
+      .from("ppo_operacional_avaliacoes")
       .insert({
         tipo,
         pilar: pilar.pilar,
@@ -152,17 +152,17 @@ export default function PPOForm() {
       observacao: l.observacao || null,
     }));
 
-    const { error: e2 } = await (supabase as any).from("ppo_itens").insert(itens);
+    const { error: e2 } = await (supabase as any).from("ppo_operacional_itens").insert(itens);
     setSaving(false);
     if (e2) return toast.error("Erro ao salvar itens: " + e2.message);
     toast.success("Avaliação PPO salva!");
-    navigate(`/ppo/${data.id}`);
+    navigate(`/ppo/operacional/${data.id}`);
   };
 
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon" onClick={() => navigate("/ppo")}>
+        <Button variant="ghost" size="icon" onClick={() => navigate("/ppo/operacional")}>
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <div>

@@ -23,6 +23,7 @@ import PPOList from "@/pages/PPO/operacional/PPOList";
 import PPOForm from "@/pages/PPO/operacional/PPOForm";
 import PPODetalhe from "@/pages/PPO/operacional/PPODetalhe";
 import PPOHome from "@/pages/PPO/PPOHome";
+import PPOAvaliarSimples from "@/pages/PPO/AvaliarSimples";
 import PPOCiclos from "@/pages/PPO/Ciclos";
 import PPOIndicadores from "@/pages/PPO/Indicadores";
 import PPOSla from "@/pages/PPO/SLA";
@@ -70,6 +71,7 @@ const App = () => (
               <Route path="/vagas/nova" element={<VagasForm />} />
               <Route path="/vagas/:id" element={<VagasDetalhe />} />
               <Route path="/ppo" element={<PPOHome />} />
+              <Route path="/ppo/avaliar" element={<PPOAvaliarSimples />} />
               <Route path="/ppo/ciclos" element={<PPOCiclos />} />
               <Route path="/ppo/indicadores" element={<PPOIndicadores />} />
               <Route path="/ppo/sla" element={<PPOSla />} />

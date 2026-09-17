@@ -7,8 +7,9 @@ export function PPONav() {
 
   const itens = [
     { to: "/ppo", label: "Painel", show: true, end: true },
+    { to: "/ppo/avaliar", label: "Avaliar colaborador", show: isLideranca || isRh },
     { to: "/ppo/meu-resultado", label: "Meu resultado", show: true },
-    { to: "/ppo/avaliacoes", label: "Apuração", show: isLideranca || isRh || isAuditor },
+    { to: "/ppo/avaliacoes", label: "Apuração detalhada", show: isLideranca || isRh || isAuditor },
     { to: "/ppo/ciclos", label: "Ciclos", show: podeAdminPPO },
     { to: "/ppo/indicadores", label: "Indicadores", show: true },
     { to: "/ppo/sla", label: "SLA", show: true },

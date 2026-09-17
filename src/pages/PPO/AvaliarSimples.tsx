@@ -151,6 +151,14 @@ export default function AvaliarSimples() {
       const c = colaboradores.find((x) => x.id === incompleto);
       return toast.error(`Informe a nota dos quatro pilares de ${c?.nome || "todos"}.`);
     }
+    const semObs = semReconhecimento.find((id) => !(obs[id] || "").trim());
+    if (semObs) {
+      const c = colaboradores.find((x) => x.id === semObs);
+      return toast.error(
+        `Preencha a observação do motivo de ${c?.nome || "colaborador"} não atingir o reconhecimento.`
+      );
+    }
+
 
     setSaving(true);
     const { data: existentes } = await (supabase as any)

@@ -34,18 +34,18 @@ export default function Avaliacoes() {
 
   useEffect(() => {
     (async () => {
-      const [av, cy] = await Promise.all([
+      const [av, cy, pf] = await Promise.all([
         (supabase as any)
           .from("ppo_avaliacoes")
-          .select(
-            "id, ciclo_id, status, nota_final, faixa, elegivel, colaborador:profiles!ppo_avaliacoes_colaborador_id_fkey(nome, matricula, cargo, setor)"
-          )
+          .select("id, ciclo_id, status, nota_final, faixa, elegivel, colaborador_id")
           .eq("ativo", true)
           .order("created_at", { ascending: false }),
         (supabase as any).from("ppo_ciclos").select("id, nome").order("periodo_inicio", { ascending: false }),
+        (supabase as any).from("profiles").select("id, nome, matricula, cargo, setor"),
       ]);
       if (av.error) toast.error("Erro ao carregar avaliações: " + av.error.message);
-      setRows(av.data || []);
+      const mapa = new Map((pf.data || []).map((p: any) => [p.id, p]));
+      setRows((av.data || []).map((a: any) => ({ ...a, colaborador: mapa.get(a.colaborador_id) })));
       setCiclos(cy.data || []);
       setLoading(false);
     })();

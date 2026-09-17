@@ -149,9 +149,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setRoles([]);
   };
 
-  const isMaster = roles.includes('master');
-  const isAdmin = roles.includes('master') || roles.includes('admin');
-  const isGestor = roles.includes('master') || roles.includes('admin') || roles.includes('gestor');
+  const has = (...r: UserRole[]) => r.some((x) => roles.includes(x));
+
+  const isMaster = has('master');
+  const isAdmin = has('master', 'admin');
+  const isGestor = has('master', 'admin', 'gestor');
+  const isRh = has('master', 'admin', 'rh', 'dp');
+  const isSesmt = has('master', 'admin', 'sesmt');
+  const isSgi = has('master', 'admin', 'sgi');
+  const isDiretoria = has('master', 'admin', 'diretoria');
+  const isLideranca = has('master', 'admin', 'gestor', 'coordenador', 'supervisor', 'encarregado', 'lider');
+  const isAuditor = has('master', 'admin', 'sgi', 'diretoria', 'juridico');
+  const podeAdminPPO = has('master', 'admin', 'rh', 'dp', 'diretoria');
 
   return (
     <AuthContext.Provider value={{
@@ -163,6 +172,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       isMaster,
       isAdmin,
       isGestor,
+      isRh,
+      isSesmt,
+      isSgi,
+      isDiretoria,
+      isLideranca,
+      isAuditor,
+      podeAdminPPO,
       signIn,
       signUp,
       signOut,

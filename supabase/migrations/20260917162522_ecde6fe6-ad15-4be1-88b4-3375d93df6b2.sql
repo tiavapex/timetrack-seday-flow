@@ -1,0 +1,16 @@
+REVOKE ALL ON FUNCTION public.ppo_audit_trigger() FROM anon, authenticated;
+REVOKE ALL ON FUNCTION public.ppo_itens_after_change() FROM anon, authenticated;
+REVOKE ALL ON FUNCTION public.ppo_itens_before_change() FROM anon, authenticated;
+REVOKE ALL ON FUNCTION public.ppo_itens_bloqueio_encerrada() FROM anon, authenticated;
+REVOKE ALL ON FUNCTION public.fn_calcular_avaliacao(uuid) FROM anon;
+REVOKE ALL ON FUNCTION public.fn_converter_nota(uuid, numeric) FROM anon;
+REVOKE ALL ON FUNCTION public.fn_prazo_contestacao(date, integer) FROM anon;
+REVOKE ALL ON FUNCTION public.ppo_is_rh(uuid) FROM anon;
+REVOKE ALL ON FUNCTION public.ppo_is_gerencia(uuid) FROM anon;
+REVOKE ALL ON FUNCTION public.ppo_is_lideranca(uuid) FROM anon;
+REVOKE ALL ON FUNCTION public.ppo_is_sesmt(uuid) FROM anon;
+REVOKE ALL ON FUNCTION public.ppo_is_auditor(uuid) FROM anon;
+REVOKE ALL ON FUNCTION public.ppo_can_admin(uuid) FROM anon;
+REVOKE ALL ON FUNCTION public.ppo_can_read_param(uuid) FROM anon;
+REVOKE ALL ON FUNCTION public.ppo_is_owner(uuid) FROM anon;
+REVOKE ALL ON FUNCTION public.ppo_is_gestor_da_avaliacao(uuid) FROM anon;

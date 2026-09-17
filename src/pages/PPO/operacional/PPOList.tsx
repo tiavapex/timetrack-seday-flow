@@ -42,7 +42,7 @@ export default function PPOList() {
   useEffect(() => {
     (async () => {
       const { data, error } = await (supabase as any)
-        .from("ppo_avaliacoes")
+        .from("ppo_operacional_avaliacoes")
         .select("id, tipo, pilar, empresa, periodo_inicio, periodo_fim, status")
         .order("periodo_inicio", { ascending: false });
       if (error) toast.error("Erro: " + error.message);
@@ -68,7 +68,7 @@ export default function PPOList() {
           </p>
         </div>
         <Button asChild>
-          <Link to="/ppo/nova">
+          <Link to="/ppo/operacional/nova">
             <Plus className="mr-2 h-4 w-4" /> Nova Avaliação
           </Link>
         </Button>
@@ -127,7 +127,7 @@ export default function PPOList() {
                       </TableCell>
                       <TableCell className="text-right">
                         <Button asChild size="sm" variant="outline">
-                          <Link to={`/ppo/${r.id}`}>
+                          <Link to={`/ppo/operacional/${r.id}`}>
                             <Eye className="mr-1 h-4 w-4" /> Abrir
                           </Link>
                         </Button>

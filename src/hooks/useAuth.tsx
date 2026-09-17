@@ -2,7 +2,21 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 
-type UserRole = 'master' | 'admin' | 'gestor' | 'colaborador';
+type UserRole =
+  | 'master'
+  | 'admin'
+  | 'gestor'
+  | 'colaborador'
+  | 'dp'
+  | 'lider'
+  | 'supervisor'
+  | 'coordenador'
+  | 'encarregado'
+  | 'rh'
+  | 'sesmt'
+  | 'sgi'
+  | 'juridico'
+  | 'diretoria';
 
 interface Profile {
   id: string;
@@ -24,6 +38,13 @@ interface AuthContextType {
   isMaster: boolean;
   isAdmin: boolean;
   isGestor: boolean;
+  isRh: boolean;
+  isSesmt: boolean;
+  isSgi: boolean;
+  isDiretoria: boolean;
+  isLideranca: boolean;
+  isAuditor: boolean;
+  podeAdminPPO: boolean;
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
   signUp: (email: string, password: string, nome: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
@@ -128,9 +149,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setRoles([]);
   };
 
-  const isMaster = roles.includes('master');
-  const isAdmin = roles.includes('master') || roles.includes('admin');
-  const isGestor = roles.includes('master') || roles.includes('admin') || roles.includes('gestor');
+  const has = (...r: UserRole[]) => r.some((x) => roles.includes(x));
+
+  const isMaster = has('master');
+  const isAdmin = has('master', 'admin');
+  const isGestor = has('master', 'admin', 'gestor');
+  const isRh = has('master', 'admin', 'rh', 'dp');
+  const isSesmt = has('master', 'admin', 'sesmt');
+  const isSgi = has('master', 'admin', 'sgi');
+  const isDiretoria = has('master', 'admin', 'diretoria');
+  const isLideranca = has('master', 'admin', 'gestor', 'coordenador', 'supervisor', 'encarregado', 'lider');
+  const isAuditor = has('master', 'admin', 'sgi', 'diretoria', 'juridico');
+  const podeAdminPPO = has('master', 'admin', 'rh', 'dp', 'diretoria');
 
   return (
     <AuthContext.Provider value={{
@@ -142,6 +172,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       isMaster,
       isAdmin,
       isGestor,
+      isRh,
+      isSesmt,
+      isSgi,
+      isDiretoria,
+      isLideranca,
+      isAuditor,
+      podeAdminPPO,
       signIn,
       signUp,
       signOut,

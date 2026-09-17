@@ -254,6 +254,27 @@ export type Database = {
           },
         ]
       }
+      feriados: {
+        Row: {
+          created_at: string
+          data: string
+          descricao: string
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          data: string
+          descricao: string
+          id?: string
+        }
+        Update: {
+          created_at?: string
+          data?: string
+          descricao?: string
+          id?: string
+        }
+        Relationships: []
+      }
       ferias_solicitacoes: {
         Row: {
           abono_data_inicio: string | null
@@ -413,7 +434,907 @@ export type Database = {
         }
         Relationships: []
       }
+      ppo_auditoria_log: {
+        Row: {
+          acao: string
+          criado_em: string
+          dados_antes: Json | null
+          dados_depois: Json | null
+          entidade: string
+          entidade_id: string | null
+          id: string
+          ip: string | null
+          usuario_id: string | null
+        }
+        Insert: {
+          acao: string
+          criado_em?: string
+          dados_antes?: Json | null
+          dados_depois?: Json | null
+          entidade: string
+          entidade_id?: string | null
+          id?: string
+          ip?: string | null
+          usuario_id?: string | null
+        }
+        Update: {
+          acao?: string
+          criado_em?: string
+          dados_antes?: Json | null
+          dados_depois?: Json | null
+          entidade?: string
+          entidade_id?: string | null
+          id?: string
+          ip?: string | null
+          usuario_id?: string | null
+        }
+        Relationships: []
+      }
+      ppo_avaliacao_itens: {
+        Row: {
+          apurado_em: string | null
+          apurado_por: string | null
+          avaliacao_id: string
+          created_at: string
+          evidencia_descricao: string | null
+          evidencia_url: string | null
+          fonte_dado: string | null
+          id: string
+          indicador_id: string
+          nota_convertida: number | null
+          nota_manual: number | null
+          nota_manual_justificativa: string | null
+          nota_ponderada: number | null
+          observacao: string | null
+          peso_aplicado: number | null
+          pilar: number
+          requisito_minimo_atendido: boolean | null
+          updated_at: string
+          valor_apurado: number | null
+        }
+        Insert: {
+          apurado_em?: string | null
+          apurado_por?: string | null
+          avaliacao_id: string
+          created_at?: string
+          evidencia_descricao?: string | null
+          evidencia_url?: string | null
+          fonte_dado?: string | null
+          id?: string
+          indicador_id: string
+          nota_convertida?: number | null
+          nota_manual?: number | null
+          nota_manual_justificativa?: string | null
+          nota_ponderada?: number | null
+          observacao?: string | null
+          peso_aplicado?: number | null
+          pilar?: number
+          requisito_minimo_atendido?: boolean | null
+          updated_at?: string
+          valor_apurado?: number | null
+        }
+        Update: {
+          apurado_em?: string | null
+          apurado_por?: string | null
+          avaliacao_id?: string
+          created_at?: string
+          evidencia_descricao?: string | null
+          evidencia_url?: string | null
+          fonte_dado?: string | null
+          id?: string
+          indicador_id?: string
+          nota_convertida?: number | null
+          nota_manual?: number | null
+          nota_manual_justificativa?: string | null
+          nota_ponderada?: number | null
+          observacao?: string | null
+          peso_aplicado?: number | null
+          pilar?: number
+          requisito_minimo_atendido?: boolean | null
+          updated_at?: string
+          valor_apurado?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ppo_avaliacao_itens_avaliacao_id_fkey"
+            columns: ["avaliacao_id"]
+            isOneToOne: false
+            referencedRelation: "ppo_avaliacoes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ppo_avaliacao_itens_indicador_id_fkey"
+            columns: ["indicador_id"]
+            isOneToOne: false
+            referencedRelation: "ppo_indicadores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       ppo_avaliacoes: {
+        Row: {
+          analise_rh: string | null
+          analise_rh_em: string | null
+          analise_rh_por: string | null
+          ativo: boolean
+          cargo_id: string | null
+          ciclo_id: string
+          colaborador_id: string
+          comunicado_em: string | null
+          created_at: string
+          created_by: string | null
+          eleg_cargo_contemplado: boolean
+          eleg_evidencias_suficientes: boolean
+          eleg_indicadores_definidos: boolean
+          eleg_periodo_suficiente: boolean
+          eleg_requisitos_seguranca: boolean
+          eleg_vinculo: boolean
+          elegivel: boolean
+          encerrado_em: string | null
+          faixa: string | null
+          fator_proporcional: number | null
+          gestor_id: string | null
+          id: string
+          motivo_inelegibilidade: string | null
+          nota_final: number | null
+          nota_p1: number | null
+          nota_p2: number | null
+          nota_p3: number | null
+          nota_p4: number | null
+          percentual_referencia: number | null
+          proporcional: boolean
+          proporcional_motivo: string | null
+          requisito_ocupacional_atendido: boolean | null
+          setor_id: string | null
+          status: string
+          updated_at: string
+          validado_em: string | null
+          validado_por: string | null
+          valor_base: number | null
+        }
+        Insert: {
+          analise_rh?: string | null
+          analise_rh_em?: string | null
+          analise_rh_por?: string | null
+          ativo?: boolean
+          cargo_id?: string | null
+          ciclo_id: string
+          colaborador_id: string
+          comunicado_em?: string | null
+          created_at?: string
+          created_by?: string | null
+          eleg_cargo_contemplado?: boolean
+          eleg_evidencias_suficientes?: boolean
+          eleg_indicadores_definidos?: boolean
+          eleg_periodo_suficiente?: boolean
+          eleg_requisitos_seguranca?: boolean
+          eleg_vinculo?: boolean
+          elegivel?: boolean
+          encerrado_em?: string | null
+          faixa?: string | null
+          fator_proporcional?: number | null
+          gestor_id?: string | null
+          id?: string
+          motivo_inelegibilidade?: string | null
+          nota_final?: number | null
+          nota_p1?: number | null
+          nota_p2?: number | null
+          nota_p3?: number | null
+          nota_p4?: number | null
+          percentual_referencia?: number | null
+          proporcional?: boolean
+          proporcional_motivo?: string | null
+          requisito_ocupacional_atendido?: boolean | null
+          setor_id?: string | null
+          status?: string
+          updated_at?: string
+          validado_em?: string | null
+          validado_por?: string | null
+          valor_base?: number | null
+        }
+        Update: {
+          analise_rh?: string | null
+          analise_rh_em?: string | null
+          analise_rh_por?: string | null
+          ativo?: boolean
+          cargo_id?: string | null
+          ciclo_id?: string
+          colaborador_id?: string
+          comunicado_em?: string | null
+          created_at?: string
+          created_by?: string | null
+          eleg_cargo_contemplado?: boolean
+          eleg_evidencias_suficientes?: boolean
+          eleg_indicadores_definidos?: boolean
+          eleg_periodo_suficiente?: boolean
+          eleg_requisitos_seguranca?: boolean
+          eleg_vinculo?: boolean
+          elegivel?: boolean
+          encerrado_em?: string | null
+          faixa?: string | null
+          fator_proporcional?: number | null
+          gestor_id?: string | null
+          id?: string
+          motivo_inelegibilidade?: string | null
+          nota_final?: number | null
+          nota_p1?: number | null
+          nota_p2?: number | null
+          nota_p3?: number | null
+          nota_p4?: number | null
+          percentual_referencia?: number | null
+          proporcional?: boolean
+          proporcional_motivo?: string | null
+          requisito_ocupacional_atendido?: boolean | null
+          setor_id?: string | null
+          status?: string
+          updated_at?: string
+          validado_em?: string | null
+          validado_por?: string | null
+          valor_base?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ppo_avaliacoes_cargo_id_fkey"
+            columns: ["cargo_id"]
+            isOneToOne: false
+            referencedRelation: "ppo_cargos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ppo_avaliacoes_ciclo_id_fkey"
+            columns: ["ciclo_id"]
+            isOneToOne: false
+            referencedRelation: "ppo_ciclos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ppo_avaliacoes_colaborador_id_fkey"
+            columns: ["colaborador_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ppo_avaliacoes_gestor_id_fkey"
+            columns: ["gestor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ppo_avaliacoes_setor_id_fkey"
+            columns: ["setor_id"]
+            isOneToOne: false
+            referencedRelation: "ppo_setores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ppo_barreiras: {
+        Row: {
+          analise: string | null
+          aprovado_em: string | null
+          aprovado_por: string | null
+          avaliacao_id: string
+          created_at: string
+          created_by: string | null
+          descricao: string
+          evidencia_url: string | null
+          id: string
+          tipo_barreira: string
+          updated_at: string
+        }
+        Insert: {
+          analise?: string | null
+          aprovado_em?: string | null
+          aprovado_por?: string | null
+          avaliacao_id: string
+          created_at?: string
+          created_by?: string | null
+          descricao: string
+          evidencia_url?: string | null
+          id?: string
+          tipo_barreira: string
+          updated_at?: string
+        }
+        Update: {
+          analise?: string | null
+          aprovado_em?: string | null
+          aprovado_por?: string | null
+          avaliacao_id?: string
+          created_at?: string
+          created_by?: string | null
+          descricao?: string
+          evidencia_url?: string | null
+          id?: string
+          tipo_barreira?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ppo_barreiras_avaliacao_id_fkey"
+            columns: ["avaliacao_id"]
+            isOneToOne: false
+            referencedRelation: "ppo_avaliacoes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ppo_cargos: {
+        Row: {
+          ativo: boolean
+          created_at: string
+          created_by: string | null
+          id: string
+          nome: string
+          setor_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          ativo?: boolean
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          nome: string
+          setor_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          ativo?: boolean
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          nome?: string
+          setor_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ppo_cargos_setor_id_fkey"
+            columns: ["setor_id"]
+            isOneToOne: false
+            referencedRelation: "ppo_setores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ppo_ciclos: {
+        Row: {
+          ano: number
+          created_at: string
+          created_by: string | null
+          data_corte: string | null
+          id: string
+          nome: string
+          observacoes: string | null
+          periodo_fim: string
+          periodo_inicio: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          ano: number
+          created_at?: string
+          created_by?: string | null
+          data_corte?: string | null
+          id?: string
+          nome: string
+          observacoes?: string | null
+          periodo_fim: string
+          periodo_inicio: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          ano?: number
+          created_at?: string
+          created_by?: string | null
+          data_corte?: string | null
+          id?: string
+          nome?: string
+          observacoes?: string | null
+          periodo_fim?: string
+          periodo_inicio?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      ppo_contestacoes: {
+        Row: {
+          aberta_em: string
+          analisado_em: string | null
+          analisado_por: string | null
+          analise: string | null
+          avaliacao_id: string
+          created_at: string
+          created_by: string | null
+          decisao: string | null
+          evidencia_url: string | null
+          fora_do_prazo: boolean
+          id: string
+          indicador_id: string | null
+          justificativa: string | null
+          motivo: string
+          nota_anterior: number | null
+          nota_nova: number | null
+          override_rh_justificativa: string | null
+          prazo_limite: string | null
+          resultado_contestado: string | null
+          solicitacao_revisao: string | null
+          updated_at: string
+        }
+        Insert: {
+          aberta_em?: string
+          analisado_em?: string | null
+          analisado_por?: string | null
+          analise?: string | null
+          avaliacao_id: string
+          created_at?: string
+          created_by?: string | null
+          decisao?: string | null
+          evidencia_url?: string | null
+          fora_do_prazo?: boolean
+          id?: string
+          indicador_id?: string | null
+          justificativa?: string | null
+          motivo: string
+          nota_anterior?: number | null
+          nota_nova?: number | null
+          override_rh_justificativa?: string | null
+          prazo_limite?: string | null
+          resultado_contestado?: string | null
+          solicitacao_revisao?: string | null
+          updated_at?: string
+        }
+        Update: {
+          aberta_em?: string
+          analisado_em?: string | null
+          analisado_por?: string | null
+          analise?: string | null
+          avaliacao_id?: string
+          created_at?: string
+          created_by?: string | null
+          decisao?: string | null
+          evidencia_url?: string | null
+          fora_do_prazo?: boolean
+          id?: string
+          indicador_id?: string | null
+          justificativa?: string | null
+          motivo?: string
+          nota_anterior?: number | null
+          nota_nova?: number | null
+          override_rh_justificativa?: string | null
+          prazo_limite?: string | null
+          resultado_contestado?: string | null
+          solicitacao_revisao?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ppo_contestacoes_avaliacao_id_fkey"
+            columns: ["avaliacao_id"]
+            isOneToOne: false
+            referencedRelation: "ppo_avaliacoes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ppo_contestacoes_indicador_id_fkey"
+            columns: ["indicador_id"]
+            isOneToOne: false
+            referencedRelation: "ppo_indicadores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ppo_faixas_indicador: {
+        Row: {
+          created_at: string
+          id: string
+          indicador_id: string
+          limite_inferior: number | null
+          limite_superior: number | null
+          nota: number
+          ordem: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          indicador_id: string
+          limite_inferior?: number | null
+          limite_superior?: number | null
+          nota: number
+          ordem?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          indicador_id?: string
+          limite_inferior?: number | null
+          limite_superior?: number | null
+          nota?: number
+          ordem?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ppo_faixas_indicador_indicador_id_fkey"
+            columns: ["indicador_id"]
+            isOneToOne: false
+            referencedRelation: "ppo_indicadores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ppo_feedbacks: {
+        Row: {
+          avaliacao_id: string
+          ciente_colaborador: boolean
+          ciente_em: string | null
+          ciente_gestor: boolean
+          ciente_gestor_em: string | null
+          ciente_ip: string | null
+          created_at: string
+          created_by: string | null
+          expectativas: string | null
+          gestor_id: string | null
+          id: string
+          indicadores_destaque: string | null
+          oportunidades: string | null
+          pontos_positivos: string | null
+          realizado_em: string
+          updated_at: string
+        }
+        Insert: {
+          avaliacao_id: string
+          ciente_colaborador?: boolean
+          ciente_em?: string | null
+          ciente_gestor?: boolean
+          ciente_gestor_em?: string | null
+          ciente_ip?: string | null
+          created_at?: string
+          created_by?: string | null
+          expectativas?: string | null
+          gestor_id?: string | null
+          id?: string
+          indicadores_destaque?: string | null
+          oportunidades?: string | null
+          pontos_positivos?: string | null
+          realizado_em?: string
+          updated_at?: string
+        }
+        Update: {
+          avaliacao_id?: string
+          ciente_colaborador?: boolean
+          ciente_em?: string | null
+          ciente_gestor?: boolean
+          ciente_gestor_em?: string | null
+          ciente_ip?: string | null
+          created_at?: string
+          created_by?: string | null
+          expectativas?: string | null
+          gestor_id?: string | null
+          id?: string
+          indicadores_destaque?: string | null
+          oportunidades?: string | null
+          pontos_positivos?: string | null
+          realizado_em?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ppo_feedbacks_avaliacao_id_fkey"
+            columns: ["avaliacao_id"]
+            isOneToOne: false
+            referencedRelation: "ppo_avaliacoes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ppo_feedbacks_gestor_id_fkey"
+            columns: ["gestor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ppo_governanca: {
+        Row: {
+          created_at: string
+          etapa: string
+          id: string
+          ordem: number
+          registro: string | null
+          responsavel_perfil: string
+          updated_at: string
+          validacao_perfil: string | null
+        }
+        Insert: {
+          created_at?: string
+          etapa: string
+          id?: string
+          ordem?: number
+          registro?: string | null
+          responsavel_perfil: string
+          updated_at?: string
+          validacao_perfil?: string | null
+        }
+        Update: {
+          created_at?: string
+          etapa?: string
+          id?: string
+          ordem?: number
+          registro?: string | null
+          responsavel_perfil?: string
+          updated_at?: string
+          validacao_perfil?: string | null
+        }
+        Relationships: []
+      }
+      ppo_indicadores: {
+        Row: {
+          ativo: boolean
+          cargo_id: string | null
+          created_at: string
+          created_by: string | null
+          critico: boolean
+          descricao: string | null
+          direcao: string
+          fonte_dado: string | null
+          formula: string | null
+          id: string
+          indicador_origem_id: string | null
+          meta: number | null
+          motivo_alteracao: string | null
+          nome: string
+          peso: number | null
+          pilar: number
+          requisito_minimo: boolean
+          responsavel_id: string | null
+          setor_id: string | null
+          unidade: string | null
+          updated_at: string
+          versao: number
+          vigencia_fim: string | null
+          vigencia_inicio: string | null
+        }
+        Insert: {
+          ativo?: boolean
+          cargo_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          critico?: boolean
+          descricao?: string | null
+          direcao?: string
+          fonte_dado?: string | null
+          formula?: string | null
+          id?: string
+          indicador_origem_id?: string | null
+          meta?: number | null
+          motivo_alteracao?: string | null
+          nome: string
+          peso?: number | null
+          pilar: number
+          requisito_minimo?: boolean
+          responsavel_id?: string | null
+          setor_id?: string | null
+          unidade?: string | null
+          updated_at?: string
+          versao?: number
+          vigencia_fim?: string | null
+          vigencia_inicio?: string | null
+        }
+        Update: {
+          ativo?: boolean
+          cargo_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          critico?: boolean
+          descricao?: string | null
+          direcao?: string
+          fonte_dado?: string | null
+          formula?: string | null
+          id?: string
+          indicador_origem_id?: string | null
+          meta?: number | null
+          motivo_alteracao?: string | null
+          nome?: string
+          peso?: number | null
+          pilar?: number
+          requisito_minimo?: boolean
+          responsavel_id?: string | null
+          setor_id?: string | null
+          unidade?: string | null
+          updated_at?: string
+          versao?: number
+          vigencia_fim?: string | null
+          vigencia_inicio?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ppo_indicadores_cargo_id_fkey"
+            columns: ["cargo_id"]
+            isOneToOne: false
+            referencedRelation: "ppo_cargos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ppo_indicadores_responsavel_id_fkey"
+            columns: ["responsavel_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ppo_indicadores_setor_id_fkey"
+            columns: ["setor_id"]
+            isOneToOne: false
+            referencedRelation: "ppo_setores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ppo_melhorias: {
+        Row: {
+          avaliacao_id: string | null
+          colaborador_id: string | null
+          created_at: string
+          created_by: string | null
+          descricao: string
+          encaminhado_melhoria_continua: boolean
+          id: string
+          resultado: string | null
+          status: string
+          tipo: string | null
+          updated_at: string
+        }
+        Insert: {
+          avaliacao_id?: string | null
+          colaborador_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          descricao: string
+          encaminhado_melhoria_continua?: boolean
+          id?: string
+          resultado?: string | null
+          status?: string
+          tipo?: string | null
+          updated_at?: string
+        }
+        Update: {
+          avaliacao_id?: string | null
+          colaborador_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          descricao?: string
+          encaminhado_melhoria_continua?: boolean
+          id?: string
+          resultado?: string | null
+          status?: string
+          tipo?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ppo_melhorias_avaliacao_id_fkey"
+            columns: ["avaliacao_id"]
+            isOneToOne: false
+            referencedRelation: "ppo_avaliacoes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ppo_melhorias_colaborador_id_fkey"
+            columns: ["colaborador_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ppo_ocorrencias: {
+        Row: {
+          analise_lideranca: string | null
+          avaliacao_id: string | null
+          ciclo_id: string | null
+          colaborador_id: string
+          created_at: string
+          created_by: string | null
+          data_ocorrencia: string
+          decidido_em: string | null
+          decidido_por: string | null
+          decisao: string | null
+          descricao: string
+          evidencia_url: string | null
+          id: string
+          impacta_nota: boolean
+          indicador_impactado_id: string | null
+          manifestacao_colaborador: string | null
+          manifestacao_em: string | null
+          prazo_manifestacao: string | null
+          status: string
+          tipo: string
+          updated_at: string
+        }
+        Insert: {
+          analise_lideranca?: string | null
+          avaliacao_id?: string | null
+          ciclo_id?: string | null
+          colaborador_id: string
+          created_at?: string
+          created_by?: string | null
+          data_ocorrencia?: string
+          decidido_em?: string | null
+          decidido_por?: string | null
+          decisao?: string | null
+          descricao: string
+          evidencia_url?: string | null
+          id?: string
+          impacta_nota?: boolean
+          indicador_impactado_id?: string | null
+          manifestacao_colaborador?: string | null
+          manifestacao_em?: string | null
+          prazo_manifestacao?: string | null
+          status?: string
+          tipo: string
+          updated_at?: string
+        }
+        Update: {
+          analise_lideranca?: string | null
+          avaliacao_id?: string | null
+          ciclo_id?: string | null
+          colaborador_id?: string
+          created_at?: string
+          created_by?: string | null
+          data_ocorrencia?: string
+          decidido_em?: string | null
+          decidido_por?: string | null
+          decisao?: string | null
+          descricao?: string
+          evidencia_url?: string | null
+          id?: string
+          impacta_nota?: boolean
+          indicador_impactado_id?: string | null
+          manifestacao_colaborador?: string | null
+          manifestacao_em?: string | null
+          prazo_manifestacao?: string | null
+          status?: string
+          tipo?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ppo_ocorrencias_avaliacao_id_fkey"
+            columns: ["avaliacao_id"]
+            isOneToOne: false
+            referencedRelation: "ppo_avaliacoes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ppo_ocorrencias_ciclo_id_fkey"
+            columns: ["ciclo_id"]
+            isOneToOne: false
+            referencedRelation: "ppo_ciclos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ppo_ocorrencias_colaborador_id_fkey"
+            columns: ["colaborador_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ppo_ocorrencias_indicador_impactado_id_fkey"
+            columns: ["indicador_impactado_id"]
+            isOneToOne: false
+            referencedRelation: "ppo_indicadores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ppo_operacional_avaliacoes: {
         Row: {
           created_at: string
           criado_por: string
@@ -455,7 +1376,7 @@ export type Database = {
         }
         Relationships: []
       }
-      ppo_itens: {
+      ppo_operacional_itens: {
         Row: {
           created_at: string
           criterios: Json
@@ -497,7 +1418,269 @@ export type Database = {
             foreignKeyName: "ppo_itens_ppo_id_fkey"
             columns: ["ppo_id"]
             isOneToOne: false
-            referencedRelation: "ppo_avaliacoes"
+            referencedRelation: "ppo_operacional_avaliacoes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ppo_pesos_pilar: {
+        Row: {
+          aprovado_em: string | null
+          aprovado_por: string | null
+          cargo_id: string | null
+          ciclo_id: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          justificativa: string | null
+          p1: number
+          p2: number
+          p3: number
+          p4: number
+          padrao: boolean
+          setor_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          aprovado_em?: string | null
+          aprovado_por?: string | null
+          cargo_id?: string | null
+          ciclo_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          justificativa?: string | null
+          p1?: number
+          p2?: number
+          p3?: number
+          p4?: number
+          padrao?: boolean
+          setor_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          aprovado_em?: string | null
+          aprovado_por?: string | null
+          cargo_id?: string | null
+          ciclo_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          justificativa?: string | null
+          p1?: number
+          p2?: number
+          p3?: number
+          p4?: number
+          padrao?: boolean
+          setor_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ppo_pesos_pilar_cargo_id_fkey"
+            columns: ["cargo_id"]
+            isOneToOne: false
+            referencedRelation: "ppo_cargos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ppo_pesos_pilar_ciclo_id_fkey"
+            columns: ["ciclo_id"]
+            isOneToOne: false
+            referencedRelation: "ppo_ciclos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ppo_pesos_pilar_setor_id_fkey"
+            columns: ["setor_id"]
+            isOneToOne: false
+            referencedRelation: "ppo_setores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ppo_plano_acao: {
+        Row: {
+          acao: string
+          created_at: string
+          feedback_id: string
+          id: string
+          prazo: string | null
+          responsavel_id: string | null
+          responsavel_nome: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          acao: string
+          created_at?: string
+          feedback_id: string
+          id?: string
+          prazo?: string | null
+          responsavel_id?: string | null
+          responsavel_nome?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          acao?: string
+          created_at?: string
+          feedback_id?: string
+          id?: string
+          prazo?: string | null
+          responsavel_id?: string | null
+          responsavel_nome?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ppo_plano_acao_feedback_id_fkey"
+            columns: ["feedback_id"]
+            isOneToOne: false
+            referencedRelation: "ppo_feedbacks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ppo_plano_acao_responsavel_id_fkey"
+            columns: ["responsavel_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ppo_setores: {
+        Row: {
+          ativo: boolean
+          created_at: string
+          created_by: string | null
+          id: string
+          nome: string
+          updated_at: string
+        }
+        Insert: {
+          ativo?: boolean
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          nome: string
+          updated_at?: string
+        }
+        Update: {
+          ativo?: boolean
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          nome?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      ppo_sla: {
+        Row: {
+          ativo: boolean
+          created_at: string
+          created_by: string | null
+          id: string
+          indicador_id: string | null
+          indicador_texto: string | null
+          processo: string
+          setor_id: string | null
+          setor_nome: string | null
+          sla_unidade: string | null
+          sla_valor: string
+          updated_at: string
+        }
+        Insert: {
+          ativo?: boolean
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          indicador_id?: string | null
+          indicador_texto?: string | null
+          processo: string
+          setor_id?: string | null
+          setor_nome?: string | null
+          sla_unidade?: string | null
+          sla_valor: string
+          updated_at?: string
+        }
+        Update: {
+          ativo?: boolean
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          indicador_id?: string | null
+          indicador_texto?: string | null
+          processo?: string
+          setor_id?: string | null
+          setor_nome?: string | null
+          sla_unidade?: string | null
+          sla_valor?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ppo_sla_indicador_id_fkey"
+            columns: ["indicador_id"]
+            isOneToOne: false
+            referencedRelation: "ppo_indicadores"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ppo_sla_setor_id_fkey"
+            columns: ["setor_id"]
+            isOneToOne: false
+            referencedRelation: "ppo_setores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ppo_termos_ciencia: {
+        Row: {
+          aceito_em: string
+          ciclo_id: string
+          colaborador_id: string
+          created_at: string
+          id: string
+          ip: string | null
+          texto_versao: string
+          updated_at: string
+        }
+        Insert: {
+          aceito_em?: string
+          ciclo_id: string
+          colaborador_id: string
+          created_at?: string
+          id?: string
+          ip?: string | null
+          texto_versao?: string
+          updated_at?: string
+        }
+        Update: {
+          aceito_em?: string
+          ciclo_id?: string
+          colaborador_id?: string
+          created_at?: string
+          id?: string
+          ip?: string | null
+          texto_versao?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ppo_termos_ciencia_ciclo_id_fkey"
+            columns: ["ciclo_id"]
+            isOneToOne: false
+            referencedRelation: "ppo_ciclos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ppo_termos_ciencia_colaborador_id_fkey"
+            columns: ["colaborador_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -1122,6 +2305,18 @@ export type Database = {
         Args: { _approver: string; _solicitante: string }
         Returns: boolean
       }
+      fn_calcular_avaliacao: {
+        Args: { _avaliacao_id: string }
+        Returns: undefined
+      }
+      fn_converter_nota: {
+        Args: { _indicador_id: string; _valor: number }
+        Returns: number
+      }
+      fn_prazo_contestacao: {
+        Args: { _data_comunicacao: string; _dias?: number }
+        Returns: string
+      }
       get_user_max_level: { Args: { _user_id: string }; Returns: number }
       has_role: {
         Args: {
@@ -1133,6 +2328,18 @@ export type Database = {
       is_admin_or_higher: { Args: { _user_id: string }; Returns: boolean }
       is_dp_or_higher: { Args: { _user_id: string }; Returns: boolean }
       is_gestor_or_higher: { Args: { _user_id: string }; Returns: boolean }
+      ppo_can_admin: { Args: { _user_id: string }; Returns: boolean }
+      ppo_can_read_param: { Args: { _user_id: string }; Returns: boolean }
+      ppo_is_auditor: { Args: { _user_id: string }; Returns: boolean }
+      ppo_is_gerencia: { Args: { _user_id: string }; Returns: boolean }
+      ppo_is_gestor_da_avaliacao: {
+        Args: { _avaliacao_id: string }
+        Returns: boolean
+      }
+      ppo_is_lideranca: { Args: { _user_id: string }; Returns: boolean }
+      ppo_is_owner: { Args: { _colaborador_id: string }; Returns: boolean }
+      ppo_is_rh: { Args: { _user_id: string }; Returns: boolean }
+      ppo_is_sesmt: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
       app_role:
@@ -1145,6 +2352,11 @@ export type Database = {
         | "supervisor"
         | "coordenador"
         | "encarregado"
+        | "rh"
+        | "sesmt"
+        | "sgi"
+        | "juridico"
+        | "diretoria"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1282,6 +2494,11 @@ export const Constants = {
         "supervisor",
         "coordenador",
         "encarregado",
+        "rh",
+        "sesmt",
+        "sgi",
+        "juridico",
+        "diretoria",
       ],
     },
   },

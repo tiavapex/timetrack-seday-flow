@@ -346,6 +346,48 @@ export default function AvaliarSimples() {
             </CardContent>
           </Card>
 
+          {semReconhecimento.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle>3. Colaboradores sem reconhecimento</CardTitle>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Explique o motivo de não ter atingido a faixa de reconhecimento e marque se o
+                  colaborador está ciente do motivo.
+                </p>
+              </CardHeader>
+              <CardContent className="space-y-5">
+                {semReconhecimento.map((id) => {
+                  const c = colaboradores.find((x) => x.id === id);
+                  return (
+                    <div key={id} className="space-y-2 rounded-md border p-3">
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <p className="text-sm font-medium">{c?.nome}</p>
+                        <Badge variant="outline">
+                          Nota {resultadoDe(id).final.toFixed(2)} — sem reconhecimento
+                        </Badge>
+                      </div>
+                      <Label className="text-xs">Observação (obrigatória)</Label>
+                      <Textarea
+                        rows={3}
+                        placeholder="Motivo de não ter atingido o reconhecimento"
+                        value={obs[id] || ""}
+                        onChange={(e) => setObs((p) => ({ ...p, [id]: e.target.value }))}
+                      />
+                      <label className="flex cursor-pointer items-center gap-2 text-sm">
+                        <Checkbox
+                          checked={!!ciente[id]}
+                          onCheckedChange={(v) => setCiente((p) => ({ ...p, [id]: !!v }))}
+                        />
+                        Colaborador está ciente do motivo
+                      </label>
+                    </div>
+                  );
+                })}
+              </CardContent>
+            </Card>
+          )}
+
+
           <div className="flex justify-end gap-2">
             <Button variant="outline" onClick={() => setSelecionados([])}>
               Limpar seleção

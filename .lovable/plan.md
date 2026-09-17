@@ -1,61 +1,65 @@
-# Módulo ASE — Autorização de Serviços Extraordinários
+# Módulo PPO — reconstrução conforme PO-ADM-03 rev. 01
 
-Cria um módulo independente para emitir, aprovar e exportar ASEs no padrão da planilha enviada.
+## Diagnóstico do que existe hoje
 
-## O que será criado
+O módulo PPO atual é um **checklist operacional**, não o programa administrativo do procedimento:
 
-### 1. Banco de dados (Lovable Cloud)
-Duas novas tabelas:
+- 3 "pilares" fixos no código (RH/Administrativo, Produção/Manutenção, Segurança), com critérios e pesos escritos no arquivo `ppo-criterios.ts` — não configuráveis.
+- Uma avaliação = uma planilha com várias pessoas em linhas, marcando "ok / não ok" por critério.
+- Duas tabelas no banco: `ppo_avaliacoes` e `ppo_itens` (critérios em JSON).
+- Telas: lista, formulário, detalhe, exportação PDF/Excel.
+- Status simples: rascunho / pendente / aprovado / reprovado. Sem ciclos, sem indicadores, sem evidências, sem contestação, sem auditoria, sem portal do colaborador.
 
-- **`ases`** — cabeçalho da autorização
-  - `periodo_data`, `cliente`, `centro_custo` (605 Matriz / 607 Empilhadeiras / 609 Transportes)
-  - `responsavel`, `lider_gestor`, `setor` (ADM / Empilhadeira / Transporte / Outro + texto livre)
-  - `horario_inicio`, `horario_fim`
-  - `atividades` (texto), `observacao` (texto)
-  - `status` (rascunho / pendente / aprovada / reprovada / lancada)
-  - `criado_por`, `aprovado_por`, `aprovado_em`, `lancado_por`, `lancado_em`
-  - Timestamps padrão
+## O que falta (tudo o que o procedimento exige)
 
-- **`ase_colaboradores`** — linhas de colaboradores na ASE
-  - `ase_id`, `user_id` (referência ao profile), `escala_sim` (bool), `numero`, `vt` (bool), `alimentacao` (bool)
-  - Matrícula, nome e cargo são lidos do profile (snapshot opcional para manter histórico)
+Ciclos anuais e data de corte · matriz de indicadores por cargo/setor com fórmula, meta, peso, fonte e responsável · faixas de conversão para nota 0–100 · matriz de SLA · pesos por pilar configuráveis (50/25/15/10) · cálculo da nota final e faixa de reconhecimento · elegibilidade e barreiras · proporcionalidade · evidência obrigatória por indicador · fluxo liderança → gerência → RH/DP · ocorrências com manifestação do colaborador · termo de ciência · contestação em 3 dias úteis · feedback e plano de ação · portal individual do colaborador · dashboard de indicadores do programa · trilha de auditoria · perfis de acesso (SESMT, SGI, Jurídico, Diretoria) · textos legais obrigatórios · restrição total de dados de saúde.
 
-RLS conforme regras de permissão abaixo, com GRANTs em `authenticated` e `service_role`.
+## Como vou tratar o módulo atual
 
-### 2. Permissões
-- **Supervisor**: cria ASE para o líder dele e para a equipe.
-- **Líder**: cria ASE apenas para a própria equipe.
-- **Gestor / Admin / Master**: cria e aprova ASEs para todos.
-- **DP**: visualiza aprovadas e marca como lançadas no ERP.
-- **Colaborador**: vê apenas as ASEs em que aparece como participante.
+O PPO atual e o novo são coisas diferentes. O checklist de Produção/Segurança seguirá funcionando em **"PPO Operacional (legado)"**, sem perder nenhum dado, e o novo programa administrativo nasce em telas próprias sob o mesmo menu PPO. Nada é apagado.
 
-Como hoje só temos os papéis `master`, `admin`, `gestor`, `dp` e `colaborador`, vou tratar:
-- `master` / `admin` / `gestor` → criam e aprovam para todos.
-- `colaborador` → leitura própria.
-- (Supervisor e Líder serão mapeados como `gestor` enquanto não existir esse papel — se desejar criar papéis novos, me avise.)
+## Etapas de entrega
 
-### 3. Telas
-- **`/ase`** — listagem com filtros (período, cliente, status), botão "Nova ASE".
-- **`/ase/nova`** — formulário fiel ao da planilha: cabeçalho, seleção múltipla de colaboradores cadastrados (com matrícula/cargo automáticos), atividades, observação.
-- **`/ase/:id`** — detalhe com ações: Aprovar / Reprovar (gestor+), Revogar, Marcar como lançada no ERP (DP+), Exportar PDF, Exportar XLSX.
-- Item "ASE" adicionado à Sidebar.
+Cada etapa termina em algo utilizável e revisado por você antes da seguinte.
 
-### 4. Exportações
-- **PDF**: layout fiel à planilha (cabeçalho, tabela de colaboradores, atividades, observação, rodapé com a frase de prazo do DP). Gerado via `jspdf` + `jspdf-autotable`.
-- **XLSX**: mesmo conteúdo, gerado via `xlsx` (SheetJS) para download direto.
+**Etapa 1 — Base de dados e regras**
+Todas as tabelas novas (ciclos, cargos/setores, pesos por pilar, indicadores, faixas, SLA, avaliações, itens, ocorrências, barreiras, contestações, feedbacks, plano de ação, termos, melhorias, governança, log de auditoria, feriados), perfis novos (sesmt, sgi, juridico, diretoria), regras de acesso por perfil, cálculo automático da nota, prazo em dias úteis, trilha de auditoria automática e as cargas iniciais (pesos 50/25/15/10, faixas padrão de meta e acuracidade, matriz de governança do Anexo VIII, SLAs modelo de RH/DP, Financeiro, Compras e TI).
+
+**Etapa 2 — Matriz de Indicadores e Matriz de SLA**
+Cadastro por setor/cargo/pilar com fórmula, meta, peso, fonte e responsável; editor de faixas com prévia da escala; bloqueio de indicador incompleto; versionamento com motivo da alteração; importar/exportar CSV e Excel. Validação de soma de pesos = 100%.
+
+**Etapa 3 — Ciclos e Apuração Individual**
+Abertura de ciclo, data de corte, geração automática das avaliações dos elegíveis, tela de apuração com abas por pilar, evidência e fonte obrigatórias, nota convertida automaticamente e painel lateral com nota por pilar, nota final, faixa e percentual em tempo real.
+
+**Etapa 4 — Fluxo de validação e comunicação**
+Enviar para validação, validar (gerência), consolidar (RH/DP), comunicar ao colaborador, encerrar — cada botão liberado apenas para o perfil previsto na matriz de governança. Elegibilidade (6 condições), barreiras com aprovação e proporcionalidade com análise do RH.
+
+**Etapa 5 — Ocorrências**
+Registro com evidência, análise da liderança, manifestação do colaborador e decisão documentada; a ocorrência só pode impactar nota depois de decidida com manifestação registrada.
+
+**Etapa 6 — Colaborador**
+Portal "Meu resultado" (confidencial), termo de ciência com aceite registrado, contestação com contador de 3 dias úteis e recálculo quando deferida, feedback com plano de ação e ciência das duas partes.
+
+**Etapa 7 — Dashboard, relatórios e auditoria**
+Índices de adesão, contestação, revisão, fechamento no prazo e melhorias; gráficos por faixa, por pilar e por setor (nunca ranking individual); relatórios PDF/Excel com cabeçalho PO-ADM-03 rev 01; tela de auditoria com trilha completa para SGI/Diretoria.
+
+**Etapa 8 — Checklist de aderência**
+Documento item a item do procedimento apontando onde cada exigência foi atendida.
+
+## Regras que serão respeitadas sem exceção
+
+- Nenhuma nota sem fonte de dado e evidência anexada.
+- Nenhuma redução automática de percentual por advertência ou suspensão.
+- Cumprir obrigação legal e usar EPI são requisitos mínimos (Sim/Não), separados da contribuição preventiva pontuável.
+- Nenhum dado de saúde: apenas "requisito ocupacional atendido: Sim/Não".
+- Nenhum resultado individual visível a quem não tem perfil para vê-lo.
+- Pesos e faixas sempre vindos do banco, nunca fixos no código.
+- Os quatro textos legais exibidos literalmente nas telas de resultado, termo e comunicação.
+- Registros de apuração nunca excluídos — apenas inativados, com log.
 
 ## Detalhes técnicos
 
-- Migração SQL com as duas tabelas + GRANTs + RLS + policies por papel + triggers `updated_at`.
-- Edge Function não é necessária — todas as operações usam RLS.
-- Tipos `src/integrations/supabase/types.ts` serão regenerados após a migração.
-- Páginas em `src/pages/ASE/` (`ASEList.tsx`, `ASEForm.tsx`, `ASEDetalhe.tsx`) + util `src/lib/ase-export.ts` para PDF/XLSX.
-- Rotas adicionadas em `src/App.tsx`; item no `Sidebar.tsx`.
-- Dependências novas: `jspdf`, `jspdf-autotable`, `xlsx`.
-
-## Fora do escopo (a confirmar depois, se quiser)
-- Criar papéis novos (`supervisor`, `lider`) com hierarquia de equipes.
-- Geração automática de horas extras a partir de uma ASE aprovada.
-- Assinatura digital no PDF.
-
-Confirma esse plano para eu implementar?
+- Banco: novas tabelas `ppo_*` com RLS por perfil via `has_role`, funções `fn_converter_nota`, `fn_calcular_avaliacao` (trigger em itens), `fn_prazo_contestacao` (dias úteis com tabela de feriados) e trigger genérico de auditoria gravando antes/depois em `ppo_auditoria_log`.
+- Evidências em bucket privado do Storage, com política por perfil.
+- Rotas: `/ppo` (dashboard), `/ppo/ciclos`, `/ppo/indicadores`, `/ppo/sla`, `/ppo/avaliacoes/:id`, `/ppo/ocorrencias`, `/ppo/feedback/:id`, `/ppo/termo`, `/ppo/contestacoes`, `/ppo/meu-resultado`, `/ppo/governanca`, `/ppo/auditoria`; o checklist atual passa para `/ppo/operacional`.
+- Cálculo replicado no banco (fonte da verdade) e no cliente (prévia ao vivo), ambos lendo pesos e faixas do banco.

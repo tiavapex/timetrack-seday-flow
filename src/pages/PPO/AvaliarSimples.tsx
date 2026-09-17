@@ -300,6 +300,9 @@ export default function AvaliarSimples() {
                           <TableCell>
                             <Badge variant="secondary">{rotuloFaixa(r.faixa)}</Badge>
                           </TableCell>
+                          <TableCell className="text-center font-medium">
+                            {r.percentual > 0 ? `${r.percentual}%` : "Sem reconhecimento"}
+                          </TableCell>
                         </TableRow>
                       );
                     })}

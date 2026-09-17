@@ -82,7 +82,9 @@ export default function AvaliarSimples() {
     (async () => {
       const { data } = await (supabase as any)
         .from("ppo_avaliacoes")
-        .select("colaborador_id, nota_p1, nota_p2, nota_p3, nota_p4")
+        .select(
+          "colaborador_id, nota_p1, nota_p2, nota_p3, nota_p4, observacao_nao_reconhecimento, colaborador_ciente"
+        )
         .eq("ciclo_id", ciclo.id)
         .eq("ativo", true)
         .in("colaborador_id", selecionados);
@@ -99,6 +101,19 @@ export default function AvaliarSimples() {
               p4: a.nota_p4 != null ? String(a.nota_p4) : "",
             };
         }
+        return next;
+      });
+      setObs((prev) => {
+        const next = { ...prev };
+        for (const a of data)
+          if (next[a.colaborador_id] === undefined)
+            next[a.colaborador_id] = a.observacao_nao_reconhecimento || "";
+        return next;
+      });
+      setCiente((prev) => {
+        const next = { ...prev };
+        for (const a of data)
+          if (next[a.colaborador_id] === undefined) next[a.colaborador_id] = !!a.colaborador_ciente;
         return next;
       });
     })();

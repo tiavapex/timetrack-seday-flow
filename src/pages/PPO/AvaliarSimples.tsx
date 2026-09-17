@@ -141,6 +141,11 @@ export default function AvaliarSimples() {
     return { final, ...faixaReconhecimento(final) };
   };
 
+  const semReconhecimento = selecionados.filter(
+    (id) => CHAVES.every((k) => (notas[id] || VAZIO)[k] !== "") && resultadoDe(id).percentual === 0
+  );
+
+
   const salvar = async () => {
     if (!ciclo) return toast.error("Nenhum ciclo aberto. Fale com o RH.");
     if (selecionados.length === 0) return toast.error("Selecione ao menos um colaborador.");

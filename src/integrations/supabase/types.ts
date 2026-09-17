@@ -559,6 +559,8 @@ export type Database = {
           ativo: boolean
           cargo_id: string | null
           ciclo_id: string
+          colaborador_ciente: boolean
+          colaborador_ciente_em: string | null
           colaborador_id: string
           comunicado_em: string | null
           created_at: string
@@ -581,6 +583,7 @@ export type Database = {
           nota_p2: number | null
           nota_p3: number | null
           nota_p4: number | null
+          observacao_nao_reconhecimento: string | null
           percentual_referencia: number | null
           proporcional: boolean
           proporcional_motivo: string | null
@@ -599,6 +602,8 @@ export type Database = {
           ativo?: boolean
           cargo_id?: string | null
           ciclo_id: string
+          colaborador_ciente?: boolean
+          colaborador_ciente_em?: string | null
           colaborador_id: string
           comunicado_em?: string | null
           created_at?: string
@@ -621,6 +626,7 @@ export type Database = {
           nota_p2?: number | null
           nota_p3?: number | null
           nota_p4?: number | null
+          observacao_nao_reconhecimento?: string | null
           percentual_referencia?: number | null
           proporcional?: boolean
           proporcional_motivo?: string | null
@@ -639,6 +645,8 @@ export type Database = {
           ativo?: boolean
           cargo_id?: string | null
           ciclo_id?: string
+          colaborador_ciente?: boolean
+          colaborador_ciente_em?: string | null
           colaborador_id?: string
           comunicado_em?: string | null
           created_at?: string
@@ -661,6 +669,7 @@ export type Database = {
           nota_p2?: number | null
           nota_p3?: number | null
           nota_p4?: number | null
+          observacao_nao_reconhecimento?: string | null
           percentual_referencia?: number | null
           proporcional?: boolean
           proporcional_motivo?: string | null

@@ -1145,6 +1145,11 @@ export type Database = {
         | "supervisor"
         | "coordenador"
         | "encarregado"
+        | "rh"
+        | "sesmt"
+        | "sgi"
+        | "juridico"
+        | "diretoria"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1282,6 +1287,11 @@ export const Constants = {
         "supervisor",
         "coordenador",
         "encarregado",
+        "rh",
+        "sesmt",
+        "sgi",
+        "juridico",
+        "diretoria",
       ],
     },
   },

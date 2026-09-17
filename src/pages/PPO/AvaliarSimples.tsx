@@ -263,6 +263,10 @@ export default function AvaliarSimples() {
                       ))}
                       <TableHead className="text-center">Nota final</TableHead>
                       <TableHead>Faixa</TableHead>
+                      <TableHead className="text-center text-[11px] leading-tight">
+                        Percentual de referência
+                        <div className="font-normal text-muted-foreground">do reconhecimento</div>
+                      </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>

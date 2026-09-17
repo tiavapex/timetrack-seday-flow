@@ -120,7 +120,7 @@ export default function SLA() {
           <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
         </div>
       ) : (
-        Object.entries(porSetor).map(([setor, itens]) => (
+        Object.entries(porSetor).map(([setor, itens]: [string, any[]]) => (
           <Card key={setor}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-base">

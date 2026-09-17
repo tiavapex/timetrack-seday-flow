@@ -5,6 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Table,
@@ -42,6 +44,8 @@ export default function AvaliarSimples() {
   const [busca, setBusca] = useState("");
   const [selecionados, setSelecionados] = useState<string[]>([]);
   const [notas, setNotas] = useState<Record<string, Notas>>({});
+  const [obs, setObs] = useState<Record<string, string>>({});
+  const [ciente, setCiente] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     (async () => {
@@ -82,7 +86,9 @@ export default function AvaliarSimples() {
     (async () => {
       const { data } = await (supabase as any)
         .from("ppo_avaliacoes")
-        .select("colaborador_id, nota_p1, nota_p2, nota_p3, nota_p4")
+        .select(
+          "colaborador_id, nota_p1, nota_p2, nota_p3, nota_p4, observacao_nao_reconhecimento, colaborador_ciente"
+        )
         .eq("ciclo_id", ciclo.id)
         .eq("ativo", true)
         .in("colaborador_id", selecionados);
@@ -99,6 +105,19 @@ export default function AvaliarSimples() {
               p4: a.nota_p4 != null ? String(a.nota_p4) : "",
             };
         }
+        return next;
+      });
+      setObs((prev) => {
+        const next = { ...prev };
+        for (const a of data)
+          if (next[a.colaborador_id] === undefined)
+            next[a.colaborador_id] = a.observacao_nao_reconhecimento || "";
+        return next;
+      });
+      setCiente((prev) => {
+        const next = { ...prev };
+        for (const a of data)
+          if (next[a.colaborador_id] === undefined) next[a.colaborador_id] = !!a.colaborador_ciente;
         return next;
       });
     })();
@@ -124,6 +143,11 @@ export default function AvaliarSimples() {
     return { final, ...faixaReconhecimento(final) };
   };
 
+  const semReconhecimento = selecionados.filter(
+    (id) => CHAVES.every((k) => (notas[id] || VAZIO)[k] !== "") && resultadoDe(id).percentual === 0
+  );
+
+
   const salvar = async () => {
     if (!ciclo) return toast.error("Nenhum ciclo aberto. Fale com o RH.");
     if (selecionados.length === 0) return toast.error("Selecione ao menos um colaborador.");
@@ -134,6 +158,14 @@ export default function AvaliarSimples() {
       const c = colaboradores.find((x) => x.id === incompleto);
       return toast.error(`Informe a nota dos quatro pilares de ${c?.nome || "todos"}.`);
     }
+    const semObs = semReconhecimento.find((id) => !(obs[id] || "").trim());
+    if (semObs) {
+      const c = colaboradores.find((x) => x.id === semObs);
+      return toast.error(
+        `Preencha a observação do motivo de ${c?.nome || "colaborador"} não atingir o reconhecimento.`
+      );
+    }
+
 
     setSaving(true);
     const { data: existentes } = await (supabase as any)
@@ -161,6 +193,9 @@ export default function AvaliarSimples() {
         percentual_referencia: r.percentual,
         status: "apurada",
         ativo: true,
+        observacao_nao_reconhecimento: r.percentual > 0 ? null : (obs[id] || "").trim() || null,
+        colaborador_ciente: r.percentual > 0 ? false : !!ciente[id],
+        colaborador_ciente_em: r.percentual > 0 || !ciente[id] ? null : new Date().toISOString(),
       };
       const existente = mapa.get(id);
       const { error } = existente
@@ -312,6 +347,48 @@ export default function AvaliarSimples() {
               <p className="mt-3 text-xs text-muted-foreground">{PPO_TEXTOS_LEGAIS.faixas}</p>
             </CardContent>
           </Card>
+
+          {semReconhecimento.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle>3. Colaboradores sem reconhecimento</CardTitle>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Explique o motivo de não ter atingido a faixa de reconhecimento e marque se o
+                  colaborador está ciente do motivo.
+                </p>
+              </CardHeader>
+              <CardContent className="space-y-5">
+                {semReconhecimento.map((id) => {
+                  const c = colaboradores.find((x) => x.id === id);
+                  return (
+                    <div key={id} className="space-y-2 rounded-md border p-3">
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <p className="text-sm font-medium">{c?.nome}</p>
+                        <Badge variant="outline">
+                          Nota {resultadoDe(id).final.toFixed(2)} — sem reconhecimento
+                        </Badge>
+                      </div>
+                      <Label className="text-xs">Observação (obrigatória)</Label>
+                      <Textarea
+                        rows={3}
+                        placeholder="Motivo de não ter atingido o reconhecimento"
+                        value={obs[id] || ""}
+                        onChange={(e) => setObs((p) => ({ ...p, [id]: e.target.value }))}
+                      />
+                      <label className="flex cursor-pointer items-center gap-2 text-sm">
+                        <Checkbox
+                          checked={!!ciente[id]}
+                          onCheckedChange={(v) => setCiente((p) => ({ ...p, [id]: !!v }))}
+                        />
+                        Colaborador está ciente do motivo
+                      </label>
+                    </div>
+                  );
+                })}
+              </CardContent>
+            </Card>
+          )}
+
 
           <div className="flex justify-end gap-2">
             <Button variant="outline" onClick={() => setSelecionados([])}>

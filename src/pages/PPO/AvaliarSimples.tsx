@@ -186,6 +186,9 @@ export default function AvaliarSimples() {
         percentual_referencia: r.percentual,
         status: "apurada",
         ativo: true,
+        observacao_nao_reconhecimento: r.percentual > 0 ? null : (obs[id] || "").trim() || null,
+        colaborador_ciente: r.percentual > 0 ? false : !!ciente[id],
+        colaborador_ciente_em: r.percentual > 0 || !ciente[id] ? null : new Date().toISOString(),
       };
       const existente = mapa.get(id);
       const { error } = existente

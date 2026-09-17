@@ -42,6 +42,8 @@ export default function AvaliarSimples() {
   const [busca, setBusca] = useState("");
   const [selecionados, setSelecionados] = useState<string[]>([]);
   const [notas, setNotas] = useState<Record<string, Notas>>({});
+  const [obs, setObs] = useState<Record<string, string>>({});
+  const [ciente, setCiente] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     (async () => {

@@ -14,23 +14,39 @@ Deno.serve(async (req) => {
   const VPS_API_URL = Deno.env.get("VPS_API_URL");
   const VPS_API_KEY = Deno.env.get("VPS_API_KEY");
 
-  if (!SYNC_SECRET || !VPS_API_URL || !VPS_API_KEY) {
-    return json({ error: "Integração não configurada (VPS_API_URL / VPS_API_KEY / SYNC_SECRET)" }, 500);
+  if (!VPS_API_URL || !VPS_API_KEY) {
+    return json({ error: "Integração não configurada (VPS_API_URL / VPS_API_KEY)" }, 500);
   }
   const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
   const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+  const supabase = createClient(supabaseUrl, serviceKey, { auth: { persistSession: false } });
 
-  // Autorizacao: segredo de servidor (cron) OU usuario autenticado admin/RH
-  let autorizado = req.headers.get("x-sync-secret") === SYNC_SECRET;
-  let quem = "cron";
+  // Autorizacao: segredo de servidor (agendamento) OU usuario autenticado admin/RH
+  const headerSecret = req.headers.get("x-sync-secret");
+  let autorizado = false;
+  let quem = "agendamento";
+
+  if (headerSecret) {
+    if (SYNC_SECRET && headerSecret === SYNC_SECRET) {
+      autorizado = true;
+    } else {
+      const { data: cfg } = await supabase
+        .schema("bronze")
+        .from("sync_config")
+        .select("value")
+        .eq("key", "sync_secret")
+        .maybeSingle();
+      autorizado = !!cfg?.value && cfg.value === headerSecret;
+    }
+  }
+
   if (!autorizado) {
     const authHeader = req.headers.get("Authorization") ?? "";
     if (authHeader.startsWith("Bearer ")) {
-      const admin = createClient(supabaseUrl, serviceKey, { auth: { persistSession: false } });
-      const { data: userData } = await admin.auth.getUser(authHeader.replace("Bearer ", ""));
+      const { data: userData } = await supabase.auth.getUser(authHeader.replace("Bearer ", ""));
       const uid = userData?.user?.id;
       if (uid) {
-        const { data: roles } = await admin.from("user_roles").select("role").eq("user_id", uid);
+        const { data: roles } = await supabase.from("user_roles").select("role").eq("user_id", uid);
         const permitidos = ["master", "admin", "rh", "dp"];
         if ((roles ?? []).some((r: { role: string }) => permitidos.includes(r.role))) {
           autorizado = true;
@@ -39,12 +55,10 @@ Deno.serve(async (req) => {
       }
     }
   }
+
   if (!autorizado) {
     return json({ error: "Não autorizado" }, 401);
   }
-
-
-  const supabase = createClient(supabaseUrl, serviceKey, { auth: { persistSession: false } });
 
   let body: { full?: boolean; triggered_by?: string } = {};
   try {

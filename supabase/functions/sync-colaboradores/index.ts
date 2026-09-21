@@ -80,7 +80,7 @@ Deno.serve(async (req) => {
         source: "vps_fponto",
         entity: "colaboradores",
         status: "running",
-        triggered_by: body.triggered_by ?? (full ? "manual_full" : "manual"),
+        triggered_by: body.triggered_by ?? `${quem}${full ? " (carga completa)" : ""}`,
       })
       .select("id")
       .single();

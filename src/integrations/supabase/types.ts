@@ -2438,54 +2438,6 @@ export type Database = {
         }
         Relationships: []
       }
-      vw_sync_status: {
-        Row: {
-          entity: string | null
-          error_message: string | null
-          extracted_at: string | null
-          finished_at: string | null
-          id: string | null
-          rejeitados: number | null
-          rows_changed: number | null
-          rows_fetched: number | null
-          rows_new: number | null
-          source: string | null
-          started_at: string | null
-          status: string | null
-          triggered_by: string | null
-        }
-        Insert: {
-          entity?: string | null
-          error_message?: string | null
-          extracted_at?: string | null
-          finished_at?: string | null
-          id?: string | null
-          rejeitados?: never
-          rows_changed?: number | null
-          rows_fetched?: number | null
-          rows_new?: number | null
-          source?: string | null
-          started_at?: string | null
-          status?: string | null
-          triggered_by?: string | null
-        }
-        Update: {
-          entity?: string | null
-          error_message?: string | null
-          extracted_at?: string | null
-          finished_at?: string | null
-          id?: string | null
-          rejeitados?: never
-          rows_changed?: number | null
-          rows_fetched?: number | null
-          rows_new?: number | null
-          source?: string | null
-          started_at?: string | null
-          status?: string | null
-          triggered_by?: string | null
-        }
-        Relationships: []
-      }
     }
     Functions: {
       assign_master_role: { Args: { user_email: string }; Returns: undefined }
@@ -2504,6 +2456,24 @@ export type Database = {
       fn_prazo_contestacao: {
         Args: { _data_comunicacao: string; _dias?: number }
         Returns: string
+      }
+      fn_sync_status: {
+        Args: { p_limit?: number }
+        Returns: {
+          entity: string
+          error_message: string
+          extracted_at: string
+          finished_at: string
+          id: string
+          rejeitados: number
+          rows_changed: number
+          rows_fetched: number
+          rows_new: number
+          source: string
+          started_at: string
+          status: string
+          triggered_by: string
+        }[]
       }
       get_user_max_level: { Args: { _user_id: string }; Returns: number }
       has_role: {

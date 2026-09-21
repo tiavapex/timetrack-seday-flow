@@ -44,11 +44,7 @@ Deno.serve(async (req) => {
   }
 
 
-  const supabase = createClient(
-    Deno.env.get("SUPABASE_URL")!,
-    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
-    { auth: { persistSession: false } },
-  );
+  const supabase = createClient(supabaseUrl, serviceKey, { auth: { persistSession: false } });
 
   let body: { full?: boolean; triggered_by?: string } = {};
   try {

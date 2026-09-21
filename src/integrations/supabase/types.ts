@@ -2306,7 +2306,186 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      gold_colaboradores: {
+        Row: {
+          ativo: boolean | null
+          cargo: string | null
+          data_admissao: string | null
+          data_demissao: string | null
+          email: string | null
+          gestor_id: string | null
+          id: string | null
+          matricula: string | null
+          nome: string | null
+          origem_id: string | null
+          setor: string | null
+          sincronizado_em: string | null
+          user_id: string | null
+        }
+        Insert: {
+          ativo?: boolean | null
+          cargo?: string | null
+          data_admissao?: string | null
+          data_demissao?: string | null
+          email?: string | null
+          gestor_id?: string | null
+          id?: string | null
+          matricula?: string | null
+          nome?: string | null
+          origem_id?: string | null
+          setor?: string | null
+          sincronizado_em?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          ativo?: boolean | null
+          cargo?: string | null
+          data_admissao?: string | null
+          data_demissao?: string | null
+          email?: string | null
+          gestor_id?: string | null
+          id?: string | null
+          matricula?: string | null
+          nome?: string | null
+          origem_id?: string | null
+          setor?: string | null
+          sincronizado_em?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      vw_colaboradores_ativos: {
+        Row: {
+          cargo: string | null
+          data_admissao: string | null
+          email: string | null
+          gestor_id: string | null
+          id: string | null
+          matricula: string | null
+          nome: string | null
+          origem_id: string | null
+          setor: string | null
+          sincronizado_em: string | null
+          user_id: string | null
+        }
+        Insert: {
+          cargo?: string | null
+          data_admissao?: string | null
+          email?: string | null
+          gestor_id?: string | null
+          id?: string | null
+          matricula?: string | null
+          nome?: string | null
+          origem_id?: string | null
+          setor?: string | null
+          sincronizado_em?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          cargo?: string | null
+          data_admissao?: string | null
+          email?: string | null
+          gestor_id?: string | null
+          id?: string | null
+          matricula?: string | null
+          nome?: string | null
+          origem_id?: string | null
+          setor?: string | null
+          sincronizado_em?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      vw_minha_equipe: {
+        Row: {
+          ativo: boolean | null
+          cargo: string | null
+          data_admissao: string | null
+          email: string | null
+          gestor_id: string | null
+          id: string | null
+          matricula: string | null
+          nome: string | null
+          origem_id: string | null
+          setor: string | null
+          user_id: string | null
+        }
+        Insert: {
+          ativo?: boolean | null
+          cargo?: string | null
+          data_admissao?: string | null
+          email?: string | null
+          gestor_id?: string | null
+          id?: string | null
+          matricula?: string | null
+          nome?: string | null
+          origem_id?: string | null
+          setor?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          ativo?: boolean | null
+          cargo?: string | null
+          data_admissao?: string | null
+          email?: string | null
+          gestor_id?: string | null
+          id?: string | null
+          matricula?: string | null
+          nome?: string | null
+          origem_id?: string | null
+          setor?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      vw_sync_status: {
+        Row: {
+          entity: string | null
+          error_message: string | null
+          extracted_at: string | null
+          finished_at: string | null
+          id: string | null
+          rejeitados: number | null
+          rows_changed: number | null
+          rows_fetched: number | null
+          rows_new: number | null
+          source: string | null
+          started_at: string | null
+          status: string | null
+          triggered_by: string | null
+        }
+        Insert: {
+          entity?: string | null
+          error_message?: string | null
+          extracted_at?: string | null
+          finished_at?: string | null
+          id?: string | null
+          rejeitados?: never
+          rows_changed?: number | null
+          rows_fetched?: number | null
+          rows_new?: number | null
+          source?: string | null
+          started_at?: string | null
+          status?: string | null
+          triggered_by?: string | null
+        }
+        Update: {
+          entity?: string | null
+          error_message?: string | null
+          extracted_at?: string | null
+          finished_at?: string | null
+          id?: string | null
+          rejeitados?: never
+          rows_changed?: number | null
+          rows_fetched?: number | null
+          rows_new?: number | null
+          source?: string | null
+          started_at?: string | null
+          status?: string | null
+          triggered_by?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       assign_master_role: { Args: { user_email: string }; Returns: undefined }

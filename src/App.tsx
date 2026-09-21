@@ -39,6 +39,8 @@ import PPOAuditoria from "@/pages/PPO/Auditoria";
 import QPList from "@/pages/QP/QPList";
 import QPForm from "@/pages/QP/QPForm";
 import QPDetalhe from "@/pages/QP/QPDetalhe";
+import ColaboradoresVPS from "@/pages/Integracoes/ColaboradoresVPS";
+import VincularColaboradores from "@/pages/Integracoes/VincularColaboradores";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -90,6 +92,8 @@ const App = () => (
               <Route path="/qp" element={<QPList />} />
               <Route path="/qp/nova" element={<QPForm />} />
               <Route path="/qp/:id" element={<QPDetalhe />} />
+              <Route path="/integracoes/colaboradores" element={<ColaboradoresVPS />} />
+              <Route path="/integracoes/vinculos" element={<VincularColaboradores />} />
               <Route path="/relatorios" element={<Dashboard />} />
               <Route path="/configuracoes" element={<Dashboard />} />
             </Route>

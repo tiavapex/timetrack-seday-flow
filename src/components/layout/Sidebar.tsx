@@ -12,6 +12,7 @@ import {
   UserPlus,
   ClipboardList,
   ClipboardPen,
+  PlugZap,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -29,6 +30,7 @@ const navItems = [
   { to: "/ppo", label: "Avaliação PPO", icon: ClipboardList },
   { to: "/qp", label: "QP - Queira Providenciar", icon: ClipboardPen },
   { to: "/departamento-pessoal", label: "Depto. Pessoal", icon: Briefcase },
+  { to: "/integracoes/colaboradores", label: "Integrações", icon: PlugZap },
   { to: "/relatorios", label: "Relatórios", icon: FileText },
   { to: "/configuracoes", label: "Configurações", icon: Settings },
 ];

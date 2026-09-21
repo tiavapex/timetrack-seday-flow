@@ -17,9 +17,32 @@ Deno.serve(async (req) => {
   if (!SYNC_SECRET || !VPS_API_URL || !VPS_API_KEY) {
     return json({ error: "Integração não configurada (VPS_API_URL / VPS_API_KEY / SYNC_SECRET)" }, 500);
   }
-  if (req.headers.get("x-sync-secret") !== SYNC_SECRET) {
+  const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+  const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+
+  // Autorizacao: segredo de servidor (cron) OU usuario autenticado admin/RH
+  let autorizado = req.headers.get("x-sync-secret") === SYNC_SECRET;
+  let quem = "cron";
+  if (!autorizado) {
+    const authHeader = req.headers.get("Authorization") ?? "";
+    if (authHeader.startsWith("Bearer ")) {
+      const admin = createClient(supabaseUrl, serviceKey, { auth: { persistSession: false } });
+      const { data: userData } = await admin.auth.getUser(authHeader.replace("Bearer ", ""));
+      const uid = userData?.user?.id;
+      if (uid) {
+        const { data: roles } = await admin.from("user_roles").select("role").eq("user_id", uid);
+        const permitidos = ["master", "admin", "rh", "dp"];
+        if ((roles ?? []).some((r: { role: string }) => permitidos.includes(r.role))) {
+          autorizado = true;
+          quem = userData!.user!.email ?? uid;
+        }
+      }
+    }
+  }
+  if (!autorizado) {
     return json({ error: "Não autorizado" }, 401);
   }
+
 
   const supabase = createClient(
     Deno.env.get("SUPABASE_URL")!,

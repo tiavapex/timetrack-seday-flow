@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -224,8 +224,8 @@ export default function ColaboradoresVPS() {
                 </TableHeader>
                 <TableBody>
                   {lotes.map((l) => (
-                    <>
-                      <TableRow key={l.id}>
+                    <Fragment key={l.id}>
+                      <TableRow>
                         <TableCell>{dataHora(l.started_at)}</TableCell>
                         <TableCell>{dataHora(l.finished_at)}</TableCell>
                         <TableCell>
@@ -242,13 +242,13 @@ export default function ColaboradoresVPS() {
                         </TableCell>
                       </TableRow>
                       {l.error_message && (
-                        <TableRow key={l.id + "-erro"}>
+                        <TableRow>
                           <TableCell colSpan={8} className="text-sm text-destructive">
                             {l.error_message}
                           </TableCell>
                         </TableRow>
                       )}
-                    </>
+                    </Fragment>
                   ))}
                 </TableBody>
               </Table>

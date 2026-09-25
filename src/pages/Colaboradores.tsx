@@ -53,7 +53,7 @@ interface UserProfile {
   roles: string[];
 }
 
-const CLIENTES = ["Usiminas", "Vale", "MRS", "Matriz"];
+const CLIENTES = ["Usiminas", "Vale", "MRS", "Gerdau", "Matriz"];
 
 
 const roleLabels: Record<string, string> = {

@@ -267,6 +267,7 @@ export default function NovoRegistro() {
                         <SelectItem value="Usiminas">Usiminas</SelectItem>
                         <SelectItem value="Vale">Vale</SelectItem>
                         <SelectItem value="MRS">MRS</SelectItem>
+                        <SelectItem value="Gerdau">Gerdau</SelectItem>
                         <SelectItem value="Matriz">Matriz</SelectItem>
                       </SelectContent>
                     </Select>

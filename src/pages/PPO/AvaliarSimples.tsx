@@ -159,6 +159,16 @@ export default function AvaliarSimples() {
       const c = colaboradores.find((x) => x.id === incompleto);
       return toast.error(`Informe a nota dos quatro pilares de ${c?.nome || "todos"}.`);
     }
+    const foraFaixa = selecionados.find((id) =>
+      CHAVES.some((k) => {
+        const v = Number((notas[id] || VAZIO)[k]);
+        return isNaN(v) || v < 0 || v > 100;
+      })
+    );
+    if (foraFaixa) {
+      const c = colaboradores.find((x) => x.id === foraFaixa);
+      return toast.error(`As notas de ${c?.nome || "colaborador"} devem estar entre 0 e 100.`);
+    }
     const semObs = semReconhecimento.find((id) => !(obs[id] || "").trim());
     if (semObs) {
       const c = colaboradores.find((x) => x.id === semObs);
@@ -192,7 +202,7 @@ export default function AvaliarSimples() {
         nota_final: r.final,
         faixa: r.faixa,
         percentual_referencia: r.percentual,
-        status: "apurada",
+        status: "aguardando_validacao",
         ativo: true,
         observacao_nao_reconhecimento: r.percentual > 0 ? null : (obs[id] || "").trim() || null,
         colaborador_ciente: r.percentual > 0 ? false : !!ciente[id],

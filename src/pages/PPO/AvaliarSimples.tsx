@@ -61,7 +61,7 @@ export default function AvaliarSimples() {
           .from("profiles")
           .select("id, nome, matricula, cargo, setor")
           .eq("ativo", true)
-          .eq("cliente", "MRS")
+          .eq("cliente", "Gerdau")
           .order("nome"),
       ]);
       setCiclo(cy.data?.[0] || null);

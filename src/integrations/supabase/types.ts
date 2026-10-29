@@ -434,6 +434,56 @@ export type Database = {
         }
         Relationships: []
       }
+      ppc_avaliacoes: {
+        Row: {
+          adm: Json
+          colaborador_id: string
+          created_at: string
+          criado_por: string
+          id: string
+          observacao: string | null
+          periodo_fim: string
+          periodo_inicio: string
+          pts_operacao: number
+          pts_seguranca: number
+          updated_at: string
+        }
+        Insert: {
+          adm?: Json
+          colaborador_id: string
+          created_at?: string
+          criado_por?: string
+          id?: string
+          observacao?: string | null
+          periodo_fim: string
+          periodo_inicio: string
+          pts_operacao?: number
+          pts_seguranca?: number
+          updated_at?: string
+        }
+        Update: {
+          adm?: Json
+          colaborador_id?: string
+          created_at?: string
+          criado_por?: string
+          id?: string
+          observacao?: string | null
+          periodo_fim?: string
+          periodo_inicio?: string
+          pts_operacao?: number
+          pts_seguranca?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ppc_avaliacoes_colaborador_id_fkey"
+            columns: ["colaborador_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       ppo_auditoria_log: {
         Row: {
           acao: string

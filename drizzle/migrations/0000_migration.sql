@@ -1,0 +1,2 @@
+ALTER TABLE public.ppo_avaliacoes DROP CONSTRAINT IF EXISTS ppo_avaliacoes_status_check;
+ALTER TABLE public.ppo_avaliacoes ADD CONSTRAINT ppo_avaliacoes_status_check CHECK (status = ANY (ARRAY['rascunho','em_apuracao','aguardando_gestor','aguardando_validacao','validada','comunicada','em_contestacao','encerrada']));

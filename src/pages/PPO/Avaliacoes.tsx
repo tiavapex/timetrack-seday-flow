@@ -21,16 +21,25 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Loader2, Eye } from "lucide-react";
+import { Loader2, Eye, Check, X } from "lucide-react";
 import { toast } from "sonner";
 import { STATUS_AVALIACAO, fmtNota, rotuloFaixa } from "@/lib/ppo";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Avaliacoes() {
+  const { isGestor } = useAuth();
   const [rows, setRows] = useState<any[]>([]);
   const [ciclos, setCiclos] = useState<any[]>([]);
   const [ciclo, setCiclo] = useState("todos");
   const [busca, setBusca] = useState("");
   const [loading, setLoading] = useState(true);
+
+  const decidir = async (id: string, status: string) => {
+    const { error } = await (supabase as any).from("ppo_avaliacoes").update({ status }).eq("id", id);
+    if (error) return toast.error("Erro: " + error.message);
+    setRows((p) => p.map((r) => (r.id === id ? { ...r, status } : r)));
+    toast.success(status === "rascunho" ? "Avaliação devolvida ao supervisor." : "Avaliação aprovada e enviada ao RH.");
+  };
 
   useEffect(() => {
     (async () => {
@@ -132,7 +141,17 @@ export default function Avaliacoes() {
                       <TableCell>
                         {r.elegivel === false ? "Inelegível" : rotuloFaixa(r.faixa)}
                       </TableCell>
-                      <TableCell className="text-right">
+                      <TableCell className="space-x-2 text-right">
+                        {r.status === "aguardando_gestor" && isGestor && (
+                          <>
+                            <Button size="sm" onClick={() => decidir(r.id, "aguardando_validacao")}>
+                              <Check className="mr-1 h-4 w-4" /> Aprovar
+                            </Button>
+                            <Button size="sm" variant="destructive" onClick={() => decidir(r.id, "rascunho")}>
+                              <X className="mr-1 h-4 w-4" /> Devolver
+                            </Button>
+                          </>
+                        )}
                         <Button asChild size="sm" variant="outline">
                           <Link to={`/ppo/avaliacoes/${r.id}`}>
                             <Eye className="mr-1 h-4 w-4" /> Abrir

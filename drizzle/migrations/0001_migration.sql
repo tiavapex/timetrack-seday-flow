@@ -1,0 +1,1 @@
+CREATE POLICY "aval criacao lideranca" ON public.ppo_avaliacoes FOR INSERT TO authenticated WITH CHECK (public.ppo_is_lideranca(auth.uid()) AND status = 'aguardando_gestor');

@@ -202,7 +202,7 @@ export default function AvaliarSimples() {
         nota_final: r.final,
         faixa: r.faixa,
         percentual_referencia: r.percentual,
-        status: "aguardando_validacao",
+        status: isGestor || isRh ? "aguardando_validacao" : "aguardando_gestor",
         ativo: true,
         observacao_nao_reconhecimento: r.percentual > 0 ? null : (obs[id] || "").trim() || null,
         colaborador_ciente: r.percentual > 0 ? false : !!ciente[id],

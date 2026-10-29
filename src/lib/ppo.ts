@@ -123,6 +123,7 @@ export const STATUS_OCORRENCIA = [
 export const STATUS_AVALIACAO: Record<string, string> = {
   rascunho: "Rascunho",
   em_apuracao: "Em apuração",
+  aguardando_gestor: "Aguardando gestor do contrato",
   aguardando_validacao: "Aguardando validação",
   validada: "Validada",
   comunicada: "Comunicada",

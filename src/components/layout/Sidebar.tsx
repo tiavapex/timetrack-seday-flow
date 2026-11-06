@@ -15,6 +15,8 @@ import {
   PlugZap,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/useAuth";
+import { moduloDaRota } from "@/lib/permissoes";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -32,10 +34,11 @@ const navItems = [
   { to: "/departamento-pessoal", label: "Depto. Pessoal", icon: Briefcase },
   { to: "/integracoes/colaboradores", label: "Integrações", icon: PlugZap },
   { to: "/relatorios", label: "Relatórios", icon: FileText },
-  { to: "/configuracoes", label: "Configurações", icon: Settings },
+  { to: "/usuarios", label: "Gestão de Usuários", icon: Settings },
 ];
 
 export function Sidebar({ isOpen, onClose }: SidebarProps) {
+  const { canAccess } = useAuth();
   return (
     <>
       {/* Overlay for mobile */}
@@ -77,7 +80,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
         </div>
 
         <nav className="flex flex-col gap-1 p-4">
-          {navItems.map((item) => (
+          {navItems.filter(item => { const m = moduloDaRota(item.to); return !m || canAccess(m); }).map((item) => (
             <NavLink
               key={item.to}
               to={item.to}

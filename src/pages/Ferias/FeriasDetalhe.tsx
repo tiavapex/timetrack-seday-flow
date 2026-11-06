@@ -89,22 +89,24 @@ export default function FeriasDetalhe() {
   };
 
   const aprovar = async () => {
+    if (!user) return;
     if (await update({
       status: "aprovada",
-      aprovado_por: user!.id,
+      aprovado_por: user.id,
       aprovado_em: new Date().toISOString(),
       reprovado_motivo: null,
     })) toast.success("Solicitação aprovada");
   };
 
   const reprovar = async () => {
+    if (!user) return;
     if (!reproveMotivo.trim()) {
       toast.error("Informe o motivo");
       return;
     }
     if (await update({
       status: "reprovada",
-      aprovado_por: user!.id,
+      aprovado_por: user.id,
       aprovado_em: new Date().toISOString(),
       reprovado_motivo: reproveMotivo,
     })) {
@@ -127,10 +129,11 @@ export default function FeriasDetalhe() {
   };
 
   const lancarERP = async () => {
+    if (!user) return;
     if (await update({
       status: "lancada",
       lancado_erp: true,
-      lancado_por: user!.id,
+      lancado_por: user.id,
       lancado_em: new Date().toISOString(),
     })) toast.success("Marcada como lançada no ERP");
   };

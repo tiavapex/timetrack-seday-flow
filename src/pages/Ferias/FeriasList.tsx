@@ -36,7 +36,7 @@ const STATUS_VARIANT: Record<string, "default" | "secondary" | "destructive" | "
 };
 
 export default function FeriasList() {
-  const { user } = useAuth();
+  const { user, canRequest } = useAuth();
   const [rows, setRows] = useState<Ferias[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -74,7 +74,7 @@ export default function FeriasList() {
             Solicite, aprove e exporte os pedidos de férias
           </p>
         </div>
-        {user && (
+        {user && canRequest && (
           <Button asChild>
             <Link to="/ferias/nova">
               <Plus className="mr-2 h-4 w-4" /> Nova solicitação

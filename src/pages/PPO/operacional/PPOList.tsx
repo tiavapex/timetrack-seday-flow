@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -35,6 +36,7 @@ const STATUS_VARIANT: Record<string, "default" | "secondary" | "destructive" | "
 };
 
 export default function PPOList() {
+  const { canRequest } = useAuth();
   const [rows, setRows] = useState<PPO[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -67,11 +69,11 @@ export default function PPOList() {
             Programa de Participação por Objetivos — Pilares 1, 2 e 3
           </p>
         </div>
-        <Button asChild>
+        {canRequest && <Button asChild>
           <Link to="/ppo/operacional/nova">
             <Plus className="mr-2 h-4 w-4" /> Nova Avaliação
           </Link>
-        </Button>
+        </Button>}
       </div>
 
       <Card>

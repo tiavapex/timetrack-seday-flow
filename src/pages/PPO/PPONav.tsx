@@ -3,16 +3,16 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
 
 export function PPONav() {
-  const { isRh, isLideranca, isAuditor, podeAdminPPO, isSesmt } = useAuth();
+  const { isRh, isLideranca, isAuditor, podeAdminPPO, isSesmt, isAdmin, roles } = useAuth();
 
   const itens = [
     { to: "/ppo", label: "Painel", show: true, end: true },
-    { to: "/ppo/avaliar", label: "Avaliar colaborador", show: isLideranca || isRh },
-    { to: "/ppo/ppc-motoristas", label: "PPC Motoristas", show: isLideranca || isRh || isSesmt },
+    { to: "/ppo/avaliar", label: "Avaliar colaborador", show: isLideranca },
+    { to: "/ppo/ppc-motoristas", label: "PPC Motoristas", show: isLideranca || isRh || isSesmt, isAdmin, roles },
     { to: "/ppo/ppo-motoristas", label: "PPO Motoristas", show: isLideranca || isRh },
     { to: "/ppo/meu-resultado", label: "Meu resultado", show: true },
     { to: "/ppo/avaliacoes", label: "Apuração detalhada", show: isLideranca || isRh || isAuditor },
-    { to: "/ppo/ciclos", label: "Ciclos", show: podeAdminPPO },
+    { to: "/ppo/ciclos", label: "Ciclos", show: podeAdminPPO && (!roles.includes("dp") || isAdmin) },
     { to: "/ppo/indicadores", label: "Indicadores", show: true },
     { to: "/ppo/sla", label: "SLA", show: true },
     { to: "/ppo/ocorrencias", label: "Ocorrências", show: true },

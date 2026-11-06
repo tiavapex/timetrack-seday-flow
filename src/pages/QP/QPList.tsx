@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -40,6 +41,7 @@ function tipos(r: any) {
 }
 
 export default function QPList() {
+  const { canRequest } = useAuth();
   const [rows, setRows] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -72,11 +74,11 @@ export default function QPList() {
             Solicitações administrativas e de pessoal
           </p>
         </div>
-        <Button asChild>
+        {canRequest && <Button asChild>
           <Link to="/qp/nova">
             <Plus className="mr-2 h-4 w-4" /> Nova QP
           </Link>
-        </Button>
+        </Button>}
       </div>
 
       <Card>

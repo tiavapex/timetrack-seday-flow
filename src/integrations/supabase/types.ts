@@ -283,6 +283,7 @@ export type Database = {
           aprovado_por: string | null
           cargo: string | null
           centro_custo: string
+          colaborador_id: string | null
           colaborador_nome: string
           created_at: string
           criado_por: string
@@ -310,6 +311,7 @@ export type Database = {
           aprovado_por?: string | null
           cargo?: string | null
           centro_custo: string
+          colaborador_id?: string | null
           colaborador_nome: string
           created_at?: string
           criado_por: string
@@ -337,6 +339,7 @@ export type Database = {
           aprovado_por?: string | null
           cargo?: string | null
           centro_custo?: string
+          colaborador_id?: string | null
           colaborador_nome?: string
           created_at?: string
           criado_por?: string
@@ -357,14 +360,24 @@ export type Database = {
           updated_at?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "ferias_solicitacoes_colaborador_id_fkey"
+            columns: ["colaborador_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       horas_extras: {
         Row: {
           aprovado_em: string | null
           aprovado_por: string | null
+          colaborador_id: string | null
           colaborador_nome: string
           created_at: string
+          criado_por: string | null
           data: string
           empresa: string
           hora_fim: string
@@ -387,8 +400,10 @@ export type Database = {
         Insert: {
           aprovado_em?: string | null
           aprovado_por?: string | null
+          colaborador_id?: string | null
           colaborador_nome: string
           created_at?: string
+          criado_por?: string | null
           data: string
           empresa: string
           hora_fim: string
@@ -411,8 +426,10 @@ export type Database = {
         Update: {
           aprovado_em?: string | null
           aprovado_por?: string | null
+          colaborador_id?: string | null
           colaborador_nome?: string
           created_at?: string
+          criado_por?: string | null
           data?: string
           empresa?: string
           hora_fim?: string
@@ -432,11 +449,21 @@ export type Database = {
           updated_at?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "horas_extras_colaborador_id_fkey"
+            columns: ["colaborador_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       ppc_avaliacoes: {
         Row: {
           adm: Json
+          aprovado_em: string | null
+          aprovado_por: string | null
           colaborador_id: string
           created_at: string
           criado_por: string
@@ -448,10 +475,13 @@ export type Database = {
           pts_operacao: number
           pts_seguranca: number
           seguranca_itens: Json | null
+          status: string
           updated_at: string
         }
         Insert: {
           adm?: Json
+          aprovado_em?: string | null
+          aprovado_por?: string | null
           colaborador_id: string
           created_at?: string
           criado_por?: string
@@ -463,10 +493,13 @@ export type Database = {
           pts_operacao?: number
           pts_seguranca?: number
           seguranca_itens?: Json | null
+          status?: string
           updated_at?: string
         }
         Update: {
           adm?: Json
+          aprovado_em?: string | null
+          aprovado_por?: string | null
           colaborador_id?: string
           created_at?: string
           criado_por?: string
@@ -478,6 +511,7 @@ export type Database = {
           pts_operacao?: number
           pts_seguranca?: number
           seguranca_itens?: Json | null
+          status?: string
           updated_at?: string
         }
         Relationships: [
@@ -1300,6 +1334,8 @@ export type Database = {
       }
       ppo_motoristas_turnos: {
         Row: {
+          aprovado_em: string | null
+          aprovado_por: string | null
           colaborador_id: string
           created_at: string
           criado_por: string
@@ -1307,12 +1343,15 @@ export type Database = {
           id: string
           meias_viagens: number
           observacao: string | null
+          status: string
           tara: boolean
           turno: string
           updated_at: string
           viagens: number
         }
         Insert: {
+          aprovado_em?: string | null
+          aprovado_por?: string | null
           colaborador_id: string
           created_at?: string
           criado_por?: string
@@ -1320,12 +1359,15 @@ export type Database = {
           id?: string
           meias_viagens?: number
           observacao?: string | null
+          status?: string
           tara?: boolean
           turno: string
           updated_at?: string
           viagens?: number
         }
         Update: {
+          aprovado_em?: string | null
+          aprovado_por?: string | null
           colaborador_id?: string
           created_at?: string
           criado_por?: string
@@ -1333,6 +1375,7 @@ export type Database = {
           id?: string
           meias_viagens?: number
           observacao?: string | null
+          status?: string
           tara?: boolean
           turno?: string
           updated_at?: string
@@ -1879,6 +1922,8 @@ export type Database = {
           aprov_encarregado_data: string | null
           aprov_responsavel: string | null
           aprov_responsavel_data: string | null
+          aprovado_em: string | null
+          aprovado_por: string | null
           area: string | null
           ben_ad_funcao: boolean
           ben_ad_funcao_valor: string | null
@@ -1943,6 +1988,8 @@ export type Database = {
           aprov_encarregado_data?: string | null
           aprov_responsavel?: string | null
           aprov_responsavel_data?: string | null
+          aprovado_em?: string | null
+          aprovado_por?: string | null
           area?: string | null
           ben_ad_funcao?: boolean
           ben_ad_funcao_valor?: string | null
@@ -2007,6 +2054,8 @@ export type Database = {
           aprov_encarregado_data?: string | null
           aprov_responsavel?: string | null
           aprov_responsavel_data?: string | null
+          aprovado_em?: string | null
+          aprovado_por?: string | null
           area?: string | null
           ben_ad_funcao?: boolean
           ben_ad_funcao_valor?: string | null
@@ -2063,6 +2112,38 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      user_module_permissions: {
+        Row: {
+          enabled: boolean
+          module: string
+          updated_at: string
+          updated_by: string | null
+          user_id: string
+        }
+        Insert: {
+          enabled: boolean
+          module: string
+          updated_at?: string
+          updated_by?: string | null
+          user_id: string
+        }
+        Update: {
+          enabled?: boolean
+          module?: string
+          updated_at?: string
+          updated_by?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_module_permissions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
@@ -2206,6 +2287,8 @@ export type Database = {
           aprov_diretoria: string | null
           aprov_gestor_processo: string | null
           aprov_gestor_rh: string | null
+          aprovado_em: string | null
+          aprovado_por: string | null
           area_departamento: string
           area_setor: string | null
           atividades_realizadas: string | null
@@ -2277,6 +2360,8 @@ export type Database = {
           aprov_diretoria?: string | null
           aprov_gestor_processo?: string | null
           aprov_gestor_rh?: string | null
+          aprovado_em?: string | null
+          aprovado_por?: string | null
           area_departamento: string
           area_setor?: string | null
           atividades_realizadas?: string | null
@@ -2348,6 +2433,8 @@ export type Database = {
           aprov_diretoria?: string | null
           aprov_gestor_processo?: string | null
           aprov_gestor_rh?: string | null
+          aprovado_em?: string | null
+          aprovado_por?: string | null
           area_departamento?: string
           area_setor?: string | null
           atividades_realizadas?: string | null
@@ -2547,9 +2634,17 @@ export type Database = {
     }
     Functions: {
       assign_master_role: { Args: { user_email: string }; Returns: undefined }
+      can_access_module: {
+        Args: { p_module: string; p_user: string }
+        Returns: boolean
+      }
       can_approve_ferias: {
         Args: { _approver: string; _solicitante: string }
         Returns: boolean
+      }
+      decidir_solicitacao: {
+        Args: { p_aprovar: boolean; p_id: string; p_tipo: string }
+        Returns: undefined
       }
       fn_calcular_avaliacao: {
         Args: { _avaliacao_id: string }
@@ -2613,6 +2708,10 @@ export type Database = {
           p_itens: Json
           p_observacao?: string
         }
+        Returns: undefined
+      }
+      set_user_permissions: {
+        Args: { p_permissions: Json; p_user: string }
         Returns: undefined
       }
     }

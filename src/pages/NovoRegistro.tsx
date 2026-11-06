@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Save, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -20,7 +20,10 @@ import { supabase } from "@/integrations/supabase/client";
 export default function NovoRegistro() {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { user, profile } = useAuth();
+  const { user, profile, canRequest } = useAuth();
+  const [colaboradores,setColaboradores]=useState<{id:string;nome:string;matricula:string|null;empresa:string|null}[]>([]);
+  const [colaboradorId,setColaboradorId]=useState("");
+  useEffect(()=>{if(canRequest)void supabase.from("profiles").select("id,nome,matricula,empresa").eq("ativo",true).order("nome").then(({data})=>setColaboradores(data || []));},[canRequest]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [tipo, setTipo] = useState<"produtiva" | "improdutiva">("produtiva");
@@ -105,8 +108,10 @@ export default function NovoRegistro() {
     setIsSubmitting(true);
     const { error } = await (supabase as any).from("horas_extras").insert({
       user_id: user.id,
-      colaborador_nome: profile?.nome ?? user.email ?? "Colaborador",
-      matricula: profile?.matricula ?? null,
+      criado_por: user.id,
+      colaborador_id: colaboradorId || profile?.id || null,
+      colaborador_nome: colaboradores.find(c=>c.id===colaboradorId)?.nome ?? profile?.nome ?? user.email ?? "Colaborador",
+      matricula: colaboradores.find(c=>c.id===colaboradorId)?.matricula ?? profile?.matricula ?? null,
       empresa,
       setor,
       data,
@@ -160,7 +165,7 @@ export default function NovoRegistro() {
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>Colaborador</Label>
-                <Input value={profile?.nome ?? user?.email ?? ""} disabled />
+                {canRequest ? <Select value={colaboradorId} onValueChange={setColaboradorId} required><SelectTrigger aria-label="Colaborador"><SelectValue placeholder="Selecione o colaborador"/></SelectTrigger><SelectContent>{colaboradores.map(c=><SelectItem key={c.id} value={c.id}>{c.nome}</SelectItem>)}</SelectContent></Select> : <Input value={profile?.nome ?? user?.email ?? ""} disabled />}
               </div>
 
               <div className="space-y-2">

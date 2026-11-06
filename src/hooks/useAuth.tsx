@@ -1,56 +1,8 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { useContext, useState, useEffect, ReactNode } from 'react';
 import { User, Session } from '@supabase/supabase-js';
+import { AuthContext, type Profile, type UserRole } from './auth-context';
 import { supabase } from '@/integrations/supabase/client';
-
-type UserRole =
-  | 'master'
-  | 'admin'
-  | 'gestor'
-  | 'colaborador'
-  | 'dp'
-  | 'lider'
-  | 'supervisor'
-  | 'coordenador'
-  | 'encarregado'
-  | 'rh'
-  | 'sesmt'
-  | 'sgi'
-  | 'juridico'
-  | 'diretoria';
-
-interface Profile {
-  id: string;
-  user_id: string;
-  nome: string;
-  email: string;
-  empresa: string | null;
-  setor: string | null;
-  matricula: string | null;
-  ativo: boolean;
-}
-
-interface AuthContextType {
-  user: User | null;
-  session: Session | null;
-  profile: Profile | null;
-  roles: UserRole[];
-  isLoading: boolean;
-  isMaster: boolean;
-  isAdmin: boolean;
-  isGestor: boolean;
-  isRh: boolean;
-  isSesmt: boolean;
-  isSgi: boolean;
-  isDiretoria: boolean;
-  isLideranca: boolean;
-  isAuditor: boolean;
-  podeAdminPPO: boolean;
-  signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
-  signUp: (email: string, password: string, nome: string) => Promise<{ error: Error | null }>;
-  signOut: () => Promise<void>;
-}
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+import { Permissoes, podeAcessar, podeSolicitar } from '@/lib/permissoes';
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -58,6 +10,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [roles, setRoles] = useState<UserRole[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [permissoes, setPermissoes] = useState<Permissoes>({});
 
   const fetchUserData = async (userId: string) => {
     try {
@@ -78,12 +31,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         .select('role')
         .eq('user_id', userId);
 
+      const { data: access } = await supabase.from('user_module_permissions').select('module,enabled').eq('user_id', userId);
+      setPermissoes(Object.fromEntries((access || []).map(p => [p.module, p.enabled])));
       if (rolesData) {
         setRoles(rolesData.map((r: any) => r.role as UserRole));
       }
     } catch (error) {
       console.error('Error fetching user data:', error);
-    }
+    } finally { setIsLoading(false); }
   };
 
   useEffect(() => {
@@ -96,13 +51,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         // Defer Supabase calls with setTimeout to prevent deadlock
         if (session?.user) {
           setTimeout(() => {
-            fetchUserData(session.user.id);
+            void fetchUserData(session.user.id);
           }, 0);
         } else {
           setProfile(null);
           setRoles([]);
+          setPermissoes({});
+          setIsLoading(false);
         }
-        setIsLoading(false);
       }
     );
 
@@ -111,13 +67,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
-        fetchUserData(session.user.id);
-      }
-      setIsLoading(false);
+        void fetchUserData(session.user.id);
+      } else { setIsLoading(false); }
     });
 
     return () => subscription.unsubscribe();
   }, []);
+
+  useEffect(() => {
+    if (!user) return;
+    const refresh = () => { void fetchUserData(user.id); };
+    window.addEventListener('focus', refresh);
+    const timer = window.setInterval(refresh, 60000);
+    return () => { window.removeEventListener('focus', refresh); window.clearInterval(timer); };
+  }, [user?.id]);
 
   const signIn = async (email: string, password: string) => {
     const { error } = await supabase.auth.signInWithPassword({
@@ -179,6 +142,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       isLideranca,
       isAuditor,
       podeAdminPPO,
+      permissoes,
+      canAccess: (modulo) => profile?.ativo !== false && podeAcessar(roles, permissoes, modulo),
+      canRequest: podeSolicitar(roles),
+      isDP: has('master', 'admin', 'dp'),
+      refreshAccess: async () => { if (user) await fetchUserData(user.id); },
       signIn,
       signUp,
       signOut,

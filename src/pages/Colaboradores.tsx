@@ -38,6 +38,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
+import { UserPermissions } from "@/components/UserPermissions";
 
 interface UserProfile {
   id: string;
@@ -65,6 +66,8 @@ const roleLabels: Record<string, string> = {
   encarregado: "Encarregado",
   lider: "Líder",
   dp: "Departamento Pessoal",
+  rh: "Recursos Humanos",
+  sesmt: "Segurança do Trabalho",
   colaborador: "Colaborador",
 };
 
@@ -87,6 +90,8 @@ const ROLE_OPTIONS = [
   { value: "supervisor", label: "Supervisor" },
   { value: "coordenador", label: "Coordenador" },
   { value: "dp", label: "Departamento Pessoal" },
+  { value: "rh", label: "Recursos Humanos" },
+  { value: "sesmt", label: "Segurança do Trabalho" },
   { value: "gestor", label: "Gerente / Gestor" },
 ];
 
@@ -101,6 +106,7 @@ export default function Colaboradores() {
 
   // Dialog states
   const [showCreateDialog, setShowCreateDialog] = useState(false);
+  const [permissionUser, setPermissionUser] = useState<UserProfile | null>(null);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showPasswordDialog, setShowPasswordDialog] = useState(false);
@@ -125,8 +131,6 @@ export default function Colaboradores() {
   const fetchUsers = async () => {
     setIsLoading(true);
     try {
-      const { data: { session } } = await supabase.auth.getSession();
-      
       const response = await supabase.functions.invoke("manage-users", {
         body: { action: "list" },
       });
@@ -136,7 +140,7 @@ export default function Colaboradores() {
       }
 
       if (response.data?.success) {
-        setUsers(response.data.data || []);
+        setUsers((response.data.data || []).filter((u: UserProfile) => !!u.user_id));
       }
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -397,7 +401,7 @@ export default function Colaboradores() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground">
-            Controle de Usuários
+            Gestão de Usuários
           </h1>
           <p className="text-muted-foreground">
             Gerencie os usuários e permissões do sistema
@@ -522,6 +526,7 @@ export default function Colaboradores() {
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
+                            <DropdownMenuItem onClick={() => setPermissionUser(user)}><Shield className="h-4 w-4 mr-2" />Permissões</DropdownMenuItem>
                             <DropdownMenuItem onClick={() => openEditDialog(user)}>
                               <Pencil className="h-4 w-4 mr-2" />
                               Editar
@@ -569,6 +574,8 @@ export default function Colaboradores() {
           )}
         </CardContent>
       </Card>
+
+      <UserPermissions user={permissionUser} onClose={() => setPermissionUser(null)} />
 
       {/* Create User Dialog */}
       <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>

@@ -1,5 +1,11 @@
 # Roadmap — Integração colaboradores VPS
 
+## Acesso e fluxo por usuário
+- [x] Permissões por módulo ajustáveis pelo administrador e proteção das telas
+- [x] Separar colaboradores e gestão de usuários; habilitar perfis RH/Segurança
+- [x] Supervisor solicita, gestor aprova e DP/RH recebem apenas solicitações aprovadas
+- [x] 30 testes aprovados; verificados salvamento de permissões, supervisor → gestor → DP em viagens, gestor → RH em vagas, e bloqueio de acesso por usuário; contas e solicitações temporárias removidas
+
 ## Regulamentos motoristas Gerdau — novembro 2026
 - [x] Atualizar PPC com indicadores por área, descontos e preservação de registros anteriores
 - [x] Adicionar PPO Motoristas por viagens/turno/tara, mantendo a avaliação por notas

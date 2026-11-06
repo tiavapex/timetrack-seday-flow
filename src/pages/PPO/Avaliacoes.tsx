@@ -35,7 +35,7 @@ export default function Avaliacoes() {
   const [loading, setLoading] = useState(true);
 
   const decidir = async (id: string, status: string) => {
-    const { error } = await (supabase as any).from("ppo_avaliacoes").update({ status }).eq("id", id);
+    const { error } = await supabase.rpc("decidir_solicitacao",{p_tipo:"ppo",p_id:id,p_aprovar:status!=="rascunho"});
     if (error) return toast.error("Erro: " + error.message);
     setRows((p) => p.map((r) => (r.id === id ? { ...r, status } : r)));
     toast.success(status === "rascunho" ? "Avaliação devolvida ao supervisor." : "Avaliação aprovada e enviada ao RH.");

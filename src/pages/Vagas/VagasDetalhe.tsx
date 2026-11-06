@@ -33,8 +33,8 @@ const STATUS_LABEL: Record<string, string> = {
 export default function VagasDetalhe() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { isAdmin, roles } = useAuth();
-  const isDP = isAdmin || roles.includes("dp" as any);
+  const { isAdmin, isGestor, roles } = useAuth();
+  const isDP = isAdmin || roles.includes("rh");
   const [vaga, setVaga] = useState<any>(null);
   const [cvs, setCvs] = useState<any[]>([]);
   const [cands, setCands] = useState<any[]>([]);
@@ -55,7 +55,9 @@ export default function VagasDetalhe() {
   useEffect(() => { load(); }, [id]);
 
   const updStatus = async (status: string, extra: any = {}) => {
-    const { error } = await (supabase as any).from("vagas").update({ status, ...extra }).eq("id", id);
+    const { error } = status === "aprovada" && vaga.status === "pendente_aprovacao"
+      ? await supabase.rpc("decidir_solicitacao", { p_tipo:"vagas",p_id:id || "",p_aprovar:true })
+      : await supabase.from("vagas").update({ status, ...extra }).eq("id", id || "");
     if (error) return toast.error("Erro: " + error.message);
     toast.success("Status atualizado");
     load();
@@ -87,7 +89,7 @@ export default function VagasDetalhe() {
           <Button variant="outline" onClick={() => exportVagaToPDF(vaga)}>
             <Printer className="mr-2 h-4 w-4" /> Imprimir / PDF
           </Button>
-          {isDP && vaga.status === "pendente_aprovacao" && (
+          {isGestor && vaga.status === "pendente_aprovacao" && (
             <Button onClick={() => updStatus("aprovada", { data_aprovacao: new Date().toISOString().slice(0, 10), data_abertura: new Date().toISOString().slice(0, 10) })}>
               <CheckCircle2 className="mr-2 h-4 w-4" /> Marcar Aprovada
             </Button>
@@ -148,11 +150,11 @@ export default function VagasDetalhe() {
         </TabsContent>
 
         <TabsContent value="curriculos">
-          <CurriculosTab vagaId={id!} cvs={cvs} isDP={isDP} reload={load} />
+          <CurriculosTab vagaId={id || ""} cvs={cvs} isDP={isDP} reload={load} />
         </TabsContent>
 
         <TabsContent value="candidatos">
-          <CandidatosTab vagaId={id!} cands={cands} isDP={isDP} reload={load} />
+          <CandidatosTab vagaId={id || ""} cands={cands} isDP={isDP} reload={load} />
         </TabsContent>
 
         <TabsContent value="rh">
@@ -177,9 +179,10 @@ function CurriculosTab({ vagaId, cvs, isDP, reload }: any) {
   const [nome, setNome] = useState("");
   const [obs, setObs] = useState("");
   const add = async () => {
+    if (!user) return;
     if (!nome) return toast.error("Informe o nome do candidato");
     const { error } = await (supabase as any).from("vaga_curriculos").insert({
-      vaga_id: vagaId, candidato_nome: nome, observacao: obs, criado_por: user!.id,
+      vaga_id: vagaId, candidato_nome: nome, observacao: obs, criado_por: user.id,
     });
     if (error) return toast.error(error.message);
     setNome(""); setObs(""); reload();
@@ -260,9 +263,10 @@ function CandidatosTab({ vagaId, cands, isDP, reload }: any) {
   const { user } = useAuth();
   const [nome, setNome] = useState("");
   const add = async () => {
+    if (!user) return;
     if (!nome) return toast.error("Nome obrigatório");
     const { error } = await (supabase as any).from("vaga_candidatos").insert({
-      vaga_id: vagaId, nome, criado_por: user!.id,
+      vaga_id: vagaId, nome, criado_por: user.id,
     });
     if (error) return toast.error(error.message);
     setNome(""); reload();

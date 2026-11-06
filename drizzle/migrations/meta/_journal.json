@@ -29,6 +29,13 @@
       "when": 1793984211154,
       "tag": "0003_motoristas_regulamentos_atualizados",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1793985113365,
+      "tag": "0004_user_module_permissions_approval_workflow",
+      "breakpoints": true
     }
   ]
 }

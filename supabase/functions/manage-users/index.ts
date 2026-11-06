@@ -232,9 +232,9 @@ serve(async (req) => {
       case "reset-password": {
         const { user_id, new_password } = params;
 
-        if (!user_id || !new_password) {
+        if (typeof user_id !== "string" || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(user_id) || typeof new_password !== "string" || new_password.length < 6) {
           return new Response(
-            JSON.stringify({ error: "ID e nova senha são obrigatórios" }),
+            JSON.stringify({ error: "Informe um usuário válido e uma senha de pelo menos 6 caracteres" }),
             { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
           );
         }

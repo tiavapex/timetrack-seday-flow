@@ -1,5 +1,10 @@
 # Roadmap — Integração colaboradores VPS
 
+## Regulamentos motoristas Gerdau — novembro 2026
+- [ ] Atualizar PPC com indicadores por área, descontos e preservação de registros anteriores
+- [ ] Adicionar PPO Motoristas por viagens/turno/tara, mantendo a avaliação por notas
+- [ ] Disponibilizar relatórios para impressão e verificar cálculos, permissões e salvamento
+
 - [x] 1. Camada bronze (lotes + bruto imutável)
 - [x] 2. Camada silver (tipado + histórico SCD-2 + rejeitados)
 - [x] 3. Camada gold (dimensão + views + regras de acesso)

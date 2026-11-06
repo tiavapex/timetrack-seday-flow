@@ -127,6 +127,22 @@ export default function Colaboradores() {
 
 
   const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const openPasswordDialog = (user: UserProfile) => {
+    setSelectedUser(user);
+    setNewPassword("");
+    setConfirmPassword("");
+    setShowPasswordDialog(true);
+  };
+
+  const closePasswordDialog = () => {
+    if (isSubmitting) return;
+    setShowPasswordDialog(false);
+    setNewPassword("");
+    setConfirmPassword("");
+    setSelectedUser(null);
+  };
 
   const fetchUsers = async () => {
     setIsLoading(true);
@@ -294,6 +310,11 @@ export default function Colaboradores() {
       return;
     }
 
+    if (newPassword !== confirmPassword) {
+      toast({ title: "Erro", description: "As senhas não coincidem", variant: "destructive" });
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       const response = await supabase.functions.invoke("manage-users", {
@@ -314,6 +335,7 @@ export default function Colaboradores() {
       });
       setShowPasswordDialog(false);
       setNewPassword("");
+      setConfirmPassword("");
       setSelectedUser(null);
     } catch (error: any) {
       toast({
@@ -486,7 +508,7 @@ export default function Colaboradores() {
                     <TableHead>Matrícula</TableHead>
                     <TableHead>Papel</TableHead>
                     <TableHead>Status</TableHead>
-                    <TableHead className="w-12"></TableHead>
+                    <TableHead className="w-24">Ações</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -519,9 +541,20 @@ export default function Colaboradores() {
                         </Badge>
                       </TableCell>
                       <TableCell>
+                        <div className="flex items-center">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          aria-label={`Alterar senha de ${user.nome}`}
+                          title="Alterar senha"
+                          disabled={!isMaster && user.roles.some(role => role === "master" || role === "admin")}
+                          onClick={() => openPasswordDialog(user)}
+                        >
+                          <Key className="h-4 w-4" />
+                        </Button>
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon">
+                            <Button variant="ghost" size="icon" aria-label={`Ações de ${user.nome}`}>
                               <MoreHorizontal className="h-4 w-4" />
                             </Button>
                           </DropdownMenuTrigger>
@@ -532,10 +565,8 @@ export default function Colaboradores() {
                               Editar
                             </DropdownMenuItem>
                             <DropdownMenuItem
-                              onClick={() => {
-                                setSelectedUser(user);
-                                setShowPasswordDialog(true);
-                              }}
+                              disabled={!isMaster && user.roles.some(role => role === "master" || role === "admin")}
+                              onClick={() => openPasswordDialog(user)}
                             >
                               <Key className="h-4 w-4 mr-2" />
                               Alterar Senha
@@ -556,6 +587,7 @@ export default function Colaboradores() {
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -823,8 +855,9 @@ export default function Colaboradores() {
       </Dialog>
 
       {/* Reset Password Dialog */}
-      <Dialog open={showPasswordDialog} onOpenChange={setShowPasswordDialog}>
+      <Dialog open={showPasswordDialog} onOpenChange={(open) => { if (!open) closePasswordDialog(); }}>
         <DialogContent>
+          <form onSubmit={(event) => { event.preventDefault(); void handleResetPassword(); }}>
           <DialogHeader>
             <DialogTitle>Alterar Senha</DialogTitle>
             <DialogDescription>
@@ -837,20 +870,37 @@ export default function Colaboradores() {
               <Input
                 id="new-password"
                 type="password"
+                autoComplete="new-password"
+                required
+                minLength={6}
+                disabled={isSubmitting}
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 placeholder="Mínimo 6 caracteres"
               />
             </div>
+            <div className="space-y-2 mt-4">
+              <Label htmlFor="confirm-password">Confirmar Nova Senha</Label>
+              <Input
+                id="confirm-password"
+                type="password"
+                autoComplete="new-password"
+                required
+                disabled={isSubmitting}
+                value={confirmPassword}
+                onChange={(event) => setConfirmPassword(event.target.value)}
+              />
+            </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => { setShowPasswordDialog(false); setNewPassword(""); }}>
+            <Button type="button" variant="outline" disabled={isSubmitting} onClick={closePasswordDialog}>
               Cancelar
             </Button>
-            <Button onClick={handleResetPassword} disabled={isSubmitting}>
+            <Button type="submit" disabled={isSubmitting || !newPassword || !confirmPassword}>
               {isSubmitting ? "Alterando..." : "Alterar Senha"}
             </Button>
           </DialogFooter>
+          </form>
         </DialogContent>
       </Dialog>
     </div>

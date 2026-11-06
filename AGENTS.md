@@ -6,3 +6,4 @@
 - Resolve per-user module overrides through protected permission storage with matching client and server defaults; module grants never confer administrator roles.
 - Keep employee directory separate from account management; route guards and restrictive module policies enforce the same access decision.
 - Enforce approval transitions server-side and route approved vacancies to RH and approved non-vacancy requests to DP.
+- Define AuthContext in a separate non-component module so provider and hook share one context identity across hot-reloaded component generations.

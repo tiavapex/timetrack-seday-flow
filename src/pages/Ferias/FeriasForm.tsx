@@ -27,7 +27,10 @@ const CCS = [
 
 export default function FeriasForm() {
   const navigate = useNavigate();
-  const { user, profile } = useAuth();
+  const { user, profile, canRequest } = useAuth();
+  const [colaboradores,setColaboradores]=useState<{id:string;nome:string;matricula:string|null;empresa:string|null;cargo:string|null}[]>([]);
+  const [colaboradorId,setColaboradorId]=useState("");
+  useEffect(()=>{if(canRequest)void supabase.from("profiles").select("id,nome,matricula,empresa,cargo").eq("ativo",true).order("nome").then(({data})=>setColaboradores(data || []));},[canRequest]);
   const [saving, setSaving] = useState(false);
   const today = new Date().toISOString().slice(0, 10);
 
@@ -90,6 +93,7 @@ export default function FeriasForm() {
       abono_data_inicio: form.abono_data_inicio || null,
       abono_dias: form.abono_dias || null,
       observacao: form.observacao || null,
+      colaborador_id: colaboradorId || null,
       user_id: user.id,
       criado_por: user.id,
       status: "pendente",
@@ -144,7 +148,7 @@ export default function FeriasForm() {
           </div>
           <div>
             <Label>Colaborador *</Label>
-            <Input value={form.colaborador_nome} onChange={(e) => set("colaborador_nome", e.target.value)} />
+            <Select value={colaboradorId} onValueChange={v=>{setColaboradorId(v);const c=colaboradores.find(c=>c.id===v);if(c)setForm(f=>({...f,colaborador_nome:c.nome,matricula:c.matricula || "",cargo:c.cargo || "",empresa:c.empresa || ""}));}}><SelectTrigger aria-label="Colaborador"><SelectValue placeholder="Selecione"/></SelectTrigger><SelectContent>{colaboradores.map(c=><SelectItem key={c.id} value={c.id}>{c.nome}</SelectItem>)}</SelectContent></Select>
           </div>
           <div>
             <Label>Cargo</Label>

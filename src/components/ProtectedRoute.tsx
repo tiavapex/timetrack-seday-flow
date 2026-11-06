@@ -9,7 +9,7 @@ interface ProtectedRouteProps {
 }
 
 export function ProtectedRoute({ children, requiredRole }: ProtectedRouteProps) {
-  const { user, isLoading, isMaster, isAdmin, isGestor, canAccess, profile } = useAuth();
+  const { user, isLoading, isMaster, isAdmin, isGestor, canAccess, profile, canRequest, roles } = useAuth();
   const location = useLocation();
 
   if (isLoading) {
@@ -28,6 +28,8 @@ export function ProtectedRoute({ children, requiredRole }: ProtectedRouteProps) 
   if (profile?.ativo === false || (modulo && !canAccess(modulo))) {
     return <div className="p-8 text-center"><h1 className="text-xl font-semibold">Acesso restrito</h1><p className="text-muted-foreground">Seu usuário não tem permissão para esta tela.</p></div>;
   }
+
+  if (!canRequest && ["/registros/novo","/ferias/nova","/vagas/nova","/qp/nova","/ppo/avaliar","/ppo/operacional/nova"].includes(location.pathname)) return <Navigate to="/dashboard" replace />;
 
   // Check role requirements
   if (requiredRole) {

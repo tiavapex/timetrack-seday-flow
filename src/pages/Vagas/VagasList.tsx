@@ -39,7 +39,7 @@ const STATUS_LABEL: Record<string, string> = {
 };
 
 export default function VagasList() {
-  const { isGestor } = useAuth();
+  const { canRequest } = useAuth();
   const [items, setItems] = useState<Vaga[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -72,7 +72,7 @@ export default function VagasList() {
           <h1 className="text-2xl font-bold tracking-tight">Abertura de Vagas</h1>
           <p className="text-muted-foreground">Requisição e acompanhamento de vagas</p>
         </div>
-        {isGestor && (
+        {canRequest && (
           <Button asChild>
             <Link to="/vagas/nova"><Plus className="mr-2 h-4 w-4" /> Nova Vaga</Link>
           </Button>

@@ -526,6 +526,7 @@ export default function Colaboradores() {
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
+                            <DropdownMenuItem onClick={() => setPermissionUser(user)}><Shield className="h-4 w-4 mr-2" />Permissões</DropdownMenuItem>
                             <DropdownMenuItem onClick={() => openEditDialog(user)}>
                               <Pencil className="h-4 w-4 mr-2" />
                               Editar
@@ -573,6 +574,8 @@ export default function Colaboradores() {
           )}
         </CardContent>
       </Card>
+
+      <UserPermissions user={permissionUser} onClose={() => setPermissionUser(null)} />
 
       {/* Create User Dialog */}
       <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>

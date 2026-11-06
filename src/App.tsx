@@ -11,6 +11,7 @@ import Dashboard from "@/pages/Dashboard";
 import Registros from "@/pages/Registros";
 import NovoRegistro from "@/pages/NovoRegistro";
 import Colaboradores from "@/pages/Colaboradores";
+import Directory from "@/pages/Colaboradores/Directory";
 import ImportarColaboradores from "@/pages/Colaboradores/ImportarColaboradores";
 import DepartamentoPessoal from "@/pages/DepartamentoPessoal";
 import FeriasList from "@/pages/Ferias/FeriasList";
@@ -65,7 +66,8 @@ const App = () => (
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/registros" element={<Registros />} />
               <Route path="/registros/novo" element={<NovoRegistro />} />
-              <Route path="/colaboradores" element={<Colaboradores />} />
+              <Route path="/colaboradores" element={<Directory />} />
+              <Route path="/usuarios" element={<Colaboradores />} />
               <Route path="/colaboradores/importar" element={<ImportarColaboradores />} />
               <Route path="/departamento-pessoal" element={<DepartamentoPessoal />} />
               <Route path="/ferias" element={<FeriasList />} />
@@ -99,7 +101,7 @@ const App = () => (
               <Route path="/integracoes/colaboradores" element={<ColaboradoresVPS />} />
               <Route path="/integracoes/vinculos" element={<VincularColaboradores />} />
               <Route path="/relatorios" element={<Dashboard />} />
-              <Route path="/configuracoes" element={<Dashboard />} />
+              <Route path="/configuracoes" element={<Navigate to="/usuarios" replace />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>

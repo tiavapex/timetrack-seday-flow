@@ -24,7 +24,7 @@ function Campo({ label, value }: { label: string; value: any }) {
 export default function QPDetalhe() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { isGestor } = useAuth();
+  const { isGestor, isDP } = useAuth();
   const [qp, setQp] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
@@ -44,10 +44,7 @@ export default function QPDetalhe() {
   }, [id]);
 
   const alterarStatus = async (status: string) => {
-    const { error } = await (supabase as any)
-      .from("qp_solicitacoes")
-      .update({ status })
-      .eq("id", id);
+    const { error } = status === "concluido" ? await supabase.from("qp_solicitacoes").update({status}).eq("id",id || "") : await supabase.rpc("decidir_solicitacao", {p_tipo:"qp",p_id:id || "",p_aprovar:status === "aprovado"});
     if (error) return toast.error("Erro: " + error.message);
     toast.success("Status atualizado");
     load();
@@ -92,6 +89,7 @@ export default function QPDetalhe() {
           <Button variant="outline" size="sm" onClick={() => exportQPtoPDF(qp)}>
             <FileDown className="mr-1 h-4 w-4" /> PDF para assinatura
           </Button>
+          {isDP && qp.status === "aprovado" && <Button onClick={() => alterarStatus("concluido")}>Concluir lançamento</Button>}
           {isGestor && qp.status === "pendente" && (
             <>
               <Button size="sm" onClick={() => alterarStatus("aprovado")}>

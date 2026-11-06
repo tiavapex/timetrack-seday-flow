@@ -33,8 +33,8 @@ const VAZIO: Notas = { p1: "", p2: "", p3: "", p4: "" };
 const CHAVES = ["p1", "p2", "p3", "p4"] as const;
 
 export default function AvaliarSimples() {
-  const { profile, isGestor, isLideranca, isRh } = useAuth();
-  const podeAvaliar = isGestor || isLideranca || isRh;
+  const { user, profile, isGestor, isLideranca, isRh } = useAuth();
+  const podeAvaliar = isLideranca;
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -202,7 +202,8 @@ export default function AvaliarSimples() {
         nota_final: r.final,
         faixa: r.faixa,
         percentual_referencia: r.percentual,
-        status: isGestor || isRh ? "aguardando_validacao" : "aguardando_gestor",
+        status: "aguardando_gestor",
+        created_by: user?.id,
         ativo: true,
         observacao_nao_reconhecimento: r.percentual > 0 ? null : (obs[id] || "").trim() || null,
         colaborador_ciente: r.percentual > 0 ? false : !!ciente[id],

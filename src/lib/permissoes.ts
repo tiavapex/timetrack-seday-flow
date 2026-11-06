@@ -18,7 +18,7 @@ export function acessoPadrao(roles: string[], modulo: Modulo): boolean {
   if (modulo === "usuarios") return false;
   if (roles.includes("dp")) return modulo !== "vagas";
   if (roles.some(r => ["gestor", "supervisor", "coordenador", "encarregado", "lider"].includes(r))) return !["integracoes", "dp"].includes(modulo);
-  if (roles.includes("rh")) return ["dashboard", "vagas", "colaboradores", "relatorios"].includes(modulo);
+  if (roles.includes("rh")) return ["dashboard", "vagas", "colaboradores", "relatorios", "ppo"].includes(modulo);
   if (roles.includes("sesmt")) return ["dashboard", "ppo", "colaboradores", "relatorios"].includes(modulo);
   return ["dashboard", "horas_extras", "ppo"].includes(modulo);
 }

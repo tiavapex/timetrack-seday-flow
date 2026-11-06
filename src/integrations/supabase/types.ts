@@ -442,10 +442,12 @@ export type Database = {
           criado_por: string
           id: string
           observacao: string | null
+          operacao_itens: Json | null
           periodo_fim: string
           periodo_inicio: string
           pts_operacao: number
           pts_seguranca: number
+          seguranca_itens: Json | null
           updated_at: string
         }
         Insert: {
@@ -455,10 +457,12 @@ export type Database = {
           criado_por?: string
           id?: string
           observacao?: string | null
+          operacao_itens?: Json | null
           periodo_fim: string
           periodo_inicio: string
           pts_operacao?: number
           pts_seguranca?: number
+          seguranca_itens?: Json | null
           updated_at?: string
         }
         Update: {
@@ -468,10 +472,12 @@ export type Database = {
           criado_por?: string
           id?: string
           observacao?: string | null
+          operacao_itens?: Json | null
           periodo_fim?: string
           periodo_inicio?: string
           pts_operacao?: number
           pts_seguranca?: number
+          seguranca_itens?: Json | null
           updated_at?: string
         }
         Relationships: [
@@ -1285,6 +1291,56 @@ export type Database = {
           },
           {
             foreignKeyName: "ppo_melhorias_colaborador_id_fkey"
+            columns: ["colaborador_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ppo_motoristas_turnos: {
+        Row: {
+          colaborador_id: string
+          created_at: string
+          criado_por: string
+          data: string
+          id: string
+          meias_viagens: number
+          observacao: string | null
+          tara: boolean
+          turno: string
+          updated_at: string
+          viagens: number
+        }
+        Insert: {
+          colaborador_id: string
+          created_at?: string
+          criado_por?: string
+          data: string
+          id?: string
+          meias_viagens?: number
+          observacao?: string | null
+          tara?: boolean
+          turno: string
+          updated_at?: string
+          viagens?: number
+        }
+        Update: {
+          colaborador_id?: string
+          created_at?: string
+          criado_por?: string
+          data?: string
+          id?: string
+          meias_viagens?: number
+          observacao?: string | null
+          tara?: boolean
+          turno?: string
+          updated_at?: string
+          viagens?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ppo_motoristas_turnos_colaborador_id_fkey"
             columns: ["colaborador_id"]
             isOneToOne: false
             referencedRelation: "profiles"
@@ -2548,6 +2604,17 @@ export type Database = {
       ppo_is_owner: { Args: { _colaborador_id: string }; Returns: boolean }
       ppo_is_rh: { Args: { _user_id: string }; Returns: boolean }
       ppo_is_sesmt: { Args: { _user_id: string }; Returns: boolean }
+      salvar_ppc_area: {
+        Args: {
+          p_adm: Json
+          p_area: string
+          p_colaborador: string
+          p_inicio: string
+          p_itens: Json
+          p_observacao?: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       app_role:

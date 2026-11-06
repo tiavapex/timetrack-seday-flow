@@ -25,6 +25,7 @@ import PPODetalhe from "@/pages/PPO/operacional/PPODetalhe";
 import PPOHome from "@/pages/PPO/PPOHome";
 import PPOAvaliarSimples from "@/pages/PPO/AvaliarSimples";
 import PPCMotoristas from "@/pages/PPO/PPCMotoristas";
+import PPOMotoristas from "@/pages/PPO/PPOMotoristas";
 import PPOCiclos from "@/pages/PPO/Ciclos";
 import PPOIndicadores from "@/pages/PPO/Indicadores";
 import PPOSla from "@/pages/PPO/SLA";
@@ -76,6 +77,7 @@ const App = () => (
               <Route path="/ppo" element={<PPOHome />} />
               <Route path="/ppo/avaliar" element={<PPOAvaliarSimples />} />
               <Route path="/ppo/ppc-motoristas" element={<PPCMotoristas />} />
+              <Route path="/ppo/ppo-motoristas" element={<PPOMotoristas />} />
               <Route path="/ppo/ciclos" element={<PPOCiclos />} />
               <Route path="/ppo/indicadores" element={<PPOIndicadores />} />
               <Route path="/ppo/sla" element={<PPOSla />} />

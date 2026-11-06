@@ -1,10 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
+import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -54,7 +51,14 @@ serve(async (req) => {
     }
 
     const { action, ...params } = await req.json();
-    console.log(`[manage-users] Action: ${action}`, params);
+    const allowedRoles = ["master","admin","gestor","colaborador","dp","lider","supervisor","coordenador","encarregado","rh","sesmt","sgi","juridico","diretoria"];
+    if (params.role && (!allowedRoles.includes(params.role) || (["master","admin"].includes(params.role) && !roles.includes("master")))) return new Response(JSON.stringify({error:"Papel não autorizado"}), {status:403,headers:{...corsHeaders,"Content-Type":"application/json"}});
+    if (params.user_id) {
+      const {data:targetRoles}=await supabaseAdmin.from("user_roles").select("role").eq("user_id",params.user_id);
+      if (targetRoles?.some(r=>["master","admin"].includes(r.role)) && !roles.includes("master")) return new Response(JSON.stringify({error:"Somente Master altera administradores"}),{status:403,headers:{...corsHeaders,"Content-Type":"application/json"}});
+      if (params.user_id===requestingUser.id && (params.ativo===false || (params.role && params.role!==roles[0]))) return new Response(JSON.stringify({error:"Não altere seu próprio acesso administrativo"}),{status:400,headers:{...corsHeaders,"Content-Type":"application/json"}});
+    }
+    if (action === "create" && (typeof params.email !== "string" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(params.email) || typeof params.password !== "string" || params.password.length < 6 || typeof params.nome !== "string" || !params.nome.trim())) return new Response(JSON.stringify({error:"Informe nome, e-mail válido e senha de pelo menos 6 caracteres"}),{status:400,headers:{...corsHeaders,"Content-Type":"application/json"}});
 
     switch (action) {
       case "list": {

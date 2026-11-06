@@ -1,62 +1,8 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { useContext, useState, useEffect, ReactNode } from 'react';
 import { User, Session } from '@supabase/supabase-js';
+import { AuthContext, type Profile, type UserRole } from './auth-context';
 import { supabase } from '@/integrations/supabase/client';
-import { Modulo, Permissoes, podeAcessar, podeSolicitar } from '@/lib/permissoes';
-
-type UserRole =
-  | 'master'
-  | 'admin'
-  | 'gestor'
-  | 'colaborador'
-  | 'dp'
-  | 'lider'
-  | 'supervisor'
-  | 'coordenador'
-  | 'encarregado'
-  | 'rh'
-  | 'sesmt'
-  | 'sgi'
-  | 'juridico'
-  | 'diretoria';
-
-interface Profile {
-  id: string;
-  user_id: string;
-  nome: string;
-  email: string;
-  empresa: string | null;
-  setor: string | null;
-  matricula: string | null;
-  ativo: boolean;
-}
-
-interface AuthContextType {
-  user: User | null;
-  session: Session | null;
-  profile: Profile | null;
-  roles: UserRole[];
-  isLoading: boolean;
-  isMaster: boolean;
-  isAdmin: boolean;
-  isGestor: boolean;
-  isRh: boolean;
-  isSesmt: boolean;
-  isSgi: boolean;
-  isDiretoria: boolean;
-  isLideranca: boolean;
-  isAuditor: boolean;
-  podeAdminPPO: boolean;
-  permissoes: Permissoes;
-  canAccess: (modulo: Modulo) => boolean;
-  canRequest: boolean;
-  isDP: boolean;
-  refreshAccess: () => Promise<void>;
-  signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
-  signUp: (email: string, password: string, nome: string) => Promise<{ error: Error | null }>;
-  signOut: () => Promise<void>;
-}
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+import { Permissoes, podeAcessar, podeSolicitar } from '@/lib/permissoes';
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);

@@ -36,6 +36,13 @@
       "when": 1793985113365,
       "tag": "0004_user_module_permissions_approval_workflow",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1793985258091,
+      "tag": "0005_complete_workflow_boundaries",
+      "breakpoints": true
     }
   ]
 }

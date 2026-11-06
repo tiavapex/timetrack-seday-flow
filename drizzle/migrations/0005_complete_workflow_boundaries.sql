@@ -1,0 +1,21 @@
+CREATE POLICY dp_vagas_denied ON public.vagas AS RESTRICTIVE FOR ALL TO authenticated USING(NOT public.has_role(auth.uid(),'dp') OR public.is_admin_or_higher(auth.uid())) WITH CHECK(NOT public.has_role(auth.uid(),'dp') OR public.is_admin_or_higher(auth.uid()));
+CREATE POLICY rh_vagas_approved ON public.vagas AS RESTRICTIVE FOR SELECT TO authenticated USING(NOT public.has_role(auth.uid(),'rh') OR public.is_admin_or_higher(auth.uid()) OR aprovado_em IS NOT NULL);
+CREATE POLICY dp_ferias_update ON public.ferias_solicitacoes AS RESTRICTIVE FOR UPDATE TO authenticated USING(NOT public.has_role(auth.uid(),'dp') OR public.is_admin_or_higher(auth.uid()) OR status IN ('aprovada','lancada'));
+CREATE POLICY dp_qp_select ON public.qp_solicitacoes AS RESTRICTIVE FOR SELECT TO authenticated USING(NOT public.has_role(auth.uid(),'dp') OR public.is_admin_or_higher(auth.uid()) OR status IN ('aprovado','concluido'));
+CREATE POLICY dp_ppo_no_insert ON public.ppo_avaliacoes AS RESTRICTIVE FOR INSERT TO authenticated WITH CHECK(NOT public.has_role(auth.uid(),'dp') OR public.is_admin_or_higher(auth.uid()));
+CREATE POLICY dp_ferias_no_insert ON public.ferias_solicitacoes AS RESTRICTIVE FOR INSERT TO authenticated WITH CHECK(NOT public.has_role(auth.uid(),'dp') OR public.is_admin_or_higher(auth.uid()));
+CREATE POLICY dp_qp_no_insert ON public.qp_solicitacoes AS RESTRICTIVE FOR INSERT TO authenticated WITH CHECK(NOT public.has_role(auth.uid(),'dp') OR public.is_admin_or_higher(auth.uid()));
+CREATE POLICY dp_he_no_insert ON public.horas_extras AS RESTRICTIVE FOR INSERT TO authenticated WITH CHECK(NOT public.has_role(auth.uid(),'dp') OR public.is_admin_or_higher(auth.uid()));
+CREATE POLICY dp_ppo_read ON public.ppo_operacional_avaliacoes FOR SELECT TO authenticated USING(public.has_role(auth.uid(),'dp') AND status='aprovado');
+CREATE OR REPLACE FUNCTION public.guard_ppc_area() RETURNS trigger LANGUAGE plpgsql SET search_path=public AS $$ BEGIN
+ IF auth.uid() IS NULL THEN RETURN NEW; END IF;
+ IF NOT public.can_access_module(auth.uid(),'ppo') THEN RAISE EXCEPTION 'Módulo não autorizado'; END IF;
+ IF public.has_role(auth.uid(),'dp') AND NOT public.is_admin_or_higher(auth.uid()) THEN RAISE EXCEPTION 'DP consulta somente PPC aprovado'; END IF;
+ IF TG_OP='UPDATE' AND OLD.status='aprovado' AND NOT public.is_gestor_or_higher(auth.uid()) THEN RAISE EXCEPTION 'PPC aprovado: solicite devolução ao gestor'; END IF;
+ IF TG_OP='UPDATE' AND NEW.status IN ('aprovado','reprovado') AND NEW.status IS DISTINCT FROM OLD.status AND NOT public.is_gestor_or_higher(auth.uid()) THEN RAISE EXCEPTION 'Somente gestor aprova PPC'; END IF;
+ IF NEW.seguranca_itens IS NOT NULL AND NEW.operacao_itens IS NOT NULL AND NEW.adm ? '1.1.rh' AND NEW.adm ? '1.1.operacional' AND NEW.status='rascunho' THEN NEW.status:='pendente'; END IF;
+ RETURN NEW; END $$;
+CREATE TRIGGER ppc_area_workflow BEFORE INSERT OR UPDATE ON public.ppc_avaliacoes FOR EACH ROW EXECUTE FUNCTION public.guard_ppc_area();
+CREATE POLICY integration_module_access ON public.user_module_permissions AS RESTRICTIVE FOR SELECT TO authenticated USING(user_id=auth.uid() OR public.is_admin_or_higher(auth.uid()));
+CREATE OR REPLACE FUNCTION public.guard_dp_ppo() RETURNS trigger LANGUAGE plpgsql SET search_path=public AS $$ BEGIN IF auth.uid() IS NOT NULL AND public.has_role(auth.uid(),'dp') AND NOT public.is_admin_or_higher(auth.uid()) THEN RAISE EXCEPTION 'DP consulta avaliações aprovadas; validação permanece com RH'; END IF; RETURN NEW; END $$;
+CREATE TRIGGER dp_ppo_readonly BEFORE UPDATE ON public.ppo_avaliacoes FOR EACH ROW EXECUTE FUNCTION public.guard_dp_ppo();
